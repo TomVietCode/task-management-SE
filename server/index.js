@@ -2,8 +2,12 @@ const express = require('express')
 const app = express()
 const routerIndex = require('./routers/index.router')
 const database = require('./config/database')
-
+const bodyParser = require('body-parser')
 database.connect()
+
+
+app.use(bodyParser.json())
+
 routerIndex(app)
 
 app.listen(3000, (req, res) => {

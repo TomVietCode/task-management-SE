@@ -1,5 +1,5 @@
 const Task = require('../models/task.model')
-
+//[get]//task
 module.exports.task = async (req, res) => {
     const find = {
         deleted: false
@@ -41,4 +41,38 @@ module.exports.task = async (req, res) => {
     .skip(paginationObject.skip)
     .limit(paginationObject.limitItems)
     res.json(task)
+}
+//[patch]//task/changestatus
+module.exports.changeStatus = async(req,res)  =>{
+    const id = req.body.id
+    const status = req.body.status
+    
+    await Task.updateOne({
+        _id: id
+    },{
+        status: status
+    })
+    res.json({
+        code:200,
+        message:"done"
+    })
+}
+
+//[patch]/task/changeMulti
+
+module.exports.changeMulti = async(req,res)  =>{
+
+    const listId = req.body.listId
+    const status = req.body.status
+
+    await Task.updateMany({
+        _id: {$in : listId},
+
+    },{
+        status: status
+    })
+    res.json({
+        code:200,
+        message:"hoan thanh"
+    })
 }
