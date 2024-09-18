@@ -7,4 +7,9 @@ router.get('/', controller.task)
 router.patch('/change-status', controller.changeStatus)
 
 router.patch('/changeMulti', controller.changeMulti)
+
+//router.create
+
+router.patch('/edit/:id', controller.edit)
+
 module.exports = router

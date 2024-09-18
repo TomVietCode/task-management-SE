@@ -1,5 +1,5 @@
 const Task = require('../models/task.model')
-//[get]//task
+//[get]/task
 module.exports.task = async (req, res) => {
     const find = {
         deleted: false
@@ -42,7 +42,7 @@ module.exports.task = async (req, res) => {
     .limit(paginationObject.limitItems)
     res.json(task)
 }
-//[patch]//task/changestatus
+//[patch]/task/changestatus
 module.exports.changeStatus = async(req,res)  =>{
     const id = req.body.id
     const status = req.body.status
@@ -59,7 +59,6 @@ module.exports.changeStatus = async(req,res)  =>{
 }
 
 //[patch]/task/changeMulti
-
 module.exports.changeMulti = async(req,res)  =>{
 
     const listId = req.body.listId
@@ -76,3 +75,23 @@ module.exports.changeMulti = async(req,res)  =>{
         message:"hoan thanh"
     })
 }
+
+//[POST]/Task/create
+
+
+
+//[patch]/task/edit
+module.exports.edit = async (req, res) => {
+    await Task.updateOne(
+      {
+        _id: req.params.id,
+      },
+      req.body
+    );
+    res.json({
+      code: 200,
+      message: "Chỉnh sửa thành công",
+    });
+  };
+
+  
