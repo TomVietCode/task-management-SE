@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import { notification } from "antd";
 import './style.scss';
 import { toggleMenu } from './helpers';
 import { BsLayoutSidebarInsetReverse } from "react-icons/bs";
@@ -9,6 +11,12 @@ function Sidebar() {
   const [isOpenTask, setIsOpenTask] = useState(true);
   const [isOpenSidebar, setIsOpenSidebar] = useState(true); 
 
+  const navigate = useNavigate();//thay đổi URL hoặc điều hướng
+  const handleLogOut = (e) => {
+    e.preventDefault();
+    // So sánh password và confirmPassword
+    navigate("/Login")
+  };
   return (
     <>
       {!isOpenSidebar && (
@@ -18,7 +26,10 @@ function Sidebar() {
       )}
      
       <div className={`sidebar ${isOpenSidebar ? 'open' : ''}`}>
-        <div className="sidebar__Account">Account
+        <div className="sidebar__Account">
+          <div className="sidebar__Account-logout">
+            <button onClick={handleLogOut} type="submit" className="btn btn-primary sidebar__Account-logoutButton">logout</button>
+          </div>
           <div className="sidebar__Account-menu" onClick={() => setIsOpenSidebar(false)}>
             <BsLayoutSidebarInsetReverse />
           </div>

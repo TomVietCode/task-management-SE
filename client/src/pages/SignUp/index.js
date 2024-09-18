@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./style.scss";
 
 function Register() {
-  const navigate = useNavigate();//thay đổi URL hoặc điều hướng
+  
 
   // confirmPassword
 
@@ -27,6 +27,9 @@ function Register() {
     setIsMatch(confirmPasswordValue === password);//so sánh cập nhập value cho isMatch
   };
 
+
+  
+  const navigate = useNavigate();//thay đổi URL hoặc điều hướng
   const handleSubmit = (e) => {
     e.preventDefault();
     // So sánh password và confirmPassword

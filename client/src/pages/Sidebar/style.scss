@@ -38,7 +38,12 @@ a{
     height: 50px;
     border-bottom: 1px solid #ccc;
     border-right: 1px solid #ccc;
-
+    &-logoutButton {
+      width: 4rem;
+      font-size: 0.9rem;
+      text-align: center;
+      padding: 10px;
+    }
     &-menu {
       color: $dark-text;
       position: absolute;
