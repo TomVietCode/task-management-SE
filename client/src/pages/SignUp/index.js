@@ -1,132 +1,97 @@
-import { Form, Input, Button, notification } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import { notification } from "antd";
+import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./style.scss";
 
-function SignUp() {
-    // pops up đăng ký thành công
-  const navigate = useNavigate();
-  const onFinish = (values) => {
-    console.log("Success:", values);
+function Register() {
+  const navigate = useNavigate();//thay đổi URL hoặc điều hướng
 
-    notification.success({
-      message: 'Đăng ký thành công!',
-      description: 'Bạn đã đăng ký tài khoản thành công !',
-      placement: 'topRight',
-      duration: 2, 
-      onClose: () => navigate('/login'), 
-    });
+  // confirmPassword
+
+  // useState, nó trả về một mảng gồm hai phần tử:
+  // Giá trị hiện tại của trạng thái: Được sử dụng để đọc giá trị của trạng thái.
+  // Hàm để cập nhật giá trị trạng thái: Được gọi để thay đổi giá trị của trạng thái.
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [isMatch, setIsMatch] = useState(null);
+
+  //lấy giá trị password ng dùng nhập vào
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
   };
 
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+  const handleConfirmPasswordChange = (e) => {
+    const confirmPasswordValue = e.target.value;
+    setConfirmPassword(confirmPasswordValue);
+    setIsMatch(confirmPasswordValue === password);//so sánh cập nhập value cho isMatch
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // So sánh password và confirmPassword
+    if (isMatch) {
+      // Xử lý đăng ký thành công
+      notification.success({
+        message: "Đăng ký thành công!",
+        placement: "topLeft",
+        duration: 2,
+        onClose: () => navigate("/Login"),
+      });
+    } 
   };
 
   return (
-    <div className="container">
-      <div className="container__signup">
-        <div className="container__signup-title">ĐĂNG KÝ</div>
-        <div className="container__signup-form">
-          <Form
-            name="signup"
-            labelCol={{
-              span: 8,
-            }}
-            wrapperCol={{
-              span: 16,
-            }}
-            style={{
-              maxWidth: 700,
-            }}
-            initialValues={{
-              remember: true,
-            }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            autoComplete="off"
-          >
-            <Form.Item
-              label="Email"
-              name="email"
-              rules={[
-                {
-                  required: true,
-                  message: "Nhập email của bạn!",
-                },
-                {
-                  type: 'email',
-                  message: 'Email không hợp lệ!',
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              label="Mật khẩu"
-              name="password"
-              rules={[
-                {
-                  required: true,
-                  message: "Nhập mật khẩu!",
-                },
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
-
-            <Form.Item
-              label="Nhập lại mật khẩu"
-              name="confirmPassword"
-              dependencies={["password"]}
-              hasFeedback
-              rules={[
-                {
-                  required: true,
-                  message: "Nhập lại mật khẩu của bạn!",
-                },
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    if (!value || getFieldValue("password") === value) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(
-                      new Error("Mật khẩu không khớp!")
-                    );
-                  },
-                }),
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
-
-            <Form.Item
-              wrapperCol={{
-                offset: 8,
-                span: 16,
-              }}
-            >
-              <Button type="primary" htmlType="submit">
-                Đăng ký
-              </Button>
-            </Form.Item>
-
-            <Form.Item
-              wrapperCol={{
-                offset: 3,
-                span: 20,
-              }}
-              className="container__signup-form-edit"
-            >
-              Bạn đã có tài khoản?
-              <span className="container__signup-form-ToSignUp">
-                <Link to="/login"> Đăng nhập</Link>
-              </span>
-            </Form.Item>
-          </Form>
-        </div>
+    <div className="register">
+      <div className="register__form">
+        <h3 className="register__form-title">Sign Up</h3>
+        <form onSubmit={handleSubmit}>
+          <div className="register__input-group">
+            <div className="form-floating">
+              <input
+                type="email"
+                className="register__form-group-input form-control"
+                id="floatingEmail"
+                placeholder="name@example.com"
+              />
+              <label htmlFor="floatingEmail">Email address</label>
+            </div>
+          </div>
+          <div className="register__input-group">
+            <div className="form-floating">
+              <input
+                type="password"
+                className="register__form-group-input form-control"
+                id="floatingPassword"
+                placeholder="Password"
+                value={password}
+                onChange={handlePasswordChange}
+              />
+              <label htmlFor="floatingPassword">Password</label>
+            </div>
+          </div>
+          <div className="register__input-group">
+            <div className="form-floating">
+              <input
+                type="password"
+                className={`register__form-group-input form-control ${!isMatch && confirmPassword ? 'border-danger' : ''}`}
+                id="floatingConfirmPassword"
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={handleConfirmPasswordChange}
+              />
+              <label htmlFor="floatingConfirmPassword">Confirm Password</label>
+              {!isMatch && confirmPassword && <small className="text-danger">Passwords do not match</small>}
+            </div>
+          </div>
+          <button type="submit" className="btn btn-primary register__submit-button">Sign Up</button>
+          <p className="register__login">
+            Already have an account? <a href="/Login" className="register__login-link">Log in</a>
+          </p>
+        </form>
       </div>
     </div>
   );
 }
 
-export default SignUp;
+export default Register;

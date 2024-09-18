@@ -1,7 +1,9 @@
+import Sidebar from "../Sidebar";
+
 function Home (){
     return(
         <>
-            Home
+            <Sidebar/>
         </>
     )
 }

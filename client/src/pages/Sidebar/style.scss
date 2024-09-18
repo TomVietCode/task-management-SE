@@ -1,0 +1,154 @@
+$sidebar-bg: #ffffff;
+$white-text: #FFFFFF;
+$dark-text: #434A53;
+$main-gray-color : #217cd7; 
+$main-color : #1e90ff;
+$gray: #cccccc80;
+$light-gray: #f4f4f4;
+$input-border: #d9d9d9;
+$box-shadow-color: rgba(30, 144, 255, 0.2); 
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+a{
+  text-decoration: none;
+  color: $dark-text;
+  font-weight: 600;
+}
+.sidebar {
+  position: fixed;
+  width: 230px;
+  height: 100vh;
+  top: 0;
+  left: -230px; 
+  background-color: rgba(95, 94, 94, 0.1);
+  box-shadow: 0 4px 8px rgba(95, 94, 94, 0.1);
+  transition: left 0.3s ease; 
+
+  &.open {
+    left: 0; 
+  }
+
+  &__Account {
+    position: relative;
+    text-align: center;
+    height: 50px;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+
+    &-menu {
+      color: $dark-text;
+      position: absolute;
+      top: 0;
+      right: 0;
+      font-size: 1.3rem;
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+
+      &:hover {
+        background-color: $gray;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(95, 94, 94, 0.1);
+      }
+    }
+  }
+
+  &__item {
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px 30px;
+    padding-left: 20px;
+    color: $dark-text;
+    font-weight: 400;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    //node copy
+    user-select: none;
+    &:first-child {
+      margin-top: 50px;
+    }
+    
+    &-text{
+      &:hover {
+        color: $white-text;
+      }
+      &-icon {
+        color: $dark-text;
+        margin-right: 0.8rem;
+        font-size: 1.6rem;
+  
+        &:hover {
+          color: $white-text;
+        }
+        
+      }
+    }
+
+    cursor: pointer;
+
+    &:hover {
+      color: $white-text;
+      background-color: $main-color;
+      border-radius: 5px;
+      box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+      font-weight: 600;
+    }
+  }
+
+  &__list-dropdownMenu {
+    margin-left: 2rem;
+    width: 100%;
+    padding: 10px 30px;
+    padding-top: 10px;
+    color: $dark-text;
+    font-weight: 400;
+    font-size: 1.2rem;
+    user-select: none;
+    cursor: pointer;
+    transition: max-height 0.5s ease-out;
+
+    &-item {
+      transition: color 0.3s ease, font-weight 0.3s ease, font-size 0.3s ease, max-height 0.5s ease, opacity 0.5s ease;
+      margin-bottom: 1rem;
+      &-icon {
+        color: darkred;
+        margin-right: 10px;
+        padding-top: 20px;
+      }
+
+      &:hover {
+        color: $main-color;
+        font-weight: 600;
+        font-size: 1.4rem;
+      }
+      &-role{
+        font-size: 0.9rem;
+        margin-left: 30px;
+        margin-bottom: 20px;
+      }
+    }
+
+  }
+}
+
+.sidebar-toggle {
+  width: 50px;
+  height: 50px;
+  font-size: 2rem;
+  position: fixed;
+  top: 20px;
+  left: 10px; 
+  cursor: pointer;
+  z-index: 1000;
+  border-radius: 5px;
+  line-height: 50px;
+  text-align: center;
+  &:hover {
+    background-color: $gray;
+    box-shadow: 0 4px 8px rgba(95, 94, 94, 0.1);
+  }
+}
