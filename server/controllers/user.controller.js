@@ -47,7 +47,7 @@ module.exports.login = async (req, res) => {
   if (!existUser) {
     res.json({
       code: 400,
-      message: "email khong ton tai",
+      message: "Email khong ton tai",
     });
     return;
   }
@@ -55,7 +55,7 @@ module.exports.login = async (req, res) => {
   if (md5(req.body.password) !== existUser.password) {
     res.json({
       code: 400,
-      message: "khong dung mat khau",
+      message: "Không đúng mật khẩu",
     });
     return;
   }
@@ -63,6 +63,6 @@ module.exports.login = async (req, res) => {
   res.cookie("tokenUser", existUser.token);
   res.json({
     code: 200,
-    message: "dang nhap thanh cong",
+    message: "Đăng nhập thành công",
   });
 };
