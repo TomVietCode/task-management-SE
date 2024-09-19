@@ -11,4 +11,6 @@ routeUser.post('/logout', controller.logout)
 routeUser.post('/password/forgotpass',controller.forgotpass)
 
 routeUser.post('/password/otp', controller.otp)
+
+routeUser.patch('/password/resetPassword', controller.resetPassword)
 module.exports = routeUser

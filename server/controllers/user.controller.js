@@ -154,3 +154,24 @@ module.exports.otp = async (req, res) => {
     (code = 400), (message = "MÃ OTP SAI");
   }
 };
+
+//[post] /users/ reserPassword
+module.exports.resetPassword = async (req, res) => {
+  const token = req.body.token;
+  const newPassword = req.body.newPassword;
+
+  await User.updateOne(
+    {
+      token: token,
+    },
+    {
+      password: md5(newPassword),
+    }
+    
+  );
+  res.cookie("tokenUser",token)
+  res.json({
+    code: 200,
+    message:"Đổi mật khẩu thành công"
+  })
+};
