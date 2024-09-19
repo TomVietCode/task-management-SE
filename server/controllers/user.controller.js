@@ -37,3 +37,32 @@ module.exports.register = async (req, res) => {
     message:"Đăng kí tài khoản thành công"
   })
 };
+
+//[post]/User/login
+module.exports.login = async (req, res) => {
+  const existUser = await User.findOne({
+    email: req.body.email,
+  });
+
+  if (!existUser) {
+    res.json({
+      code: 400,
+      message: "email khong ton tai",
+    });
+    return;
+  }
+
+  if (md5(req.body.password) !== existUser.password) {
+    res.json({
+      code: 400,
+      message: "khong dung mat khau",
+    });
+    return;
+  }
+
+  res.cookie("tokenUser", existUser.token);
+  res.json({
+    code: 200,
+    message: "dang nhap thanh cong",
+  });
+};
