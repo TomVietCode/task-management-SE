@@ -9,7 +9,6 @@ database.connect()
 //cookie parser
 app.use(cookieParser())
 
-
 //body parser
 app.use(bodyParser.json())
 
