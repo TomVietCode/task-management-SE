@@ -66,6 +66,7 @@ module.exports.login = async (req, res) => {
   res.json({
     code: 200,
     message: "Đăng nhập thành công",
+    token: existUser.token
   });
 };
 
@@ -176,18 +177,12 @@ module.exports.resetPassword = async (req, res) => {
     message:"Đổi mật khẩu thành công"
   })
 };
+
 //[GET]/user/detail
 module.exports.detail = async (req, res) => {
-  const token = req.cookies.tokenUser;
-  console.log(token);
-  const user = await User.findOne({
-    token: token,
-    
-  }).select("-password -token")
-
   res.json({
     code: 200,
     message:"Hoàn thành",
-    info : user
+    info : req.user
   })
 }
