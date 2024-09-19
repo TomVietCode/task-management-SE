@@ -1,42 +1,42 @@
 const User = require("../models/user.models");
-const Otp = require("../models/otp.model")
+const Otp = require("../models/otp.model");
 const md5 = require("md5");
 const generateHelper = require("../helper/genarate.helper");
-const sendmail = require("../helper/sendmail.helper")
+const sendmail = require("../helper/sendmail.helper");
 //[post]/User/register
 module.exports.register = async (req, res) => {
-  const email = req.body.email
-  const password = req.body.password
-  const fullname = req.body.fullname
+  const email = req.body.email;
+  const password = req.body.password;
+  const fullname = req.body.fullname;
 
   const exitsEmail = await User.findOne({
     email: email,
-  })
+  });
 
-  if(exitsEmail){
+  if (exitsEmail) {
     res.json({
-        code:400,
-        message: "Email đã tồn tại"
-    })
-    return
+      code: 400,
+      message: "Email đã tồn tại",
+    });
+    return;
   }
 
   const newUser = new User({
     fullname: fullname,
     email: email,
-    password: md5(password)
-  })
+    password: md5(password),
+  });
 
-  newUser.token = generateHelper.generateRandomString(20)
+  newUser.token = generateHelper.generateRandomString(20);
 
-  await newUser.save()
+  await newUser.save();
 
-  res.cookie("tokenUser", newUser.token)
+  res.cookie("tokenUser", newUser.token);
 
   res.json({
-    code:200,
-    message:"Đăng kí tài khoản thành công"
-  })
+    code: 200,
+    message: "Đăng kí tài khoản thành công",
+  });
 };
 
 //[post]/User/login
@@ -102,8 +102,20 @@ module.exports.forgotpass = async (req, res) => {
 
     await objectOtp.save();
 
-    const subject = "Mã OTP";
-    const html = `Mã OTP của bạn là <b>${otp}</b>`;
+    const subject = " Mã xác nhận OTP";
+    const html = `
+    <div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
+      <div style="margin:50px auto;width:70%;padding:20px 0">
+          <div style="border-bottom:1px solid #eee">
+              <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">CELLO</a>
+          </div>
+          <p style="font-size:1.1em">Xin chào ${existEmail.email},</p>
+          <p>Dưới đây là mã OTP xác thực để đổi mật khẩu. Vui lòng không chia sẻ cho bất kỳ ai. Mã OTP có hiệu lực trong 5 phút!</p>
+          <h2
+              style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">
+              ${objectOtp.otp}</h2>
+          <p style="font-size:0.9em;">Trân trọng,<br />CELLO</p>
+          <hr style="border:none;border-top:1px solid #eee" />`;
 
     sendmail.sendmail(email, subject, html);
 
@@ -116,5 +128,29 @@ module.exports.forgotpass = async (req, res) => {
       code: 400,
       message: "gui ma otp that bai",
     });
+  }
+};
+
+//[post] /users/otp
+module.exports.otp = async (req, res) => {
+  const email = req.body.email;
+  const otp = req.body.otp;
+
+  const objectOtp = await Otp.findOne({
+    email: email,
+    otp: otp,
+  });
+
+  if (objectOtp) {
+    const user = await User.findOne({
+      email: email,
+    });
+
+    res.json({
+      code: 200,
+      token: user.token,
+    });
+  } else {
+    (code = 400), (message = "MÃ OTP SAI");
   }
 };
