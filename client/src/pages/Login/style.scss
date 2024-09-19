@@ -58,7 +58,7 @@ body {
       border: 1px solid #DADAF2;
       border-radius: 5px;
       outline: none;
-      background: #F8F8FB;
+      background: #f8f8f8;
       font-size: 17px;
       padding: 0 20px;
       transition: 0.2s ease;
@@ -113,3 +113,6 @@ body {
     }
   }
 }
+.form-floating > input + label:after {
+  background: #f8f8f8 !important;
+ }

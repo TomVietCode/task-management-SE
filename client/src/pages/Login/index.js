@@ -3,23 +3,21 @@ import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style.scss";
-
+import { validateEmail } from "../Helper";
 function Login() {
-  
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // So sánh password và confirmPassword
     notification.success({
-      message: "Đăng nhập thành công!",
-      placement: "topLeft",
+      message: "Welcome!",
+      placement: "topRight",
       duration: 2,
       onClose: () => navigate("/Home"),
     });
   };
   //forgot password
-  
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
@@ -33,6 +31,16 @@ function Login() {
     });
     setIsModalOpen(false);
   };
+
+  //check email
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+
+  const handleEmailChange = (e) => {
+    const emailInput = e.target.value;
+    validateEmail(emailInput, setEmail, setError);
+  };
+
   return (
     <div className="login">
       <div className="login__form">
@@ -42,11 +50,20 @@ function Login() {
             <div className="form-floating">
               <input
                 type="email"
-                className="login__form-group-input form-control"
-                id="floatingInput"
+                className={`login__form-group-input form-control ${
+                  error ? "border-danger" : ""
+                }`}
+                id="floatingEmail"
                 placeholder="name@example.com"
+                value={email}
+                onChange={handleEmailChange}
               />
-              <label htmlFor="floatingInput">Email address</label>
+              <label htmlFor="floatingEmail">Email address</label>
+              {error && (
+                <small className="text-danger">
+                  The correct format email: name@example.com
+                </small>
+              )}
             </div>
           </div>
           <div className="login__input-group">
@@ -57,7 +74,9 @@ function Login() {
                 id="floatingPassword"
                 placeholder="Password"
               />
-              <label htmlFor="floatingPassword">Password</label>
+              <label id="labelPassword" htmlFor="floatingPassword">
+                <p>Password</p>
+              </label>
             </div>
             <a
               href="#"
@@ -100,7 +119,6 @@ function Login() {
       </Modal>
     </div>
   );
-  
 }
 
 export default Login;
