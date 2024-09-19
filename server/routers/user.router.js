@@ -6,4 +6,5 @@ routeUser.post('/register', controller.register)
 
 routeUser.post('/login', controller.login)
 
+routeUser.post('/logout', controller.logout)
 module.exports = routeUser

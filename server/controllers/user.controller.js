@@ -66,3 +66,20 @@ module.exports.login = async (req, res) => {
     message: "Đăng nhập thành công",
   });
 };
+
+//[post]/User/logout
+module.exports.logout = async (req, res) => {
+  if (req.cookies.tokenUser) {
+    res.clearCookie("tokenUser");
+
+    res.json({
+      code: 200,
+      message: "Đăng xuất thành công",
+    });
+  } else {
+    res.json({
+      code: 400,
+      message: "Đăng xuất thất bại",
+    });
+  }
+};
