@@ -8,7 +8,7 @@ router.patch('/change-status', controller.changeStatus)
 
 router.patch('/changeMulti', controller.changeMulti)
 
-//router.create
+router.post('/create', controller.create)
 
 router.patch('/edit/:id', controller.edit)
 

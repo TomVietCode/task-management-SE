@@ -1,4 +1,7 @@
 const Task = require("../models/task.model");
+const paginationHelper = require('../helper/pagination.helper')
+
+
 //[get]/task
 module.exports.task = async (req, res) => {
   const find = {
@@ -20,22 +23,9 @@ module.exports.task = async (req, res) => {
     find.title = keyword;
   }
 
-  const paginationObject = {
-    currentPage: 1,
-    limitItems: 3,
-  };
+  const paginationObject = await paginationHelper(req.query);
+  console.log(paginationObject)
 
-  if (req.query.page) {
-    paginationObject.currentPage = req.query.page;
-  }
-
-  paginationObject.skip =
-    (paginationObject.currentPage - 1) * paginationObject.limitItems;
-
-  const count = await Task.countDocuments({
-    delete: false,
-  });
-  paginationObject.total = Math.ceil(count / paginationObject.limitItems);
 
   const task = await Task.find(find)
     .sort(sort)
@@ -67,7 +57,7 @@ module.exports.changeMulti = async (req, res) => {
   const listId = req.body.listId;
   const status = req.body.status;
 
-    if(req.body.active){
+    if(req.body.action){
         await Task.updateMany({
             _id: {$in: listId},
         },{
@@ -81,6 +71,7 @@ module.exports.changeMulti = async (req, res) => {
     },
     {
       status: status,
+      deleted: req.body.deleted
     }
   );
   res.json({
@@ -90,7 +81,14 @@ module.exports.changeMulti = async (req, res) => {
 };
 
 //[POST]/Task/create
-
+module.exports.create = async (req, res) => {
+  const task = new Task(req.body);
+  await task.save();
+  res.json({
+    code: 200,
+    message: "Tạo mới thành công"
+  });
+}
 
 
 //[patch]/task/edit
