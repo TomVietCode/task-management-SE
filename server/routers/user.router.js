@@ -7,4 +7,8 @@ routeUser.post('/register', controller.register)
 routeUser.post('/login', controller.login)
 
 routeUser.post('/logout', controller.logout)
+
+routeUser.post('/password/forgotpass',controller.forgotpass)
+
+
 module.exports = routeUser

@@ -1,7 +1,8 @@
 const User = require("../models/user.models");
+const Otp = require("../models/otp.model")
 const md5 = require("md5");
 const generateHelper = require("../helper/genarate.helper");
-
+const sendmail = require("../helper/sendmail.helper")
 //[post]/User/register
 module.exports.register = async (req, res) => {
   const email = req.body.email
@@ -80,6 +81,40 @@ module.exports.logout = async (req, res) => {
     res.json({
       code: 400,
       message: "Đăng xuất thất bại",
+    });
+  }
+};
+
+//[post] password/forgot
+module.exports.forgotpass = async (req, res) => {
+  const email = req.body.email;
+  const otp = generateHelper.generateNumber(5);
+  const existEmail = await User.findOne({
+    email: email,
+  });
+
+  if (existEmail) {
+    const objectOtp = new Otp({
+      email: email,
+      otp: otp,
+      expireAt: Date.now() + 5 * 60 * 1000,
+    });
+
+    await objectOtp.save();
+
+    const subject = "Mã OTP";
+    const html = `Mã OTP của bạn là <b>${otp}</b>`;
+
+    sendmail.sendmail(email, subject, html);
+
+    res.json({
+      code: 200,
+      message: "gui ma otp thanh cong",
+    });
+  } else {
+    res.json({
+      code: 400,
+      message: "gui ma otp that bai",
     });
   }
 };
