@@ -57,13 +57,13 @@ module.exports.changeMulti = async (req, res) => {
   const listId = req.body.listId;
   const status = req.body.status;
 
-    if(req.body.action){
-        await Task.updateMany({
-            _id: {$in: listId},
-        },{
-            deleted: true
-        })
-    }
+  if (req.body.action) {
+    await Task.updateMany({
+      _id: { $in: listId },
+    }, {
+      deleted: true
+    })
+  }
 
   await Task.updateMany(
     {
@@ -83,7 +83,7 @@ module.exports.changeMulti = async (req, res) => {
 //[POST]/Task/create
 module.exports.create = async (req, res) => {
   //nguoi tao
-  req.body.createdBy = req.user.id; 
+  req.body.createdBy = req.user.id;
 
   const task = new Task(req.body);
   await task.save();
@@ -110,15 +110,17 @@ module.exports.edit = async (req, res) => {
 
 //[delete]/task/delete
 module.exports.delete = async (req, res) => {
-    await Task.updateOne({
-      _id: req.params.id
-    },{
-      deleted:true
-    })
-    res.json({
-      code: 200,
-      message: "Xóa thành công",
-    });
-  } 
+  await Task.updateOne({
+    _id: req.params.id
+  }, {
+    deleted: true
+  })
+  res.json({
+    code: 200,
+    message: "Xóa thành công",
+  });
+}
+
+
 
 
