@@ -82,6 +82,9 @@ module.exports.changeMulti = async (req, res) => {
 
 //[POST]/Task/create
 module.exports.create = async (req, res) => {
+  //nguoi tao
+  req.body.createdBy = req.user.id; 
+
   const task = new Task(req.body);
   await task.save();
   res.json({
