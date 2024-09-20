@@ -5,6 +5,7 @@ const paginationHelper = require('../helper/pagination.helper')
 //[get]/task
 module.exports.task = async (req, res) => {
   const find = {
+    //danh sach task theo user
     $or:[
       {createdBy: req.user.id },
       {listUser: req.user.id}

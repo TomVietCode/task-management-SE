@@ -4,6 +4,7 @@ const routerIndex = require('./routers/index.router')
 const database = require('./config/database')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
+const port = 5000;
 database.connect()
 
 //cookie parser
@@ -14,6 +15,6 @@ app.use(bodyParser.json())
 
 routerIndex(app)
 
-app.listen(3000, (req, res) => {
-    console.log('Server is running on port 3000')
+app.listen( port, (req, res) => {
+    console.log('Server is running on port 5000')
 })
