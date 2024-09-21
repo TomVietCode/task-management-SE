@@ -18,17 +18,16 @@ $box-shadow-color: rgba(30, 144, 255, 0.2);
   font-family: "Montserrat", sans-serif;
 }
 
-body {
+
+
+/* Register form styling */
+.register {
   width: 100%;
   min-height: 100vh;
   padding: 0 10px;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-/* Register form styling */
-.register {
   &__form {
     width: 25rem;
     background: #fff;

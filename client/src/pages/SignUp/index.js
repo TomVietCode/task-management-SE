@@ -1,62 +1,57 @@
 import { notification } from "antd"
-import { useNavigate } from "react-router-dom"
-import React, { useState } from "react"
+import { useState } from "react"
 import "bootstrap/dist/css/bootstrap.min.css"
 import "./style.scss"
-import { validateEmail } from "../../helpers"
 import { register } from "../../services/UserService"
+import { checkValidate } from "../../validate/UserValidate"
+import { setCookie } from "../../helpers/cookie"
 
 function Register() {
-  const [data, setData] = useState({})
-  const [firstPassword, setFirstPassword] = useState("")
-  const [isPasswordMatch, setIsPasswordMatch] = useState(true)
+  const [data, setData] = useState({
+    email: "",
+    fullname: "",
+    password: "",
+    confirmPw: "",
+  })
 
-  const handleChange = (e) => {
-    const value = e.target.value
-    const name = e.target.name
-    if(name === "email"){
-      validateEmail(value, setEmail, setError)
-    }
-    if(name === "firstPassword"){
-      setFirstPassword(value)
-    }
-    
+  const [errForm, setErrForm] = useState({
+    email: "",
+    fullname: "",
+    password: "",
+    confirmPw: "",
+  })
+
+  const handleChangeInput = (e) => {
+    const { name, value } = e.target
     setData({
       ...data,
-      [e.target.name]: e.target.value,
+      [name]: value,
     })
-  }
-
-  const handlePassword = (e) => {
-    if(firstPassword !== e.target.value){
-      setIsPasswordMatch(false)
-    }else{
-      setIsPasswordMatch(true)
-      setData({
-        ...data,
-        "password": e.target.value,
-      })
-    }
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const result = await register(data)
-    if(result.code === 200){
-      notification.success({
-        message: "SignUp Success!",
-        placement: "topRight",
-        duration: 2,
+    const err = checkValidate(data)
+
+    if (err.email || err.fullname || err.password || err.confirmPw) {
+      setErrForm({
+        email: err.email,
+        fullname: err.fullname,
+        password: err.password,
+        confirmPw: err.confirmPw,
       })
-      document.cookie = "tokenUser=xinchao123"
+    } else {
+      const result = await register(data)
+      if (result.code === 200) {
+        setCookie("tokenUser", result.token)
+        notification.success({
+          message: "SignUp Success!",
+          placement: "topRight",
+          duration: 2,
+        })
+      }
     }
   }
-
-  
-  //check email
-  const [email, setEmail] = useState("")
-  const [error, setError] = useState("")
-
 
   return (
     <div className="register">
@@ -66,19 +61,39 @@ function Register() {
           <div className="register__input-group">
             <div className="form-floating">
               <input
-                name="email"
-                type="email"
+                name="fullname"
+                type="text"
                 className={`register__form-group-input form-control ${
-                  error ? "border-danger" : ""
+                  errForm.fullname ? "border-danger" : ""
+                }`}
+                id="floatingfullname"
+                placeholder="Enter your full name"
+                onChange={handleChangeInput}
+              />
+              <label htmlFor="floatingfullname">Full Name</label>
+              {errForm.fullname && (
+                <small className="text-danger">
+                  {errForm.fullname}
+                </small>
+              )}
+            </div>
+          </div>
+          <div className="register__input-group">
+            <div className="form-floating">
+              <input
+                name="email"
+                type="text"
+                className={`register__form-group-input form-control ${
+                  errForm.email ? "border-danger" : ""
                 }`}
                 id="floatingEmail"
                 placeholder="name@example.com"
-                onChange={handleChange}
+                onChange={handleChangeInput}
               />
               <label htmlFor="floatingEmail">Email address</label>
-              {error && (
+              {errForm.email && (
                 <small className="text-danger">
-                  The correct format email: name@example.com
+                  {errForm.email}
                 </small>
               )}
             </div>
@@ -87,29 +102,34 @@ function Register() {
             <div className="form-floating">
               <input
                 type="password"
-                name="firstPassword"
+                name="password"
                 className="register__form-group-input form-control"
                 id="floatingPassword"
                 placeholder="Password"
-                onChange={handleChange}
+                onChange={handleChangeInput}
               />
               <label htmlFor="floatingPassword">Password</label>
+              { errForm.password && (
+                <small className="text-danger">{errForm.password}</small>
+              )}
             </div>
           </div>
           <div className="register__input-group">
             <div className="form-floating">
               <input
                 type="password"
-                name="password"
+                name="confirmPw"
                 className={`register__form-group-input form-control
-                  ${!isPasswordMatch && 'border-danger'}
+                  ${errForm.confirmPw && "border-danger"}
                 `}
                 id="floatingConfirmPassword"
                 placeholder="Confirm Password"
-                onChange={handlePassword}
+                onChange={handleChangeInput}
               />
               <label htmlFor="floatingConfirmPassword">Confirm Password</label>
-              {!isPasswordMatch && <small className="text-danger">Passwords do not match</small>}
+              {errForm.confirmPw && (
+                <small className="text-danger">{errForm.confirmPw}</small>
+              )}
             </div>
           </div>
           <button

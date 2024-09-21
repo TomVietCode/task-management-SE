@@ -18,18 +18,14 @@ $box-shadow-color: rgba(30, 144, 255, 0.2);
   font-family: "Montserrat", sans-serif;
 }
 
-body {
+
+.login {
   width: 100%;
   min-height: 100vh;
   padding: 0 10px;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-
-.login {
-  
   &__form {
     width: 25rem;
     background: #fff;
