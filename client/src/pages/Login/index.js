@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style.scss";
-import { validateEmail } from "../../helpers";
+// import { validateEmail } from "../../helpers";
 function Login() {
   const navigate = useNavigate();
 
@@ -38,7 +38,7 @@ function Login() {
 
   const handleEmailChange = (e) => {
     const emailInput = e.target.value;
-    validateEmail(emailInput, setEmail, setError);
+    // validateEmail(emailInput, setEmail, setError);
   };
 
   return (
