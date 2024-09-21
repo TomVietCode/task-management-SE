@@ -2,42 +2,7 @@ const Task = require("../models/task.model");
 const paginationHelper = require('../helper/pagination.helper')
 
 
-//[get]/task
-module.exports.task = async (req, res) => {
-  const find = {
-    //danh sach task theo user
-    $or:[
-      {createdBy: req.user.id },
-      {listUser: req.user.id}
-    ],
-    deleted: false,
-  };
 
-  if (req.query.status) {
-    find.status = req.query.status;
-  }
-
-  const sort = {};
-
-  if (req.query.sortKey && req.query.sortValue) {
-    sort[req.query.sortKey] = req.query.sortValue;
-  }
-
-  if (req.query.keyword) {
-    const keyword = new RegExp(req.query.keyword, "i");
-    find.title = keyword;
-  }
-
-  const paginationObject = await paginationHelper(req.query);
-  console.log(paginationObject)
-
-
-  const task = await Task.find(find)
-    .sort(sort)
-    .skip(paginationObject.skip)
-    .limit(paginationObject.limitItems);
-  res.json(task);
-};
 //[patch]/task/changestatus
 module.exports.changeStatus = async (req, res) => {
   const id = req.params.id;
@@ -126,6 +91,55 @@ module.exports.delete = async (req, res) => {
   });
 }
 
+//[get]/task
+module.exports.task = async (req, res) => {
+  const find = {
+    //danh sach task theo user
+    $or:[
+      {createdBy: req.user.id },
+      {listUser: req.user.id}
+    ],
+    deleted: false,
+  };
 
+  if (req.query.status) {
+    find.status = req.query.status;
+  }
+
+  const sort = {};
+
+  if (req.query.sortKey && req.query.sortValue) {
+    sort[req.query.sortKey] = req.query.sortValue;
+  }
+
+  if (req.query.keyword) {
+    const keyword = new RegExp(req.query.keyword, "i");
+    find.title = keyword;
+  }
+
+  const paginationObject = await paginationHelper(req.query);
+  console.log(paginationObject)
+
+
+  const task = await Task.find(find)
+    .sort(sort)
+    .skip(paginationObject.skip)
+    .limit(paginationObject.limitItems);
+  res.json(task);
+};
+
+//[get]/task/detail
+module.exports.detail = async (req, res) => {
+  const id = req.params.id
+  const task = await Task.findOne({
+    _id:id
+  })
+  res.json({
+    code:200,
+    message:"Chi tiết công việc",
+    detail: task
+  })
+
+}
 
 
