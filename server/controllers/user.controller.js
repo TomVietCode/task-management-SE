@@ -186,6 +186,7 @@ module.exports.detail = async (req, res) => {
     info : req.user
   })
 }
+
 //[GET]/user/list
 module.exports.list = async (req, res) => {
   const user = await User.find({}).select("fullname email")
