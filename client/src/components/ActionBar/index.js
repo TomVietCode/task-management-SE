@@ -1,21 +1,14 @@
 import { Row, Col, Button, theme, Space, Input } from "antd";
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-} from "@ant-design/icons";
-import "../../layout/DefaultLayout.scss"
-import CreateTask from "../Task/CreateTask" 
-
-function ActionBar({
-  onSearch,
-  collapsed,
-  setCollapsed,
-}) {
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import "../../layout/DefaultLayout.scss";
+import CreateTask from "../Task/CreateTask";
+import "./style.scss";
+import ModalTreeSelect from "../TreeSelect";
+const { Search } = Input;
+function ActionBar({ collapsed, setCollapsed }) {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-
-  
 
   return (
     <>
@@ -26,7 +19,7 @@ function ActionBar({
         }}
       >
         <Row justify="space-between" align="middle" gutter={[16, 16]}>
-          <Col>
+          <Col span={4}>
             <div className="box-home__toggle-button">
               <Button
                 className="home__toggle-button"
@@ -36,23 +29,30 @@ function ActionBar({
               />
             </div>
           </Col>
+          <Col span={6} >
+            <span className="filter">
+              <p>Filter : </p>
+              <div className="Box-Filter"><ModalTreeSelect /></div>
+            </span>
+          </Col>
 
-          <Col flex="auto">
-            <div className="box-search">
-              <Input.Search
-                placeholder="search project"
-                enterButton
-                size="large"
-                allowClear
-                onSearch={onSearch}
+          <Col span={8} flex="auto">
+            <div>
+              <Search
+                className="box-search"
+                placeholder="input search text"
+                style={{
+                  width: 200,
+                  height: 50,
+                }}
               />
             </div>
           </Col>
 
-          <Col>
+          <Col span={4}>
             <div className="box-NewProject">
               <Space size="middle">
-                <CreateTask/>
+                <CreateTask />
               </Space>
             </div>
           </Col>

@@ -55,7 +55,10 @@ function DefaultLayout () {
           />
         </Sider>
         <Layout>
-          <ActionBar />
+          <ActionBar 
+            collapsed = {collapsed}
+            setCollapsed = {setCollapsed}
+          />
           <Content
             className="home__content"
             style={{

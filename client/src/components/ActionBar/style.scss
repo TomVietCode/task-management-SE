@@ -1,0 +1,30 @@
+.box-search {
+  padding-top: 0.9rem;
+  height: 4rem;
+  max-width: 20rem;
+  border-radius: 0.5rem;
+}
+.box-NewProject {
+  height: 4rem;
+  line-height: 4rem;
+  margin-right: 1rem;
+}
+.box-search {
+  height: 4rem;
+  line-height: 4rem;
+}
+.Box-Filter {
+  width: 11rem;
+  height: 4rem;
+  line-height: 4.5rem;
+}
+.filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  & p{
+    font-weight: bold;
+    height: 3rem;
+    line-height: 4.5rem;
+  }
+}
