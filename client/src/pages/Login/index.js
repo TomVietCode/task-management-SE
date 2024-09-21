@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style.scss";
-import { validateEmail } from "../Helper";
+import { validateEmail } from "../../helpers";
 function Login() {
   const navigate = useNavigate();
 
@@ -24,7 +24,7 @@ function Login() {
   const cancelCloseModal = () => setIsModalOpen(false);
   const OkCloseModal = () => {
     notification.success({
-      message: "Reset password complicated!",
+      message: "Reset password completed!",
       description: "Please check your inbox to get new password.",
       placement: "topLeft",
       duration: 3,

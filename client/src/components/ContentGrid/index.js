@@ -1,7 +1,7 @@
 import { Col, Row } from "antd";
 import "./style.scss";
 
-function Grid() {
+function ContentGrid() {
   return (
     <>
       <Row gutter={[10, 20]}>
@@ -22,4 +22,4 @@ function Grid() {
   );
 }
 
-export default Grid;
+export default ContentGrid;

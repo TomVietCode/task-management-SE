@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Layout, Button, Menu, theme } from 'antd';
-import Grid from '../ContentGrid';
-import Sidebar from '../Sidebar'
+import ContentGrid from "../../components/ContentGrid"
+import Sidebar from "../../components/Sidebar"
 const { Header, Sider, Content } = Layout;
 
 function Home(){
@@ -12,7 +12,7 @@ function Home(){
           <Sidebar/>
         </Sider>
         <Content siderBg="red">
-          <Grid/>
+          <ContentGrid/>
         </Content>
         
       </Layout>
