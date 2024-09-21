@@ -11,13 +11,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Task from "./components/Task/index"
 import DefaultLayout from "./layout/DefaultLayout"
 function App() {
-  
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/login" />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<SignUp />} />
-      <Route path="/home" element={<Home />} />
+      <Route path="login" element={<Login />} />
+      <Route path="register" element={<Signup />} />
+      <Route path="/" element={<DefaultLayout />}>
+        <Route index element={<Home />} />
+        <Route path="task" element={<Task />} />
+      </Route>
     </Routes>
   );
 }
