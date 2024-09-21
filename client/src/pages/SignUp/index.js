@@ -5,6 +5,7 @@ import "./style.scss"
 import { register } from "../../services/UserService"
 import { checkValidate } from "../../validate/UserValidate"
 import { setCookie } from "../../helpers/cookie"
+import { Link } from "react-router-dom"
 
 function Register() {
   const [data, setData] = useState({
@@ -140,9 +141,9 @@ function Register() {
           </button>
           <p className="register__login">
             Already have an account?{" "}
-            <a href="/Login" className="register__login-link">
+            <Link to="/user/login" className="register__login-link">
               Log in
-            </a>
+            </Link>
           </p>
         </form>
       </div>

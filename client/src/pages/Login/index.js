@@ -1,45 +1,62 @@
-import { Modal, notification } from "antd";
-import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./style.scss";
-// import { validateEmail } from "../../helpers";
+import { Modal, notification } from "antd"
+import { Link, Navigate } from "react-router-dom"
+import React, { useState } from "react"
+import "bootstrap/dist/css/bootstrap.min.css"
+import "./style.scss"
+import { checkValidate } from "../../validate/UserValidate"
+import { login } from "../../services/UserService"
+import { setCookie } from "../../helpers/cookie"
 function Login() {
-  const navigate = useNavigate();
+  const [dataLogin, setDataLogin] = useState({
+    email: "",
+    password: "",
+  })
+  const [errForm, setErrForm] = useState({
+    email: "",
+    password: "",
+  })
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // So sánh password và confirmPassword
-    notification.success({
-      message: "Welcome!",
-      placement: "topRight",
-      duration: 2,
-      onClose: () => navigate("/Home"),
-    });
-  };
+  function handleChangeInput(e) {
+    const { name, value } = e.target
+    setDataLogin({ ...dataLogin, [name]: value })
+  }
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    const err = checkValidate(dataLogin)
+
+    if (err.email || err.password) {
+      setErrForm({
+        email: err.email,
+        fullname: err.fullname,
+      })
+    } else {
+      const result = await login(dataLogin)
+      if (result.code === 200) {
+        setCookie("tokenUser", result.token)
+        ;<Navigate to="/" />
+        notification.success({
+          message: "Welcome!",
+          placement: "topRight",
+          duration: 2,
+        })
+      }
+    }
+  }
   //forgot password
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const openModal = () => setIsModalOpen(true);
-  const cancelCloseModal = () => setIsModalOpen(false);
+  const openModal = () => setIsModalOpen(true)
+  const cancelCloseModal = () => setIsModalOpen(false)
   const OkCloseModal = () => {
     notification.success({
       message: "Reset password completed!",
       description: "Please check your inbox to get new password.",
       placement: "topLeft",
       duration: 3,
-    });
-    setIsModalOpen(false);
-  };
-
-  //check email
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
-
-  const handleEmailChange = (e) => {
-    const emailInput = e.target.value;
-    // validateEmail(emailInput, setEmail, setError);
-  };
+    })
+    setIsModalOpen(false)
+  }
 
   return (
     <div className="login">
@@ -49,20 +66,18 @@ function Login() {
           <div className="login__input-group">
             <div className="form-floating">
               <input
+                name="email"
                 type="email"
                 className={`login__form-group-input form-control ${
-                  error ? "border-danger" : ""
+                  errForm.email ? "border-danger" : ""
                 }`}
                 id="floatingEmail"
                 placeholder="name@example.com"
-                value={email}
-                onChange={handleEmailChange}
+                onChange={handleChangeInput}
               />
               <label htmlFor="floatingEmail">Email address</label>
-              {error && (
-                <small className="text-danger">
-                  The correct format email: name@example.com
-                </small>
+              {errForm.email && (
+                <small className="text-danger">{errForm.email}</small>
               )}
             </div>
           </div>
@@ -70,19 +85,22 @@ function Login() {
             <div className="form-floating">
               <input
                 type="password"
-                className="login__form-group-input form-control"
+                className={`login__form-group-input form-control ${errForm.password ? "border-danger" : ""}`}
                 id="floatingPassword"
                 placeholder="Password"
               />
               <label id="labelPassword" htmlFor="floatingPassword">
                 <p>Password</p>
               </label>
+              {errForm.password && (
+                <small className="text-danger">{errForm.password}</small>
+              )}
             </div>
             <a
               href="#"
               className="login__forgot-password"
               onClick={() => {
-                openModal();
+                openModal()
               }}
             >
               Forgot Password?
@@ -96,9 +114,9 @@ function Login() {
           </button>
           <p className="login__signup">
             Don't have an account?{" "}
-            <a href="/SignUp" className="login__signup-link">
+            <Link to="/user/register" className="login__signup-link">
               Sign up
-            </a>
+            </Link>
           </p>
         </form>
       </div>
@@ -118,7 +136,7 @@ function Login() {
         />
       </Modal>
     </div>
-  );
+  )
 }
 
-export default Login;
+export default Login

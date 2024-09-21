@@ -9,16 +9,22 @@ import Home from "./pages/Home";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Task from "./components/Task/index"
+import TaskDetail from "./pages/Task/TaskDetail"
 import DefaultLayout from "./layout/DefaultLayout"
+import PrivateRoute from "./components/PrivateRoute";
 function App() {
   return (
     <Routes>
-      <Route path="login" element={<Login />} />
-      <Route path="register" element={<Signup />} />
-      <Route path="/" element={<DefaultLayout />}>
-        <Route index element={<Home />} />
-        <Route path="task" element={<Task />} />
+      <Route element={<PrivateRoute/>}>
+        <Route path="/" element={<DefaultLayout />}>
+          <Route index element={<Home />} />
+          <Route path="task" element={<Task />}>
+            <Route path="detail:id" element={<TaskDetail/>}/>
+          </Route>
+        </Route>
       </Route>
+      <Route path="user/login" element={<Login />} />
+      <Route path="user/register" element={<Signup />} />
     </Routes>
   );
 }
