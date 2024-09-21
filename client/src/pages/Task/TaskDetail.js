@@ -1,7 +1,7 @@
 function TaskDetail() {
   return (
     <>
-      TaskDetail
+      this is deltail page
     </>
   )
 }

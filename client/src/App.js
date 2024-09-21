@@ -9,9 +9,9 @@ import Signup from "./pages/SignUp";
 import Home from "./pages/Home";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Task from "./components/Task/index"
+import Task from "./pages/Task/index"
 import TaskDetail from "./pages/Task/TaskDetail"
-import DefaultLayout from "./layout/DefaultLayout"
+import DefaultLayout from "./layout"
 import PrivateRoute from "./components/PrivateRoute";
 import { routes } from "./routes" 
 function App() {

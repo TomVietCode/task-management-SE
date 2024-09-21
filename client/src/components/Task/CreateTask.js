@@ -1,15 +1,7 @@
-import {
-  notification,
-  Modal,
-  Button,
-  Space,
-  Input,
-  DatePicker,
-} from "antd";
-import {
-  PlusOutlined,
-} from "@ant-design/icons";
+import { notification, Modal, Button, Space, Input, DatePicker, Row, Col} from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
+import "./style.scss";
 
 function CreateTask() {
   //thêm project
@@ -68,14 +60,16 @@ function CreateTask() {
             />
           </div>
 
-          <div>
-            <p>Date</p>
-            <DatePicker placeholder="Select due date" />
-          </div>
-          <div>
-            <p>Due Date</p>
-            <DatePicker placeholder="Select due date" />
-          </div>
+          <Row>
+            <Col span={8}>
+              <p>Date create</p>
+              <DatePicker placeholder="Select due date" />
+            </Col>
+            <Col span={8}>
+              <p>Deadline</p>
+              <DatePicker placeholder="Select due date" />
+            </Col>
+          </Row>
         </Space>
       </Modal>
     </>
