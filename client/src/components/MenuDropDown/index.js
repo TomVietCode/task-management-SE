@@ -1,9 +1,9 @@
 import React from "react";
 import { Dropdown, Menu } from "antd";
 
-const MenuDropdown = ({ items, triggerElement }) => {
+const MenuDropdown = ({getSelection, items, triggerElement }) => {
   const menu = (
-    <Menu>
+    <Menu onClick={getSelection}>
       {items.map((item) => (
         <Menu.Item key={item.key}>{item.label}</Menu.Item>
       ))}

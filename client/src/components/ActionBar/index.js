@@ -1,11 +1,9 @@
-import { Row, Col, Button, theme, Space, Input } from "antd";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import "../../layout/DefaultLayout.scss";
+import { Row, Col,theme, Space, Input } from "antd";
 import CreateTask from "../Task/CreateTask";
 import "./style.scss";
 import ModalTreeSelect from "../TreeSelect";
 const { Search } = Input;
-function ActionBar({ collapsed, setCollapsed }) {
+function ActionBar () {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -19,16 +17,6 @@ function ActionBar({ collapsed, setCollapsed }) {
         }}
       >
         <Row justify="space-between" align="middle" gutter={[16, 16]}>
-          <Col span={4}>
-            <div className="box-home__toggle-button">
-              <Button
-                className="home__toggle-button"
-                type="text"
-                icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                onClick={() => setCollapsed(!collapsed)} // Đóng mở menu
-              />
-            </div>
-          </Col>
           <Col span={6} >
             <span className="filter">
               <p>Filter : </p>
@@ -40,7 +28,7 @@ function ActionBar({ collapsed, setCollapsed }) {
             <div>
               <Search
                 className="box-search"
-                placeholder="input search text"
+                placeholder="Search "
                 style={{
                   width: 200,
                   height: 50,
