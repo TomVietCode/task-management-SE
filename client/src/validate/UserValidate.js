@@ -15,10 +15,12 @@ export const checkValidate = (form) => {
     err.email = "Email is not in a valid format"
   }
 
-  if (form.fullname.length === 0) {
-    err.fullname = "Your name cannot be empty"
+  if(form.fullName0){
+    if (form.fullname.length === 0) {
+      err.fullname = "Your name cannot be empty"
+    }
   }
-
+  
   if (form.password.length === 0) {
     err.password = "Password cannot be empty"
   } else if (form.password.length < 6) {

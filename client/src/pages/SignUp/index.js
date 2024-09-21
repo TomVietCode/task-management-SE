@@ -5,9 +5,10 @@ import "./style.scss"
 import { register } from "../../services/UserService"
 import { checkValidate } from "../../validate/UserValidate"
 import { setCookie } from "../../helpers/cookie"
-import { Link } from "react-router-dom"
+import { Link, Navigate, useNavigate } from "react-router-dom"
 
 function Register() {
+  const navigate = useNavigate()
   const [data, setData] = useState({
     email: "",
     fullname: "",
@@ -45,6 +46,7 @@ function Register() {
       const result = await register(data)
       if (result.code === 200) {
         setCookie("tokenUser", result.token)
+        navigate("/")
         notification.success({
           message: "SignUp Success!",
           placement: "topRight",

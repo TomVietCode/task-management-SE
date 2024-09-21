@@ -31,11 +31,10 @@ module.exports.register = async (req, res) => {
 
   await newUser.save();
 
-  res.cookie("tokenUser", newUser.token);
-
   res.json({
     code: 200,
     message: "Đăng kí tài khoản thành công",
+    token: newUser.token
   });
 };
 
@@ -60,8 +59,6 @@ module.exports.login = async (req, res) => {
     });
     return;
   }
-
-  res.cookie("tokenUser", existUser.token);
 
   res.json({
     code: 200,
@@ -171,7 +168,7 @@ module.exports.resetPassword = async (req, res) => {
     }
     
   );
-  res.cookie("tokenUser",token)
+
   res.json({
     code: 200,
     message:"Đổi mật khẩu thành công"

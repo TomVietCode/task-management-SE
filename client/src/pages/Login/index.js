@@ -1,5 +1,5 @@
 import { Modal, notification } from "antd"
-import { Link, Navigate } from "react-router-dom"
+import { Link, Navigate, useNavigate } from "react-router-dom"
 import React, { useState } from "react"
 import "bootstrap/dist/css/bootstrap.min.css"
 import "./style.scss"
@@ -7,6 +7,7 @@ import { checkValidate } from "../../validate/UserValidate"
 import { login } from "../../services/UserService"
 import { setCookie } from "../../helpers/cookie"
 function Login() {
+  const navigate = useNavigate()
   const [dataLogin, setDataLogin] = useState({
     email: "",
     password: "",
@@ -20,21 +21,24 @@ function Login() {
     const { name, value } = e.target
     setDataLogin({ ...dataLogin, [name]: value })
   }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
-
+    console.log("oke")
+    console.log(dataLogin)
     const err = checkValidate(dataLogin)
 
     if (err.email || err.password) {
       setErrForm({
         email: err.email,
-        fullname: err.fullname,
+        password: err.password,
       })
     } else {
       const result = await login(dataLogin)
       if (result.code === 200) {
+        console.log(result)
         setCookie("tokenUser", result.token)
-        ;<Navigate to="/" />
+        navigate("/")
         notification.success({
           message: "Welcome!",
           placement: "topRight",
@@ -84,10 +88,12 @@ function Login() {
           <div className="login__input-group">
             <div className="form-floating">
               <input
+                name="password"
                 type="password"
                 className={`login__form-group-input form-control ${errForm.password ? "border-danger" : ""}`}
                 id="floatingPassword"
                 placeholder="Password"
+                onChange={handleChangeInput}
               />
               <label id="labelPassword" htmlFor="floatingPassword">
                 <p>Password</p>
