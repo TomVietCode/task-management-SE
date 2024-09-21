@@ -1,11 +1,15 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import {
+  Route,
+  Routes,
+} from "react-router-dom";
 import Login from "./pages/Login";
-import SignUp from "./pages/SignUp";
+import Signup from "./pages/SignUp";
 import Home from "./pages/Home";
 import "./App.css";
-import 'bootstrap/dist/css/bootstrap.min.css'
-
+import "bootstrap/dist/css/bootstrap.min.css";
+import Task from "./components/Task/index"
+import DefaultLayout from "./layout/DefaultLayout"
 function App() {
   return (
     <Routes>
