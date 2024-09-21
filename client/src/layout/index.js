@@ -28,7 +28,7 @@ function MenuLayout() {
     }else if(e.key === '2'){
       navigate('/task')
     }else if (e.key === '3'){
-      navigate('/detal:id')
+      navigate('/task/detail')
     }
   }
 

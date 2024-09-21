@@ -22,9 +22,8 @@ function App() {
       <Route element={<PrivateRoute/>}>
         <Route path="/" element={<DefaultLayout />}>
           <Route index element={<Home />} />
-          <Route path="task" element={<Task />}>
-            <Route path="detail:id" element={<TaskDetail/>}/>
-          </Route>
+          <Route path="task" element={<Task />}/>
+          <Route path="/task/detail" element={<TaskDetail/>}/>
         </Route>
       </Route>
       <Route path="user/login" element={<Login />} />
