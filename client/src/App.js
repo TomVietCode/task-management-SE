@@ -2,6 +2,7 @@ import React from "react";
 import {
   Route,
   Routes,
+  useRoutes,
 } from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/SignUp";
@@ -12,7 +13,10 @@ import Task from "./components/Task/index"
 import TaskDetail from "./pages/Task/TaskDetail"
 import DefaultLayout from "./layout/DefaultLayout"
 import PrivateRoute from "./components/PrivateRoute";
+import { routes } from "./routes" 
 function App() {
+  // const elements = useRoutes(routes)
+  // console.log(elements)
   return (
     <Routes>
       <Route element={<PrivateRoute/>}>
