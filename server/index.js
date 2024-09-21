@@ -1,6 +1,10 @@
 const express = require('express')
 const app = express()
+<<<<<<< HEAD
 const cors = require("cors")
+=======
+const cors = require('cors')
+>>>>>>> c841a6341c306bf209277784e0c15c6e809b544d
 const routerIndex = require('./routers/index.router')
 const database = require('./config/database')
 const bodyParser = require('body-parser')

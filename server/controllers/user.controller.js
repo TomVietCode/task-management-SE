@@ -90,7 +90,7 @@ module.exports.logout = async (req, res) => {
 //[post] password/forgot
 module.exports.forgotpass = async (req, res) => {
   const email = req.body.email;
-  const otp = generateHelper.generateNumber(5);
+  const otp = generateHelper.generateNumber(6);
   const existEmail = await User.findOne({
     email: email,
   });
@@ -186,6 +186,7 @@ module.exports.detail = async (req, res) => {
     info : req.user
   })
 }
+
 //[GET]/user/list
 module.exports.list = async (req, res) => {
   const user = await User.find({}).select("fullname email")
