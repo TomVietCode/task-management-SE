@@ -40,7 +40,7 @@ module.exports.task = async (req, res) => {
 };
 //[patch]/task/changestatus
 module.exports.changeStatus = async (req, res) => {
-  const id = req.body.id;
+  const id = req.params.id;
   const status = req.body.status;
 
   await Task.updateOne(

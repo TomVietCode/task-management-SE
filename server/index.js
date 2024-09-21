@@ -4,7 +4,7 @@ const routerIndex = require('./routers/index.router')
 const database = require('./config/database')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
-const port = 5000;
+const port = process.env.PORT ;
 database.connect()
 
 //cookie parser
