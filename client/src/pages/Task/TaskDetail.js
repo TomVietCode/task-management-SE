@@ -1,4 +1,3 @@
-import React from 'react';
 import { Tabs } from 'antd';
 import "./TaskDetail.scss"
 import ProjectContent from "./indexDetail"

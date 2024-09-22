@@ -52,3 +52,16 @@ export const del = async (token, path) => {
   const result = await response.json()
   return result
 }
+
+export const postPublic = async (path, data) => {
+  const response = await fetch(API_DOMAIN + path, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data)
+  })
+  const result = await response.json()
+  return result
+}

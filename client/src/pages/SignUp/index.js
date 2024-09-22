@@ -5,7 +5,7 @@ import "./style.scss"
 import { register } from "../../services/UserService"
 import { checkValidate } from "../../validate/UserValidate"
 import { setCookie } from "../../helpers/cookie"
-import { Link, Navigate, useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 function Register() {
   const navigate = useNavigate()

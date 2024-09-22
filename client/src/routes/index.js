@@ -8,11 +8,11 @@ import TaskDetail from "../pages/Task/TaskDetail"
 
 export const routes = [
   {
-    path: "login",
+    path: "user/login",
     element: <Login/>
   },
   {
-    path: "signup",
+    path: "user/register",
     element: <SignUp/>
   },
   {

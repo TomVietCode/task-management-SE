@@ -1,4 +1,4 @@
-import { post } from "../utils/request"
+import { post, postPublic } from "../utils/request"
 
 export const register = (data) => {
   const result = post("user/register", data)
@@ -6,6 +6,6 @@ export const register = (data) => {
 }
 
 export const login = (data) => {
-  const result = post("user/login", data)
+  const result = postPublic("user/login", data)
   return result
 }
