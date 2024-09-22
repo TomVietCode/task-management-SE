@@ -19,6 +19,10 @@ function CreateTask() {
 
   const openModal = () => setIsModalOpen(true);
   const cancelCloseModal = () => setIsModalOpen(false);
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log(e)
+  }
   const OkCloseModal = () => {
     notification.success({
       message: "Creat project complated!",
@@ -44,12 +48,12 @@ function CreateTask() {
           <Button key="cancel" onClick={cancelCloseModal}>
             Cancel
           </Button>,
-          <Button key="create" type="primary" onClick={OkCloseModal}>
+          <Button key="create" type="submit" onClick={OkCloseModal}>
             Create
           </Button>,
         ]}
       >
-        <Form  className="project-form">
+        <Form  className="project-form" onSubmit={handleSubmit}>
           <Space direction="vertical" size="large" style={{ width: "100%" }}>
             <div>
               <p>Project Name</p>
