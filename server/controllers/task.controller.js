@@ -57,7 +57,8 @@ module.exports.create = async (req, res) => {
   await task.save();
   res.json({
     code: 200,
-    message: "Tạo mới thành công"
+    message: "Tạo mới thành công",
+    taskNew: task
   });
 }
 

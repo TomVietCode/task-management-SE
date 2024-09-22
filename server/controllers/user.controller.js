@@ -3,6 +3,7 @@ const Otp = require("../models/otp.model");
 const md5 = require("md5");
 const generateHelper = require("../helper/genarate.helper");
 const sendmail = require("../helper/sendmail.helper");
+
 //[post]/User/register
 module.exports.register = async (req, res) => {
   const email = req.body.email;
@@ -47,7 +48,7 @@ module.exports.login = async (req, res) => {
   if (!existUser) {
     res.json({
       code: 400,
-      message: "Email khong ton tai",
+      message: "Email không tồn tại",
     });
     return;
   }

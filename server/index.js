@@ -7,7 +7,6 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const port = process.env.PORT ;
 database.connect()
-
 //cookie parser
 app.use(cookieParser())
 
@@ -16,6 +15,7 @@ app.use(bodyParser.json())
 
 //cors
 app.use(cors())
+
 routerIndex(app)
 
 app.listen( port, (req, res) => {
