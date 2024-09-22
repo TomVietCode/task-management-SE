@@ -1,7 +1,13 @@
 const API_DOMAIN= "http://localhost:5000/"
 
-export const get = async (path) => {
-  const response = await fetch(API_DOMAIN + path)
+export const get = async (path, token) => {
+  const response = await fetch(API_DOMAIN + path, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`, // Gửi token qua headers
+    }
+  })
   const result = await response.json()
   return result
 }

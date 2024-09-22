@@ -2,7 +2,7 @@ const Task = require('../models/task.model')
 module.exports = async (query) => {
     const paginationObject = {
         currentPage: 1,
-        limitItems: 3,
+        limitItems: 7,
       };
     
       if (query.page) {
@@ -13,9 +13,10 @@ module.exports = async (query) => {
         (paginationObject.currentPage - 1) * paginationObject.limitItems;
     
       const count = await Task.countDocuments({
-        delete: false,
+        deleted: false,
       });
-      paginationObject.total = Math.ceil(count / paginationObject.limitItems);
+      
+      paginationObject.totalPage = Math.ceil(count / paginationObject.limitItems);
     
     return paginationObject
   }

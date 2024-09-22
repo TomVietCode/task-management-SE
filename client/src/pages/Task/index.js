@@ -1,68 +1,84 @@
-import React, { useState } from "react";
-import { Row, Col, Progress, Tag, Button, Input, Checkbox } from "antd";
-import { useNavigate } from "react-router-dom";
-import { MoreOutlined } from "@ant-design/icons";
-import MenuDropdown from "../../components/MenuDropDown";
-import "./style.scss";
-import { CiEdit } from "react-icons/ci";
-import { MdDeleteOutline, MdOutlineRemoveRedEye } from "react-icons/md";
-
+import { useEffect, useState } from "react"
+import { Row, Col, Progress, Tag, Button, Input, Checkbox } from "antd"
+import { useNavigate } from "react-router-dom"
+import { MoreOutlined } from "@ant-design/icons"
+import MenuDropdown from "../../components/MenuDropDown"
+import "./style.scss"
+import { CiEdit } from "react-icons/ci"
+import { MdDeleteOutline, MdOutlineRemoveRedEye } from "react-icons/md"
+import { getTaskList } from "../../services/TaskService"
+import { getCookie } from "../../helpers/cookie"
+import moment from "moment"
 const ProjectContent = () => {
   // Dữ liệu mẫu cho bảng
-  const data = [
-    {
-      key: "1",
-      project: "Project A",
-      tasks: 10,
-      role: "Member",
-      timeStart: "21-12-2022",
-      deadline: "22-22-2022",
-      status: "Initial",
-    },
-    {
-      key: "2",
-      project: "Project B",
-      tasks: 7,
-      role: "Leader",
-      timeStart: "21-12-2022",
-      deadline: "22-12-2022",
-      status: "Doing",
-    },
-    {
-      key: "3",
-      project: "Project C",
-      tasks: 5,
-      role: "Member",
-      timeStart: "21-12-2022",
-      deadline: "22-12-2022",
-      status: "Doing",
-    },
-    {
-      key: "4",
-      project: "Project D",
-      tasks: 12,
-      role: "Member",
-      timeStart: "21-12-2022",
-      deadline: "22-12-2022",
-      status: "Not finished",
-    },
-  ];
+  const token = getCookie("tokenUser")
+  const [data, setData] = useState([])
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      const result = await getTaskList(token)
+      setData(result)
+    }
+    fetchApi()
+  }, [])
+
+  // const data = [
+  //   {
+  //     key: "1",
+  //     project: "Project A",
+  //     tasks: 10,
+  //     role: "Member",
+  //     timeStart: "21-12-2022",
+  //     deadline: "22-22-2022",
+  //     status: "Initial",
+  //   },
+  //   {
+  //     key: "2",
+  //     project: "Project B",
+  //     tasks: 7,
+  //     role: "Leader",
+  //     timeStart: "21-12-2022",
+  //     deadline: "22-12-2022",
+  //     status: "Doing",
+  //   },
+  //   {
+  //     key: "3",
+  //     project: "Project C",
+  //     tasks: 5,
+  //     role: "Member",
+  //     timeStart: "21-12-2022",
+  //     deadline: "22-12-2022",
+  //     status: "Doing",
+  //   },
+  //   {
+  //     key: "4",
+  //     project: "Project D",
+  //     tasks: 12,
+  //     role: "Member",
+  //     timeStart: "21-12-2022",
+  //     deadline: "22-12-2022",
+  //     status: "Not finished",
+  //   },
+  // ]
   const getStatusColor = (status) => {
-    return status === "Finished"
+    return status === "finished"
       ? "green"
-      : status === "Pending"
+      : status === "pending"
       ? "volcano"
-      : status === "Initial"
+      : status === "initial"
       ? "blue"
-      : status === "Doing"
+      : status === "doing"
       ? "orange"
-      : status === "Not finished"
+      : status === "notFinished"
       ? "red"
-      : "gray";
-  };
-  const getRoleColor = (role) => {
-    return role === "Leader" ? "red" : role === "Member" ? "green" : "gray";
-  };
+      : "gray"
+  }
+  const getRoleColor = (createdBy) => {
+    return {
+      color: createdBy === token ? "red" : "green",
+      role: createdBy === token ? "Leader" : "Member"
+    }
+  }
   // Các item cho dropdown
   const MenuItems = [
     {
@@ -92,23 +108,23 @@ const ProjectContent = () => {
         </span>
       ),
     },
-  ];
+  ]
+
   //lấy trang dropdown
-  const navigate = useNavigate(); // Hook để điều hướng
+  const navigate = useNavigate() // Hook để điều hướng
 
   const handleMenuSelect = (e) => {
     if (e.key === "1") {
-      navigate("/TaskDetail"); // Điều hướng đến trang /TaskDetail
+      navigate("/TaskDetail") // Điều hướng đến trang /TaskDetail
     }
-  };
+  }
 
   // Hàm để render mỗi hàng dữ liệu
   const renderRow = (record) => (
     <>
-      
       <Row
         className="Row"
-        key={record.key}
+        key={record._id}
         gutter={[16, 16]}
         style={{ padding: "10px 0", borderBottom: "1px solid #f0f0f0" }}
       >
@@ -116,7 +132,7 @@ const ProjectContent = () => {
           <Checkbox></Checkbox>
         </Col>
         <Col xs={12} sm={10} md={7} lg={7} xl={7} xxl={7}>
-          {record.project}
+          {record.title}
         </Col>
         <Col
           xs={4}
@@ -127,7 +143,7 @@ const ProjectContent = () => {
           xxl={2}
           style={{ textAlign: "center" }}
         >
-          {record.tasks}
+          {5}
         </Col>
         <Col
           xs={6}
@@ -138,7 +154,7 @@ const ProjectContent = () => {
           xxl={3}
           style={{ textAlign: "center" }}
         >
-          <Tag color={getRoleColor(record.role)}>{record.role}</Tag>
+          <Tag color={getRoleColor(record.createdBy).color}>{getRoleColor(record.createdBy).role}</Tag>
         </Col>
         <Col
           xs={6}
@@ -149,7 +165,7 @@ const ProjectContent = () => {
           xxl={3}
           style={{ textAlign: "center" }}
         >
-          {record.timeStart}
+          {moment(record.timeStart).format("DD-MM-YYYY HH:mm")}
         </Col>
         <Col
           xs={6}
@@ -160,7 +176,7 @@ const ProjectContent = () => {
           xxl={3}
           style={{ textAlign: "center" }}
         >
-          {record.deadline}
+          {moment(record.timeFinish).format("DD-MM-YYYY")}
         </Col>
         <Col
           xs={6}
@@ -186,7 +202,7 @@ const ProjectContent = () => {
         </Col>
       </Row>
     </>
-  );
+  )
 
   return (
     <div style={{ padding: "20px" }}>
@@ -198,7 +214,7 @@ const ProjectContent = () => {
           <Checkbox></Checkbox>
         </Col>
         <Col xs={12} sm={10} md={7} lg={7} xl={7} xxl={7}>
-          Project
+          Task Name
         </Col>
         <Col
           xs={4}
@@ -209,7 +225,7 @@ const ProjectContent = () => {
           xxl={2}
           style={{ textAlign: "center" }}
         >
-          Tasks
+          Sub Tasks
         </Col>
         <Col
           xs={6}
@@ -231,7 +247,7 @@ const ProjectContent = () => {
           xxl={3}
           style={{ textAlign: "center" }}
         >
-          Creation Date
+          Start Time
         </Col>
         <Col
           xs={6}
@@ -257,10 +273,11 @@ const ProjectContent = () => {
         </Col>
         <Col xs={2} sm={2} md={1} lg={1} xl={1} xxl={1}></Col>
       </Row>
-
-      {data.map((record) => renderRow(record))}
+      {
+        (data.taskList) && (data.taskList).map((record) => renderRow(record))
+      }
     </div>
-  );
-};
+  )
+}
 
-export default ProjectContent;
+export default ProjectContent
