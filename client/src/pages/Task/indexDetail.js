@@ -6,6 +6,7 @@ import ActionBar from "../../components/ActionBar";
 import PageNumber from "../../components/PageNumber";
 
 const ProjectContent = () => {
+  // Dữ liệu mẫu cho bảng
   const data = [
     {
       key: "1",
@@ -44,19 +45,12 @@ const ProjectContent = () => {
       status: "Not finished",
     },
   ];
-
   return (
-    <div className="project-content">
-      <div className="action-bar">
-        <ActionBar />
-      </div>
-      <div className="layout-task">
+    <>
+      <div className="LayoutTask">
         <LayoutTask data={data} />
       </div>
-      <div className="page-number">
-        <PageNumber />
-      </div>
-    </div>
+    </>
   );
 };
 
