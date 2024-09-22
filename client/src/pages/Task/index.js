@@ -1,11 +1,9 @@
-import React, { useState } from "react";
-import { Row, Col, Progress, Tag, Button, Input, Checkbox } from "antd";
-import { useNavigate } from "react-router-dom";
-import { MoreOutlined } from "@ant-design/icons";
-import MenuDropdown from "../../components/MenuDropDown";
+import React from "react";
 import "./style.scss";
-import { CiEdit } from "react-icons/ci";
-import { MdDeleteOutline, MdOutlineRemoveRedEye } from "react-icons/md";
+
+import LayoutTask from "../../layout/LayoutTask";
+import ActionBar from "../../components/ActionBar";
+import PageNumber from "../../components/PageNumber";
 
 const ProjectContent = () => {
   // Dữ liệu mẫu cho bảng
@@ -39,7 +37,7 @@ const ProjectContent = () => {
     },
     {
       key: "4",
-      project: "Project D",
+      project: "Project DE",
       tasks: 12,
       role: "Member",
       timeStart: "21-12-2022",
@@ -47,219 +45,16 @@ const ProjectContent = () => {
       status: "Not finished",
     },
   ];
-  const getStatusColor = (status) => {
-    return status === "Finished"
-      ? "green"
-      : status === "Pending"
-      ? "volcano"
-      : status === "Initial"
-      ? "blue"
-      : status === "Doing"
-      ? "orange"
-      : status === "Not finished"
-      ? "red"
-      : "gray";
-  };
-  const getRoleColor = (role) => {
-    return role === "Leader" ? "red" : role === "Member" ? "green" : "gray";
-  };
-  // Các item cho dropdown
-  const MenuItems = [
-    {
-      key: "1",
-      label: (
-        <span>
-          <MdOutlineRemoveRedEye style={{ marginRight: 8 }} />
-          View
-        </span>
-      ),
-    },
-    {
-      key: "2",
-      label: (
-        <span>
-          <CiEdit style={{ marginRight: 8 }} />
-          Edit
-        </span>
-      ),
-    },
-    {
-      key: "3",
-      label: (
-        <span>
-          <MdDeleteOutline style={{ marginRight: 8 }} />
-          Delete
-        </span>
-      ),
-    },
-  ];
-  //lấy trang dropdown
-  const navigate = useNavigate(); // Hook để điều hướng
-
-  const handleMenuSelect = (e) => {
-    if (e.key === "1") {
-      navigate("/TaskDetail"); // Điều hướng đến trang /TaskDetail
-    }
-  };
-
-  // Hàm để render mỗi hàng dữ liệu
-  const renderRow = (record) => (
-    <>
-      
-      <Row
-        className="Row"
-        key={record.key}
-        gutter={[16, 16]}
-        style={{ padding: "10px 0", borderBottom: "1px solid #f0f0f0" }}
-      >
-        <Col xs={3} sm={2} md={1} lg={1} xl={1} xxl={1}>
-          <Checkbox></Checkbox>
-        </Col>
-        <Col xs={12} sm={10} md={7} lg={7} xl={7} xxl={7}>
-          {record.project}
-        </Col>
-        <Col
-          xs={4}
-          sm={3}
-          md={2}
-          lg={2}
-          xl={2}
-          xxl={2}
-          style={{ textAlign: "center" }}
-        >
-          {record.tasks}
-        </Col>
-        <Col
-          xs={6}
-          sm={4}
-          md={3}
-          lg={3}
-          xl={3}
-          xxl={3}
-          style={{ textAlign: "center" }}
-        >
-          <Tag color={getRoleColor(record.role)}>{record.role}</Tag>
-        </Col>
-        <Col
-          xs={6}
-          sm={4}
-          md={3}
-          lg={3}
-          xl={3}
-          xxl={3}
-          style={{ textAlign: "center" }}
-        >
-          {record.timeStart}
-        </Col>
-        <Col
-          xs={6}
-          sm={4}
-          md={3}
-          lg={3}
-          xl={3}
-          xxl={3}
-          style={{ textAlign: "center" }}
-        >
-          {record.deadline}
-        </Col>
-        <Col
-          xs={6}
-          sm={4}
-          md={3}
-          lg={3}
-          xl={3}
-          xxl={3}
-          style={{ textAlign: "center" }}
-        >
-          <Tag color={getStatusColor(record.status)}>{record.status}</Tag>
-        </Col>
-        <Col xs={2} sm={2} md={1} lg={1} xl={1} xxl={1}>
-          <MenuDropdown
-            items={MenuItems}
-            getSelection={handleMenuSelect}
-            triggerElement={
-              <span style={{ border: "none" }}>
-                <MoreOutlined />
-              </span>
-            }
-          />
-        </Col>
-      </Row>
-    </>
-  );
-
   return (
-    <div style={{ padding: "20px" }}>
-      <Row
-        gutter={[16, 16]}
-        style={{ fontWeight: "bold", paddingBottom: "10px" }}
-      >
-        <Col xs={3} sm={2} md={1} lg={1} xl={1} xxl={1}>
-          <Checkbox></Checkbox>
-        </Col>
-        <Col xs={12} sm={10} md={7} lg={7} xl={7} xxl={7}>
-          Project
-        </Col>
-        <Col
-          xs={4}
-          sm={3}
-          md={2}
-          lg={2}
-          xl={2}
-          xxl={2}
-          style={{ textAlign: "center" }}
-        >
-          Tasks
-        </Col>
-        <Col
-          xs={6}
-          sm={4}
-          md={3}
-          lg={3}
-          xl={3}
-          xxl={3}
-          style={{ textAlign: "center" }}
-        >
-          Role
-        </Col>
-        <Col
-          xs={6}
-          sm={4}
-          md={3}
-          lg={3}
-          xl={3}
-          xxl={3}
-          style={{ textAlign: "center" }}
-        >
-          Creation Date
-        </Col>
-        <Col
-          xs={6}
-          sm={4}
-          md={3}
-          lg={3}
-          xl={3}
-          xxl={3}
-          style={{ textAlign: "center" }}
-        >
-          Deadline
-        </Col>
-        <Col
-          xs={6}
-          sm={4}
-          md={3}
-          lg={3}
-          xl={3}
-          xxl={3}
-          style={{ textAlign: "center" }}
-        >
-          Status
-        </Col>
-        <Col xs={2} sm={2} md={1} lg={1} xl={1} xxl={1}></Col>
-      </Row>
-
-      {data.map((record) => renderRow(record))}
-    </div>
+    <>
+      <ActionBar />
+      <div className="LayoutTask">
+        <LayoutTask data={data} />
+      </div>
+      <div className="PageNumber">
+        <PageNumber />
+      </div>
+    </>
   );
 };
 

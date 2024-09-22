@@ -1,51 +1,35 @@
-import { Row, Col,theme, Space, Input } from "antd";
-import CreateTask from "../Task/CreateTask";
+import { Input } from "antd";
 import "./style.scss";
-import ModalTreeSelect from "../TreeSelect";
-const { Search } = Input;
-function ActionBar () {
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
 
+import Filter from "../Filter";
+import Sort from "../sort/index";
+const { Search } = Input;
+
+function ActionBar() {
   return (
     <>
-      <header
-        className="home__header"
-        style={{
-          background: colorBgContainer,
-        }}
-      >
-        <Row justify="space-between" align="middle" gutter={[16, 16]}>
-          <Col span={6} >
-            <span className="filter">
-              <p>Filter : </p>
-              <div className="Box-Filter"><ModalTreeSelect /></div>
-            </span>
-          </Col>
-
-          <Col span={8} flex="auto">
-            <div>
-              <Search
-                className="box-search"
-                placeholder="Search "
-                style={{
-                  width: 200,
-                  height: 50,
-                }}
-              />
-            </div>
-          </Col>
-
-          <Col span={4}>
-            <div className="box-NewProject">
-              <Space size="middle">
-                <CreateTask />
-              </Space>
-            </div>
-          </Col>
-        </Row>
-      </header>
+      <div className="container">
+        <div className="filter">
+          <p>Filter</p>
+          <div className="Box-Filter">
+            <Filter />
+          </div>
+        </div>
+        <div className="sort">
+          <p>Sort</p>
+          <div className="Box-Sort">
+            <Sort />
+          </div>
+        </div>
+        <div className="box-search ">
+          <Search
+            placeholder="Search "
+            style={{
+              width: 200,
+            }}
+          />
+        </div>
+      </div>
     </>
   );
 }

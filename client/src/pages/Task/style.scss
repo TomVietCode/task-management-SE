@@ -1,16 +1,7 @@
 .PageNumber{
     float: right;
-  }
-  .Row{
-    height: 3.5rem;
-    cursor: pointer;
-    &:hover{
-      background-color: rgba(192, 192, 192, 0.1);
-    }
-    &:nth-child(1){
-      padding-top: 20px;
-    }
+
 }
-.Modal p{
-    font-weight: bold;
-  }
+.LayoutTask{
+  height: 78%;
+}
