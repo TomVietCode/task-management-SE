@@ -8,20 +8,23 @@ import { MdDeleteOutline, MdOutlineRemoveRedEye } from "react-icons/md"
 import { changeStatus, getTaskList } from "../../services/TaskService"
 import { getCookie } from "../../helpers/cookie"
 import moment from "moment"
+import { useDispatch, useSelector } from "react-redux"
 
 const Task = () => {
   // Dữ liệu mẫu cho bảng
   const token = getCookie("tokenUser")
   const [data, setData] = useState([])
   const [reload, setReload] = useState(true)
+  const state = useSelector(state => state.TaskReducer)
 
   useEffect(() => {
     const fetchApi = async () => {
       const result = await getTaskList(token)
+      result.taskList = (result.taskList).reverse()
       setData(result)
     }
     fetchApi()
-  }, [reload])
+  }, [reload, state])
 
   const getStatusColor = (status) => {
     return status === "finish"

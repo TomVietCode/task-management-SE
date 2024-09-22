@@ -14,9 +14,12 @@ import { useState } from "react";
 import { getCookie } from "../../helpers/cookie"
 import "./style.scss";
 import { addTask } from "../../services/TaskService";
+import { useDispatch } from "react-redux";
+import { initTask } from "../../actions/TaskAction";
 
 function CreateTask() {
   //thêm project
+  const dispatch = useDispatch()
   const [isModalOpen, setIsModalOpen] = useState(false);
   const token = getCookie("tokenUser")
 
@@ -32,11 +35,12 @@ function CreateTask() {
     }
     
     const result = await addTask(token, "create", dataSubmit)
-
+    
     if(result.code === 200){
+      dispatch(initTask())
       notification.success({
         message: "Project created successfully!",
-        placement: "center",
+        placement: "topRight",
         duration: 3,
       });
     }
