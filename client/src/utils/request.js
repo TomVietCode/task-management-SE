@@ -1,6 +1,6 @@
 const API_DOMAIN= "http://localhost:5000/"
 
-export const get = async (path, token) => {
+export const get = async (token, path) => {
   const response = await fetch(API_DOMAIN + path, {
     method: "GET",
     headers: {
@@ -12,12 +12,13 @@ export const get = async (path, token) => {
   return result
 }
 
-export const post = async (path, data) => {
+export const post = async (token, path, data) => {
   const response = await fetch(API_DOMAIN + path, {
     method: "POST",
     headers: {
       Accept: "application/json",
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
     },
     body: JSON.stringify(data)
   })
@@ -25,12 +26,13 @@ export const post = async (path, data) => {
   return result
 }
 
-export const patch = async (path, data) => {
+export const patch = async (token, path, data) => {
   const response = await fetch(API_DOMAIN + path, {
     method: "PATCH",
     headers: {
       Accept: "application/json",
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
     },
     body: JSON.stringify(data)
   })
@@ -38,12 +40,13 @@ export const patch = async (path, data) => {
   return result
 }
 
-export const del = async (path) => {
+export const del = async (token, path) => {
   const response = await fetch(API_DOMAIN + path, {
     method: "DELETE",
     headers: {
       Accept: "application/json",
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
     }
   })
   const result = await response.json()

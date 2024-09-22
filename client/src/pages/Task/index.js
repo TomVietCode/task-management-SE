@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
-import { Row, Col, Progress, Tag, Button, Input, Checkbox } from "antd"
+import { Row, Col, Tag, Checkbox, notification } from "antd"
 import { MoreOutlined } from "@ant-design/icons"
 import MenuDropdown from "../../components/MenuDropDown"
 import "./style.scss"
 import { CiEdit } from "react-icons/ci"
 import { MdDeleteOutline, MdOutlineRemoveRedEye } from "react-icons/md"
-import { getTaskList } from "../../services/TaskService"
+import { changeStatus, getTaskList } from "../../services/TaskService"
 import { getCookie } from "../../helpers/cookie"
 import moment from "moment"
 
@@ -13,6 +13,7 @@ const Task = () => {
   // Dữ liệu mẫu cho bảng
   const token = getCookie("tokenUser")
   const [data, setData] = useState([])
+  const [reload, setReload] = useState(true)
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -20,10 +21,10 @@ const Task = () => {
       setData(result)
     }
     fetchApi()
-  }, [])
+  }, [reload])
 
   const getStatusColor = (status) => {
-    return status === "finished"
+    return status === "finish"
       ? "green"
       : status === "pending"
       ? "volcano"
@@ -31,9 +32,48 @@ const Task = () => {
       ? "blue"
       : status === "doing"
       ? "orange"
-      : status === "notFinished"
+      : status === "notFinish"
       ? "red"
       : "gray"
+  }
+
+  const handleChangeStatus = async (record) => {
+    // Logic để thay đổi status, ví dụ chuyển đổi qua các trạng thái
+    let newStatus = ""
+    switch (record.status) {
+      case "initial":
+        newStatus = "doing"
+        break
+      case "doing":
+        newStatus = "finish"
+        break
+      case "finish":
+        newStatus = "notFinish"
+        break
+      case "notFinish":
+        newStatus = "pending"
+        break
+      case "pending":
+        newStatus = "initial"
+        break
+      default:
+        newStatus = record.status
+    }
+
+    const result = await changeStatus(token, `change-status/${record._id}`, {
+      status: newStatus,
+    })
+
+    if(result){
+      if(result.code === 200){
+        setReload(!reload)
+        notification.success({
+          message: "Change status successfully!",
+          placement: "topRight",
+          duration: 3,
+        });
+      }
+    }
   }
 
   const getRoleColor = (createdBy) => {
@@ -76,86 +116,92 @@ const Task = () => {
 
   // Hàm để render mỗi hàng dữ liệu
   const renderRow = (record) => (
-      <Row
-        className="Row"
-        key={record._id}
-        gutter={[16, 16]}
-        style={{ padding: "10px 0", borderBottom: "1px solid #f0f0f0" }}
+    <Row
+      className="Row"
+      key={record._id}
+      gutter={[16, 16]}
+      style={{ padding: "10px 0", borderBottom: "1px solid #f0f0f0" }}
+    >
+      <Col xs={3} sm={2} md={1} lg={1} xl={1} xxl={1}>
+        <Checkbox></Checkbox>
+      </Col>
+      <Col xs={12} sm={10} md={7} lg={7} xl={7} xxl={7}>
+        {record.title}
+      </Col>
+      <Col
+        xs={4}
+        sm={3}
+        md={2}
+        lg={2}
+        xl={2}
+        xxl={2}
+        style={{ textAlign: "center" }}
       >
-        <Col xs={3} sm={2} md={1} lg={1} xl={1} xxl={1}>
-          <Checkbox></Checkbox>
-        </Col>
-        <Col xs={12} sm={10} md={7} lg={7} xl={7} xxl={7}>
-          {record.title}
-        </Col>
-        <Col
-          xs={4}
-          sm={3}
-          md={2}
-          lg={2}
-          xl={2}
-          xxl={2}
-          style={{ textAlign: "center" }}
+        {5}
+      </Col>
+      <Col
+        xs={6}
+        sm={4}
+        md={3}
+        lg={3}
+        xl={3}
+        xxl={3}
+        style={{ textAlign: "center" }}
+      >
+        <Tag color={getRoleColor(record.createdBy).color}>
+          {getRoleColor(record.createdBy).role}
+        </Tag>
+      </Col>
+      <Col
+        xs={6}
+        sm={4}
+        md={3}
+        lg={3}
+        xl={3}
+        xxl={3}
+        style={{ textAlign: "center" }}
+      >
+        {moment(record.timeStart).format("DD-MM-YYYY HH:mm")}
+      </Col>
+      <Col
+        xs={6}
+        sm={4}
+        md={3}
+        lg={3}
+        xl={3}
+        xxl={3}
+        style={{ textAlign: "center" }}
+      >
+        {moment(record.timeFinish).format("DD-MM-YYYY")}
+      </Col>
+      <Col
+        xs={6}
+        sm={4}
+        md={3}
+        lg={3}
+        xl={3}
+        xxl={3}
+        style={{ textAlign: "center" }}
+      >
+        <Tag
+          style={{ cursor: "pointer", userSelect: "none" }}
+          color={getStatusColor(record.status)}
+          onClick={() => handleChangeStatus(record)}
         >
-          {5}
-        </Col>
-        <Col
-          xs={6}
-          sm={4}
-          md={3}
-          lg={3}
-          xl={3}
-          xxl={3}
-          style={{ textAlign: "center" }}
-        >
-          <Tag color={getRoleColor(record.createdBy).color}>
-            {getRoleColor(record.createdBy).role}
-          </Tag>
-        </Col>
-        <Col
-          xs={6}
-          sm={4}
-          md={3}
-          lg={3}
-          xl={3}
-          xxl={3}
-          style={{ textAlign: "center" }}
-        >
-          {moment(record.timeStart).format("DD-MM-YYYY HH:mm")}
-        </Col>
-        <Col
-          xs={6}
-          sm={4}
-          md={3}
-          lg={3}
-          xl={3}
-          xxl={3}
-          style={{ textAlign: "center" }}
-        >
-          {moment(record.timeFinish).format("DD-MM-YYYY")}
-        </Col>
-        <Col
-          xs={6}
-          sm={4}
-          md={3}
-          lg={3}
-          xl={3}
-          xxl={3}
-          style={{ textAlign: "center" }}
-        >
-          <Tag color={getStatusColor(record.status)}>{record.status}</Tag>
-        </Col>
-        <Col xs={2} sm={2} md={1} lg={1} xl={1} xxl={1}>
-          <MenuDropdown
-            items={MenuItems}
-            triggerElement={
-              <span style={{ border: "none" }}>
-                <MoreOutlined />
-              </span>
-            }
-          />
-        </Col>
-      </Row>
+          {record.status}
+        </Tag>
+      </Col>
+      <Col xs={2} sm={2} md={1} lg={1} xl={1} xxl={1}>
+        <MenuDropdown
+          items={MenuItems}
+          triggerElement={
+            <span style={{ border: "none" }}>
+              <MoreOutlined />
+            </span>
+          }
+        />
+      </Col>
+    </Row>
   )
 
   return (
