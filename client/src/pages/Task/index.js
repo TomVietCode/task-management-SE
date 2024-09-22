@@ -1,35 +1,26 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import { Row, Col, Progress, Tag, Button, Input, Checkbox } from "antd";
+import { MoreOutlined } from "@ant-design/icons";
+import MenuDropdown from "../../components/MenuDropDown";
 import "./style.scss";
-
-import LayoutTask from "../../layout/LayoutTask";
-import ActionBar from "../../components/ActionBar";
-import PageNumber from "../../components/PageNumber";
-import { useEffect, useState } from "react"
-import { Row, Col, Progress, Tag, Button, Input, Checkbox } from "antd"
-import { MoreOutlined } from "@ant-design/icons"
-import MenuDropdown from "../../components/MenuDropDown"
-import "./style.scss"
-import { CiEdit } from "react-icons/ci"
-import { MdDeleteOutline, MdOutlineRemoveRedEye } from "react-icons/md"
-import { getTaskList } from "../../services/TaskService"
-import { getCookie } from "../../helpers/cookie"
-import moment from "moment"
-const ProjectContent = () => {
-  const data = [
-
+import { CiEdit } from "react-icons/ci";
+import { MdDeleteOutline, MdOutlineRemoveRedEye } from "react-icons/md";
+import { getTaskList } from "../../services/TaskService";
+import { getCookie } from "../../helpers/cookie";
+import moment from "moment";
 
 const Task = () => {
   // Dữ liệu mẫu cho bảng
-  const token = getCookie("tokenUser")
-  const [data, setData] = useState([])
+  const token = getCookie("tokenUser");
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchApi = async () => {
-      const result = await getTaskList(token)
-      setData(result)
-    }
-    fetchApi()
-  }, [])
+      const result = await getTaskList(token);
+      setData(result);
+    };
+    fetchApi();
+  }, []);
 
   const getStatusColor = (status) => {
     return status === "finished"
@@ -42,14 +33,14 @@ const Task = () => {
       ? "orange"
       : status === "notFinished"
       ? "red"
-      : "gray"
-  }
+      : "gray";
+  };
   const getRoleColor = (createdBy) => {
     return {
       color: createdBy === token ? "red" : "green",
-      role: createdBy === token ? "Leader" : "Member"
-    }
-  }
+      role: createdBy === token ? "Leader" : "Member",
+    };
+  };
   // Các item cho dropdown
   const MenuItems = [
     {
@@ -72,24 +63,6 @@ const Task = () => {
     },
     {
       key: "3",
-      project: "Project C",
-      tasks: 5,
-      role: "Member",
-      timeStart: "21-12-2022",
-      deadline: "22-12-2022",
-      status: "Doing",
-    },
-    {
-      key: "4",
-      project: "Project DE",
-      tasks: 12,
-      role: "Member",
-      timeStart: "21-12-2022",
-      deadline: "22-12-2022",
-      status: "Not finished",
-    },
-  ];
-
       label: (
         <span>
           <MdDeleteOutline style={{ marginRight: 8 }} />
@@ -97,7 +70,7 @@ const Task = () => {
         </span>
       ),
     },
-  ]
+  ];
 
   // Hàm để render mỗi hàng dữ liệu
   const renderRow = (record) => (
@@ -134,7 +107,9 @@ const Task = () => {
           xxl={3}
           style={{ textAlign: "center" }}
         >
-          <Tag color={getRoleColor(record.createdBy).color}>{getRoleColor(record.createdBy).role}</Tag>
+          <Tag color={getRoleColor(record.createdBy).color}>
+            {getRoleColor(record.createdBy).role}
+          </Tag>
         </Col>
         <Col
           xs={6}
@@ -181,22 +156,9 @@ const Task = () => {
         </Col>
       </Row>
     </>
-  )
+  );
 
   return (
-    <div className="project-content">
-      <div className="action-bar">
-        <ActionBar />
-      </div>
-      <div className="layout-task">
-        <LayoutTask data={data} />
-      </div>
-      <div className="page-number">
-        <PageNumber />
-      </div>
-    </div>
-  );
-};
     <div style={{ padding: "20px" }}>
       <Row
         gutter={[16, 16]}
@@ -265,11 +227,9 @@ const Task = () => {
         </Col>
         <Col xs={2} sm={2} md={1} lg={1} xl={1} xxl={1}></Col>
       </Row>
-      {
-        (data.taskList) && (data.taskList).map((record) => renderRow(record))
-      }
+      {data.taskList && data.taskList.map((record) => renderRow(record))}
     </div>
-  )
-}
+  );
+};
 
-export default Task
+export default Task;
