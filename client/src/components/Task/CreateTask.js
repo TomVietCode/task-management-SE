@@ -1,4 +1,14 @@
-import { notification, Modal, Button, Space, Input, DatePicker, Row, Col} from "antd";
+import {
+  notification,
+  Modal,
+  Button,
+  Space,
+  Input,
+  DatePicker,
+  Row,
+  Col,
+  Form
+} from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import "./style.scss";
@@ -39,38 +49,50 @@ function CreateTask() {
           </Button>,
         ]}
       >
-        <Space direction="vertical" size="large" style={{ width: "100%" }}>
-          <div>
-            <p>Project Name</p>
-            <Input
-              type="text"
-              name="projectName"
-              placeholder="Enter project name"
-              className="login__form-group-input form-control"
-            />
-          </div>
+        <Form  className="project-form">
+          <Space direction="vertical" size="large" style={{ width: "100%" }}>
+            <div>
+              <p>Project Name</p>
+              <Input
+                type="text"
+                name="projectName"
+                placeholder="Enter project name"
+                className="login__form-group-input form-control"
+                required
+              />
+            </div>
 
-          <div>
-            <p>Description</p>
-            <Input.TextArea
-              name="description"
-              placeholder="Enter project description"
-              className="login__form-group-input form-control"
-              rows={4}
-            />
-          </div>
+            <div>
+              <p>Description</p>
+              <Input.TextArea
+                name="description"
+                placeholder="Enter project description"
+                className="login__form-group-input form-control"
+                rows={4}
+                required
+              />
+            </div>
 
-          <Row>
-            <Col span={8}>
-              <p>Date create</p>
-              <DatePicker placeholder="Select due date" />
-            </Col>
-            <Col span={8}>
-              <p>Deadline</p>
-              <DatePicker placeholder="Select due date" />
-            </Col>
-          </Row>
-        </Space>
+            <Row>
+              <Col span={8}>
+                <p>Date Create</p>
+                <DatePicker
+                  name="dateCreate"
+                  placeholder="Select create date"
+                  required
+                />
+              </Col>
+              <Col span={8}>
+                <p>Deadline</p>
+                <DatePicker
+                  name="deadline"
+                  placeholder="Select due date"
+                  required
+                />
+              </Col>
+            </Row>
+          </Space>
+        </Form>
       </Modal>
     </>
   );

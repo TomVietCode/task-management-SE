@@ -1,7 +1,18 @@
-.PageNumber{
-    float: right;
-
+.project-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
-.LayoutTask{
-  height: 78%;
+
+.action-bar {
+  flex: 0 0 auto;
+}
+
+.layout-task {
+  flex: 1 1 auto; 
+  overflow-y: auto; 
+}
+
+.page-number {
+  flex: 0 0 auto;
 }
