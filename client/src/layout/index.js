@@ -10,9 +10,10 @@ import { Layout, Menu, Button } from "antd";
 
 
 import { Outlet, useNavigate } from "react-router-dom";
-import ActionBar from "../components/ActionBar";
+import Header from "../components/Header";
 import './style.scss'
-import detal from "../pages/Task/TaskDetail"
+
+
 const { Sider } = Layout;
 
 
@@ -79,7 +80,7 @@ function MenuLayout() {
           </Sider>
           <Layout >
             <div className="ActionBar">
-              <ActionBar /> 
+              <Header /> 
             </div>
             <div className="Outlet">
               <Outlet />
