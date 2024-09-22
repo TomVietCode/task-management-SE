@@ -17,14 +17,19 @@ import { addTask } from "../../services/TaskService";
 import { useDispatch } from "react-redux";
 import { initTask } from "../../actions/TaskAction";
 
+
 function CreateTask() {
   //thêm project
   const dispatch = useDispatch()
   const [isModalOpen, setIsModalOpen] = useState(false);
   const token = getCookie("tokenUser")
+  const [form] = Form.useForm();
 
   const openModal = () => setIsModalOpen(true);
-  const cancelCloseModal = () => setIsModalOpen(false);
+  const cancelCloseModal = () => {
+    form.resetFields();
+    setIsModalOpen(false)
+  };
 
   // Hàm xử lý khi form được submit thành công
   const handleFinish = async (values) => {
@@ -44,7 +49,7 @@ function CreateTask() {
         duration: 3,
       });
     }
-
+    form.resetFields();
     setIsModalOpen(false);
   };
 
@@ -64,6 +69,7 @@ function CreateTask() {
       >
         <Form
           className="project-form"
+          form={form}
           onFinish={handleFinish} // Sử dụng onFinish để submit form
         >
           <Space direction="vertical" size="large" style={{ width: "100%" }}>

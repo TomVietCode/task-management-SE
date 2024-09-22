@@ -109,6 +109,8 @@ module.exports.task = async (req, res) => {
 
   if (req.query.sortKey && req.query.sortValue) {
     sort[req.query.sortKey] = req.query.sortValue;
+  }else{
+    sort["createdAt"] = "desc";
   }
 
   if (req.query.keyword) {
@@ -116,7 +118,7 @@ module.exports.task = async (req, res) => {
     find.title = keyword;
   }
 
-  const paginationObject = await paginationHelper(req.query);
+  const paginationObject = await paginationHelper(req.query, req.user.token);
 
   const task = await Task.find(find)
     .sort(sort)
@@ -125,7 +127,9 @@ module.exports.task = async (req, res) => {
 
   res.json({
     taskList: task,
-    totalPage: paginationObject.totalPage
+    totalPage: paginationObject.totalPage,
+    totalItem: paginationObject.totalItem,
+    limitItem: paginationObject.limitItems
   });
 };
 

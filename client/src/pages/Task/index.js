@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Row, Col, Tag, Checkbox, notification } from "antd"
+import { Row, Col, Tag, Checkbox, notification, Pagination } from "antd"
 import { MoreOutlined } from "@ant-design/icons"
 import MenuDropdown from "../../components/MenuDropDown"
 import "./style.scss"
@@ -8,23 +8,29 @@ import { MdDeleteOutline, MdOutlineRemoveRedEye } from "react-icons/md"
 import { changeStatus, getTaskList } from "../../services/TaskService"
 import { getCookie } from "../../helpers/cookie"
 import moment from "moment"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 
 const Task = () => {
   // Dữ liệu mẫu cho bảng
   const token = getCookie("tokenUser")
   const [data, setData] = useState([])
   const [reload, setReload] = useState(true)
-  const state = useSelector(state => state.TaskReducer)
+  const state = useSelector((state) => state.TaskReducer)
+
+  // Phân trang
+  const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
+  const [totalItems, setTotalItems] = useState(0); // Tổng số item từ backend
+  const [limitItem, setLimitItem] = useState(0)
 
   useEffect(() => {
     const fetchApi = async () => {
-      const result = await getTaskList(token)
-      result.taskList = (result.taskList).reverse()
+      const result = await getTaskList(token, currentPage)
       setData(result)
+      setTotalItems(result.totalItem)
+      setLimitItem(result.limitItem)
     }
     fetchApi()
-  }, [reload, state])
+  }, [reload, state, currentPage])
 
   const getStatusColor = (status) => {
     return status === "finish"
@@ -39,14 +45,14 @@ const Task = () => {
       ? "red"
       : "gray"
   }
-  
+
   const getRoleColor = (createdBy) => {
     return {
       color: createdBy === token ? "red" : "green",
       role: createdBy === token ? "Leader" : "Member",
     }
   }
-  
+
   const handleChangeStatus = async (record) => {
     // Logic để thay đổi status, ví dụ chuyển đổi qua các trạng thái
     let newStatus = ""
@@ -70,27 +76,26 @@ const Task = () => {
         newStatus = record.status
     }
 
+    record.status = newStatus
+    setReload(!reload)
+    notification.success({
+      message: "Change status successfully!",
+      placement: "topRight",
+      duration: 2,
+    })
     const result = await changeStatus(token, `change-status/${record._id}`, {
       status: newStatus,
     })
-
-    if(result){
-      if(result.code === 200){
-        setReload(!reload)
-        notification.success({
-          message: "Change status successfully!",
-          placement: "topRight",
-          duration: 3,
-        });
-      }
-    }
   }
 
-  const handleClickAction = (e) => {
-    if(e.key === "3"){
-      console.log(e)
-    }
+  const handleChangePage = (page) => {
+    setCurrentPage(page);
   }
+  // const handleClickAction = (e) => {
+  //   if (e.key === "3") {
+  //     console.log(e)
+  //   }
+  // }
   // Các item cho dropdown
   const MenuItems = [
     {
@@ -207,82 +212,91 @@ const Task = () => {
               <MoreOutlined />
             </span>
           }
-          getSelection={handleClickAction}
+          // getSelection={handleClickAction}
         />
       </Col>
     </Row>
   )
 
   return (
-    <div style={{ padding: "20px" }}>
-      <Row
-        gutter={[16, 16]}
-        style={{ fontWeight: "bold", paddingBottom: "10px" }}
-      >
-        <Col xs={3} sm={2} md={1} lg={1} xl={1} xxl={1}>
-          <Checkbox></Checkbox>
-        </Col>
-        <Col xs={12} sm={10} md={7} lg={7} xl={7} xxl={7}>
-          Task Name
-        </Col>
-        <Col
-          xs={4}
-          sm={3}
-          md={2}
-          lg={2}
-          xl={2}
-          xxl={2}
-          style={{ textAlign: "center" }}
+    <>
+      <div style={{ padding: "20px" }}>
+        <Row
+          gutter={[16, 16]}
+          style={{ fontWeight: "bold", paddingBottom: "10px" }}
         >
-          Sub Tasks
-        </Col>
-        <Col
-          xs={6}
-          sm={4}
-          md={3}
-          lg={3}
-          xl={3}
-          xxl={3}
-          style={{ textAlign: "center" }}
-        >
-          Role
-        </Col>
-        <Col
-          xs={6}
-          sm={4}
-          md={3}
-          lg={3}
-          xl={3}
-          xxl={3}
-          style={{ textAlign: "center" }}
-        >
-          Start Time
-        </Col>
-        <Col
-          xs={6}
-          sm={4}
-          md={3}
-          lg={3}
-          xl={3}
-          xxl={3}
-          style={{ textAlign: "center" }}
-        >
-          Deadline
-        </Col>
-        <Col
-          xs={6}
-          sm={4}
-          md={3}
-          lg={3}
-          xl={3}
-          xxl={3}
-          style={{ textAlign: "center" }}
-        >
-          Status
-        </Col>
-      </Row>
-      {data.taskList && data.taskList.map((record) => renderRow(record))}
-    </div>
+          <Col xs={3} sm={2} md={1} lg={1} xl={1} xxl={1}>
+            <Checkbox></Checkbox>
+          </Col>
+          <Col xs={12} sm={10} md={7} lg={7} xl={7} xxl={7}>
+            Task Name
+          </Col>
+          <Col
+            xs={4}
+            sm={3}
+            md={2}
+            lg={2}
+            xl={2}
+            xxl={2}
+            style={{ textAlign: "center" }}
+          >
+            Sub Tasks
+          </Col>
+          <Col
+            xs={6}
+            sm={4}
+            md={3}
+            lg={3}
+            xl={3}
+            xxl={3}
+            style={{ textAlign: "center" }}
+          >
+            Role
+          </Col>
+          <Col
+            xs={6}
+            sm={4}
+            md={3}
+            lg={3}
+            xl={3}
+            xxl={3}
+            style={{ textAlign: "center" }}
+          >
+            Start Time
+          </Col>
+          <Col
+            xs={6}
+            sm={4}
+            md={3}
+            lg={3}
+            xl={3}
+            xxl={3}
+            style={{ textAlign: "center" }}
+          >
+            Deadline
+          </Col>
+          <Col
+            xs={6}
+            sm={4}
+            md={3}
+            lg={3}
+            xl={3}
+            xxl={3}
+            style={{ textAlign: "center" }}
+          >
+            Status
+          </Col>
+        </Row>
+        {data.taskList && data.taskList.map((record) => renderRow(record))}
+      </div>
+
+      <Pagination className="pagination"
+        current={currentPage} // Trang hiện tại
+        total={totalItems} // Tổng số item từ backend
+        pageSize={limitItem} // Số item trên mỗi trang
+        onChange={handleChangePage} // Xử lý khi người dùng đổi trang
+      />
+    </>
   )
 }
 

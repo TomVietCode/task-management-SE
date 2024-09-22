@@ -1,7 +1,7 @@
 import { get, patch, post } from '../utils/request'
 
-export const getTaskList = async (token) => {
-  const result = await get(token, "task")
+export const getTaskList = async (token, page) => {
+  const result = await get(token, `task?page=${page}`)
   return result
 }
 

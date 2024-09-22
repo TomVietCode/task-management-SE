@@ -3,7 +3,6 @@ import "./style.scss";
 
 import LayoutTask from "../../layout/LayoutTask";
 import ActionBar from "../../components/ActionBar";
-import PageNumber from "../../components/PageNumber";
 
 const ProjectContent = () => {
   // Dữ liệu mẫu cho bảng
