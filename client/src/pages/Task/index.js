@@ -4,9 +4,6 @@ import "./style.scss";
 import LayoutTask from "../../layout/LayoutTask";
 import ActionBar from "../../components/ActionBar";
 import PageNumber from "../../components/PageNumber";
-
-const ProjectContent = () => {
-  const data = [
 import { useEffect, useState } from "react"
 import { Row, Col, Progress, Tag, Button, Input, Checkbox } from "antd"
 import { MoreOutlined } from "@ant-design/icons"
@@ -17,6 +14,9 @@ import { MdDeleteOutline, MdOutlineRemoveRedEye } from "react-icons/md"
 import { getTaskList } from "../../services/TaskService"
 import { getCookie } from "../../helpers/cookie"
 import moment from "moment"
+const ProjectContent = () => {
+  const data = [
+
 
 const Task = () => {
   // Dữ liệu mẫu cho bảng
