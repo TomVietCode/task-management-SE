@@ -1,8 +1,6 @@
 const Task = require("../models/task.model");
 const paginationHelper = require('../helper/pagination.helper')
 
-
-
 //[patch]/task/changestatus
 module.exports.changeStatus = async (req, res) => {
   const id = req.params.id;
@@ -53,7 +51,7 @@ module.exports.changeMulti = async (req, res) => {
 //[POST]/Task/create
 module.exports.create = async (req, res) => {
   //nguoi tao
-  req.body.createdBy = req.user.id;
+  req.body.createdBy = req.user.token;
 
   const task = new Task(req.body);
   await task.save();
@@ -95,10 +93,10 @@ module.exports.delete = async (req, res) => {
 module.exports.task = async (req, res) => {
   const find = {
     //danh sach task theo user
-    $or:[
-      {createdBy: req.user.id },
-      {listUser: req.user.id}
-    ],
+    // $or:[
+    //   {createdBy: req.user.id },
+    //   {listUser: req.user.id}
+    // ],
     deleted: false,
   };
 
@@ -118,14 +116,16 @@ module.exports.task = async (req, res) => {
   }
 
   const paginationObject = await paginationHelper(req.query);
-  console.log(paginationObject)
-
 
   const task = await Task.find(find)
     .sort(sort)
     .skip(paginationObject.skip)
     .limit(paginationObject.limitItems);
-  res.json(task);
+
+  res.json({
+    taskList: task,
+    totalPage: paginationObject.totalPage
+  });
 };
 
 //[get]/task/detail
