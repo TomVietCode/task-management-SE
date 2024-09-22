@@ -36,7 +36,14 @@ const Task = () => {
       ? "red"
       : "gray"
   }
-
+  
+  const getRoleColor = (createdBy) => {
+    return {
+      color: createdBy === token ? "red" : "green",
+      role: createdBy === token ? "Leader" : "Member",
+    }
+  }
+  
   const handleChangeStatus = async (record) => {
     // Logic để thay đổi status, ví dụ chuyển đổi qua các trạng thái
     let newStatus = ""
@@ -76,13 +83,11 @@ const Task = () => {
     }
   }
 
-  const getRoleColor = (createdBy) => {
-    return {
-      color: createdBy === token ? "red" : "green",
-      role: createdBy === token ? "Leader" : "Member",
+  const handleClickAction = (e) => {
+    if(e.key === "3"){
+      console.log(e)
     }
   }
-
   // Các item cho dropdown
   const MenuItems = [
     {
@@ -199,6 +204,7 @@ const Task = () => {
               <MoreOutlined />
             </span>
           }
+          getSelection={handleClickAction}
         />
       </Col>
     </Row>
@@ -271,7 +277,6 @@ const Task = () => {
         >
           Status
         </Col>
-        <Col xs={2} sm={2} md={1} lg={1} xl={1} xxl={1}></Col>
       </Row>
       {data.taskList && data.taskList.map((record) => renderRow(record))}
     </div>

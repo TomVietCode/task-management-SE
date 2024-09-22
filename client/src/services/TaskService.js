@@ -1,7 +1,12 @@
-import { get, patch } from '../utils/request'
+import { get, patch, post } from '../utils/request'
 
 export const getTaskList = async (token) => {
   const result = await get(token, "task")
+  return result
+}
+
+export const addTask = async (token, path, data) => {
+  const result = await post(token, "task/" + path, data)
   return result
 }
 

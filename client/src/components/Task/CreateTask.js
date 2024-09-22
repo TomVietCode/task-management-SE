@@ -11,26 +11,39 @@ import {
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
+import { getCookie } from "../../helpers/cookie"
 import "./style.scss";
+import { addTask } from "../../services/TaskService";
 
 function CreateTask() {
   //thêm project
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const token = getCookie("tokenUser")
 
   const openModal = () => setIsModalOpen(true);
   const cancelCloseModal = () => setIsModalOpen(false);
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log(e)
-  }
-  const OkCloseModal = () => {
-    notification.success({
-      message: "Creat project complated!",
-      placement: "topLeft",
-      duration: 3,
-    });
+
+  // Hàm xử lý khi form được submit thành công
+  const handleFinish = async (values) => {
+    const dataSubmit = {
+      ...values,
+      status: "initial",
+      createdBy: token
+    }
+    
+    const result = await addTask(token, "create", dataSubmit)
+
+    if(result.code === 200){
+      notification.success({
+        message: "Project created successfully!",
+        placement: "center",
+        duration: 3,
+      });
+    }
+
     setIsModalOpen(false);
   };
+
   return (
     <>
       <Button size="large" type="primary" onClick={openModal}>
@@ -41,61 +54,73 @@ function CreateTask() {
         className="Modal"
         title="Create New Project"
         open={isModalOpen}
-        onOk={OkCloseModal}
         onCancel={cancelCloseModal}
         width={1000}
-        footer={[
-          <Button key="cancel" onClick={cancelCloseModal}>
-            Cancel
-          </Button>,
-          <Button key="create" type="submit" onClick={OkCloseModal}>
-            Create
-          </Button>,
-        ]}
+        footer={null} // Ẩn footer vì Ant Design Form sẽ xử lý việc submit
       >
-        <Form  className="project-form" onSubmit={handleSubmit}>
+        <Form
+          className="project-form"
+          onFinish={handleFinish} // Sử dụng onFinish để submit form
+        >
           <Space direction="vertical" size="large" style={{ width: "100%" }}>
             <div>
               <p>Project Name</p>
-              <Input
-                type="text"
-                name="projectName"
-                placeholder="Enter project name"
-                className="login__form-group-input form-control"
-                required
-              />
+              <Form.Item
+                name="title"
+                rules={[{ required: true, message: "Please enter project name!" }]}
+              >
+                <Input
+                  type="text"
+                  placeholder="Enter project name"
+                  className="login__form-group-input form-control"
+                />
+              </Form.Item>
             </div>
 
             <div>
               <p>Description</p>
-              <Input.TextArea
-                name="description"
-                placeholder="Enter project description"
-                className="login__form-group-input form-control"
-                rows={4}
-                required
-              />
+              <Form.Item
+                name="content"
+                rules={[{ required: true, message: "Please enter project description!" }]}
+              >
+                <Input.TextArea
+                  placeholder="Enter project description"
+                  className="login__form-group-input form-control"
+                  rows={4}
+                />
+              </Form.Item>
             </div>
 
-            <Row>
+            <Row gutter={16}>
               <Col span={8}>
                 <p>Date Create</p>
-                <DatePicker
-                  name="dateCreate"
-                  placeholder="Select create date"
-                  required
-                />
+                <Form.Item
+                  name="timeStart"
+                  rules={[{ required: true, message: "Please select create date!" }]}
+                >
+                  <DatePicker placeholder="Select create date" />
+                </Form.Item>
               </Col>
               <Col span={8}>
                 <p>Deadline</p>
-                <DatePicker
-                  name="deadline"
-                  placeholder="Select due date"
-                  required
-                />
+                <Form.Item
+                  name="timeFinish"
+                  rules={[{ required: true, message: "Please select due date!" }]}
+                >
+                  <DatePicker placeholder="Select due date" />
+                </Form.Item>
               </Col>
             </Row>
           </Space>
+
+          <div style={{ textAlign: "right" }}>
+            <Button key="cancel" onClick={cancelCloseModal}>
+              Cancel
+            </Button>
+            <Button key="create" type="primary" htmlType="submit" style={{ marginLeft: 8 }}>
+              Create
+            </Button>
+          </div>
         </Form>
       </Modal>
     </>

@@ -94,10 +94,10 @@ module.exports.delete = async (req, res) => {
 module.exports.task = async (req, res) => {
   const find = {
     //danh sach task theo user
-    // $or:[
-    //   {createdBy: req.user.id },
-    //   {listUser: req.user.id}
-    // ],
+    $or:[
+      {createdBy: req.user.token},
+      {listUser: req.user.token}
+    ],
     deleted: false,
   };
 
