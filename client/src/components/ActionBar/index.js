@@ -8,11 +8,11 @@ const { Search } = Input;
 function ActionBar() {
   return (
     <>
-      <div className="container">
+      <div className="container" >
         <div className="filter">
           <p>Filter</p>
           <div className="Box-Filter">
-            <Filter />
+            <Filter style={{with : "300px"}}/>
           </div>
         </div>
         <div className="sort">

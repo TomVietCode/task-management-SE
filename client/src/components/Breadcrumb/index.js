@@ -1,19 +1,24 @@
 import React from 'react';
+import { HomeOutlined, UserOutlined } from '@ant-design/icons';
 import { Breadcrumb } from 'antd';
-import Home from "../../pages/Home"
-
-
 const App = () => (
   <Breadcrumb
     items={[
       {
-        title: <a href="Home">Home</a>,
+        href: '',
+        title: <HomeOutlined />,
       },
       {
-        title: <a href="">Application List</a>,
+        href: '',
+        title: (
+          <>
+            <UserOutlined />
+            <span>Application List</span>
+          </>
+        ),
       },
       {
-        title: 'An Application',
+        title: 'Application',
       },
     ]}
   />

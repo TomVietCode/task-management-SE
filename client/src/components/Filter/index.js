@@ -73,7 +73,7 @@ const data = [
 const Filter = () => {
   return (
     <>
-      <TreeSelectComponent data={data} />
+      <TreeSelectComponent style={{with : "300px"}} data={data} />
     </>
   );
 };

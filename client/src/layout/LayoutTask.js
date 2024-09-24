@@ -7,7 +7,7 @@ import "./LayoutTask.scss";
 import { CiEdit } from "react-icons/ci";
 import { MdDeleteOutline, MdOutlineRemoveRedEye } from "react-icons/md";
 
-const LayoutTask = ({data}) => {
+const LayoutTask = ({ data }) => {
   // Dữ liệu mẫu cho bảng
   const dataTask = data;
   const getStatusColor = (status) => {
@@ -72,43 +72,21 @@ const LayoutTask = ({data}) => {
         className="Row"
         key={record.key}
         gutter={[16, 16]}
-        style={{ padding: "10px 0",border: "none"}}
+        style={{ padding: "10px 0", border: "none" }}
       >
         <Col xs={3} sm={2} md={1} lg={1} xl={1} xxl={1}>
           <Checkbox></Checkbox>
         </Col>
-        <Col xs={12} sm={10} md={7} lg={7} xl={7} xxl={7}>
+        <Col xs={15} sm={12} md={10} lg={10} xl={9} xxl={9}>
           {record.project}
         </Col>
         <Col
-          xs={4}
-          sm={3}
-          md={2}
-          lg={2}
-          xl={2}
-          xxl={2}
-          style={{ textAlign: "center" }}
-        >
-          {record.tasks}
-        </Col>
-        <Col
           xs={6}
           sm={4}
           md={3}
           lg={3}
-          xl={3}
-          xxl={3}
-          style={{ textAlign: "center" }}
-        >
-          <Tag color={getRoleColor(record.role)}>{record.role}</Tag>
-        </Col>
-        <Col
-          xs={6}
-          sm={4}
-          md={3}
-          lg={3}
-          xl={3}
-          xxl={3}
+          xl={4}
+          xxl={4}
           style={{ textAlign: "center" }}
         >
           {record.timeStart}
@@ -118,8 +96,8 @@ const LayoutTask = ({data}) => {
           sm={4}
           md={3}
           lg={3}
-          xl={3}
-          xxl={3}
+          xl={4}
+          xxl={4}
           style={{ textAlign: "center" }}
         >
           {record.deadline}
@@ -129,8 +107,8 @@ const LayoutTask = ({data}) => {
           sm={4}
           md={3}
           lg={3}
-          xl={3}
-          xxl={3}
+          xl={4}
+          xxl={4}
           style={{ textAlign: "center" }}
         >
           <Tag color={getStatusColor(record.status)}>{record.status}</Tag>
@@ -140,7 +118,7 @@ const LayoutTask = ({data}) => {
             items={MenuItems}
             getSelection={handleMenuSelect}
             triggerElement={
-              <span style={{ border: "none" }}>
+              <span style={{ border: "none" ,cursor: "pointer"}}>
                 <MoreOutlined />
               </span>
             }
@@ -153,45 +131,23 @@ const LayoutTask = ({data}) => {
   return (
     <div style={{ padding: "20px" }}>
       <Row
-        className="title-row" 
+        className="title-row"
         gutter={[16, 16]}
         style={{ fontWeight: "bold", paddingBottom: "10px" }}
       >
         <Col xs={3} sm={2} md={1} lg={1} xl={1} xxl={1}>
           <Checkbox></Checkbox>
         </Col>
-        <Col xs={12} sm={10} md={7} lg={7} xl={7} xxl={7}>
-          <p>Project</p>
-        </Col>
-        <Col
-          xs={4}
-          sm={3}
-          md={2}
-          lg={2}
-          xl={2}
-          xxl={2}
-          style={{ textAlign: "center" }}
-        >
-          <p>Tasks</p>
+        <Col xs={15} sm={12} md={10} lg={10} xl={9} xxl={9}>
+          <p>Name task</p>
         </Col>
         <Col
           xs={6}
           sm={4}
           md={3}
           lg={3}
-          xl={3}
-          xxl={3}
-          style={{ textAlign: "center" }}
-        >
-          <p>Role</p>
-        </Col>
-        <Col
-          xs={6}
-          sm={4}
-          md={3}
-          lg={3}
-          xl={3}
-          xxl={3}
+          xl={4}
+          xxl={4}
           style={{ textAlign: "center" }}
         >
           <p>Creation Date</p>
@@ -201,8 +157,8 @@ const LayoutTask = ({data}) => {
           sm={4}
           md={3}
           lg={3}
-          xl={3}
-          xxl={3}
+          xl={4}
+          xxl={4}
           style={{ textAlign: "center" }}
         >
           <p>Deadline</p>
@@ -212,8 +168,8 @@ const LayoutTask = ({data}) => {
           sm={4}
           md={3}
           lg={3}
-          xl={3}
-          xxl={3}
+          xl={4}
+          xxl={4}
           style={{ textAlign: "center" }}
         >
           <p>Status</p>
