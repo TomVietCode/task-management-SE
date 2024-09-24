@@ -1,25 +1,20 @@
-.project-content {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+
+.Row{
+  height: 2.5rem;
+  line-height: 2.5rem;
 }
 
-.action-bar {
-  flex: 0 0 auto;
+.Title-row{
+  height: 3rem;
+  line-height: 3rem;
+  background-color: #eaeaea;
+  border-radius: 5px;
+  & p{
+    font-size: 0.9rem;
+  }
 }
 
-.layout-task {
-  flex: 1 1 auto; 
-  overflow-y: auto; 
-}
 
-.page-number {
-  flex: 0 0 auto;
-}
 
-.pagination {
-  position: absolute;
-  bottom: 20%;
-  right: 35%;
-}
+
 

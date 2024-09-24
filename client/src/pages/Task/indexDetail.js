@@ -2,7 +2,6 @@ import React from "react";
 import "./style.scss";
 
 import LayoutTask from "../../layout/LayoutTask";
-import ActionBar from "../../components/ActionBar";
 
 const ProjectContent = () => {
   // Dữ liệu mẫu cho bảng

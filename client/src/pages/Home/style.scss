@@ -1,0 +1,13 @@
+.Container{
+    background-color: #f2f7fb;
+    padding:24px;
+    &__Table {
+        &__Col{
+            text-align: center;
+            line-height: 6rem;
+            background-color: #fff;
+            box-shadow: 3px  3px 15px 1px #ccc;
+            border-radius: 8px;
+        }
+    }
+}

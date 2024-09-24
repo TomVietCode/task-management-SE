@@ -1,8 +1,42 @@
+.box_container{
+    background-color: #0b1013;
+}
 .Outlet{
     margin: 24px 16px;
-    padding: 24px;
     min-height: calc(100vh - 112px);
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
+
+
+.box_container {
+    height: 100vh; 
+    overflow: hidden; /* Ngăn cuộn toàn bộ layout */
+  }
+  
+  .home {
+    display: flex;
+    height: 100%;
+  }
+  
+  .home__sider {
+    height: 100%; /* Đảm bảo Sider chiếm toàn bộ chiều cao */
+  }
+  
+  .ActionBar {
+    height: 60px; /* Chiều cao cố định cho Header */
+    position: fixed; /* Cố định vị trí Header */
+    top: 0;
+    left: 200px; /* Tùy chỉnh theo chiều rộng của Sider */
+    width: calc(100% - 200px); /* Chiều rộng của Header khi không bị cuộn */
+    z-index: 1;
+    background-color: #fff; /* Tùy chỉnh màu nền cho Header */
+  }
+  
+  .Outlet {
+    margin-top: 80px; /* Bù trừ cho chiều cao của Header */
+    height: calc(100vh - 60px); /* Chiều cao cuộn trừ đi chiều cao của Header */
+    overflow-y: auto; /* Cho phép cuộn nội dung trong phần Outlet */
+  }
+  
