@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-import { useEffect, useState } from "react"
-import { notification, Pagination } from "antd"
-import "./style.scss"
-import { changeStatus, getTaskList } from "../../services/TaskService"
-import { getCookie } from "../../helpers/cookie"
-import { useSelector } from "react-redux"
-import TaskList from "../../components/Task/TaskList"
-=======
 import { useEffect, useState } from "react";
 import { Row, Col, Tag, Checkbox, notification, Pagination } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
@@ -19,7 +10,6 @@ import { getCookie } from "../../helpers/cookie";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import ActionBar from "../../components/ActionBar";
->>>>>>> b7b66f3562b9d8ae0831bd36c765bd9674b5a372
 
 const Task = () => {
   // Dữ liệu mẫu cho bảng
@@ -29,15 +19,9 @@ const Task = () => {
   const state = useSelector((state) => state.TaskReducer);
 
   // Phân trang
-<<<<<<< HEAD
-  const [currentPage, setCurrentPage] = useState(1) // Trang hiện tại
-  const [totalItems, setTotalItems] = useState(0) // Tổng số item từ backend
-  const [limitItem, setLimitItem] = useState(0)
-=======
   const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
   const [totalItems, setTotalItems] = useState(0); // Tổng số item từ backend
   const [limitItem, setLimitItem] = useState(0);
->>>>>>> b7b66f3562b9d8ae0831bd36c765bd9674b5a372
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -49,8 +33,6 @@ const Task = () => {
     fetchApi();
   }, [reload, state, currentPage]);
 
-<<<<<<< HEAD
-=======
   const getStatusColor = (status) => {
     return status === "finish"
       ? "green"
@@ -72,7 +54,6 @@ const Task = () => {
     };
   };
 
->>>>>>> b7b66f3562b9d8ae0831bd36c765bd9674b5a372
   const handleChangeStatus = async (record) => {
     // Logic để thay đổi status, ví dụ chuyển đổi qua các trạng thái
     let newStatus = "";
@@ -109,24 +90,6 @@ const Task = () => {
   };
 
   const handleChangePage = (page) => {
-<<<<<<< HEAD
-    setCurrentPage(page)
-  }
-
-  return (
-    <>
-      <div style={{ padding: "20px" }}>
-        <TaskList data={data} token={token} changeStatus={handleChangeStatus} />
-      </div>
-
-      <Pagination
-        className="pagination"
-        current={currentPage} // Trang hiện tại
-        total={totalItems} // Tổng số item từ backend
-        pageSize={limitItem} // Số item trên mỗi trang
-        onChange={handleChangePage} // Xử lý khi người dùng đổi trang
-      />
-=======
     setCurrentPage(page);
   };
   // const handleClickAction = (e) => {
@@ -339,7 +302,6 @@ const Task = () => {
           onChange={handleChangePage} // Xử lý khi người dùng đổi trang
         />
       </div>
->>>>>>> b7b66f3562b9d8ae0831bd36c765bd9674b5a372
     </>
   );
 };
