@@ -138,7 +138,7 @@ function TaskList(props) {
               <MoreOutlined />
             </span>
           }
-          getSelection={clickAction}
+          getSelection={(e) => clickAction(e, record._id)}
         />
       </Col>
     </Row>

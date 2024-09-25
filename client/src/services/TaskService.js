@@ -16,6 +16,6 @@ export const changeStatus = async (token, path, data) => {
 }
 
 export const removeTask = async(token, path) => {
-  const result = await del(token, `task/` + path)
+  const result = await del(token, `task/delete/` + path)
   return result
 }

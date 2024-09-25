@@ -6,7 +6,7 @@ import { getCookie } from "../../helpers/cookie";
 import { useDispatch, useSelector } from "react-redux";
 import ActionBar from "../../components/ActionBar";
 import TaskList from "../../components/Task/TaskList";
-import { initTask } from "../../actions/TaskAction";
+import { deleteTask, initTask } from "../../actions/TaskAction";
 
 const Task = () => {
   // Dữ liệu mẫu cho bảng
@@ -69,10 +69,10 @@ const Task = () => {
     setCurrentPage(page);
   };
 
-  const handleClickAction = (e) => {
+  const handleClickAction = (e, taskId) => {
     switch (e.key) {
       case "delete":
-        dispatch(initTask(token))
+        dispatch(deleteTask(token, taskId))
         break;
       default:
         break;

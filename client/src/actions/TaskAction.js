@@ -4,9 +4,10 @@ export const initTask = () => {
   }
 }
 
-export const deleteTask = (token) => {
+export const deleteTask = (token, taskId) => {
   return {
     type: "DELETE_TASK",
-    token: token
+    token: token, 
+    taskId: taskId
   }
 }
