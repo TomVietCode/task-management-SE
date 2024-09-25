@@ -125,6 +125,7 @@ module.exports.task = async (req, res) => {
     .skip(paginationObject.skip)
     .limit(paginationObject.limitItems);
 
+  console.log(task)
   res.json({
     taskList: task,
     totalPage: paginationObject.totalPage,

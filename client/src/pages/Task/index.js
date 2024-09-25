@@ -1,89 +1,132 @@
-import { useEffect, useState } from "react";
-import { notification, Pagination } from "antd";
-import "./style.scss";
-import { changeStatus, getTaskList } from "../../services/TaskService";
-import { getCookie } from "../../helpers/cookie";
-import { useDispatch, useSelector } from "react-redux";
-import ActionBar from "../../components/ActionBar";
-import TaskList from "../../components/Task/TaskList";
-import { deleteTask, initTask } from "../../actions/TaskAction";
+import { useEffect, useState } from "react"
+import { notification, Pagination } from "antd"
+import "./style.scss"
+import { changeStatus, getTaskList } from "../../services/TaskService"
+import { getCookie } from "../../helpers/cookie"
+import { useDispatch, useSelector } from "react-redux"
+import ActionBar from "../../components/ActionBar"
+import TaskList from "../../components/Task/TaskList"
+import { deleteTask } from "../../actions/TaskAction"
 
 const Task = () => {
   // Dữ liệu mẫu cho bảng
-  const token = getCookie("tokenUser");
-  const [data, setData] = useState([]);
-  const [reload, setReload] = useState(true);
-  const state = useSelector((state) => state.TaskReducer);
+  const token = getCookie("tokenUser")
+  const [data, setData] = useState([])
+  const [reload, setReload] = useState(true)
+  const state = useSelector((state) => state.TaskReducer)
   const dispatch = useDispatch()
-  // Phân trang
-  const [currentPage, setCurrentPage] = useState(1); // Trang hiện tại
-  const [totalItems, setTotalItems] = useState(0); // Tổng số item từ backend
-  const [limitItem, setLimitItem] = useState(0);
+  // Query
+  const [currentPage, setCurrentPage] = useState(1) // Trang hiện tại
+  const [totalItems, setTotalItems] = useState(0) // Tổng số item từ backend
+  const [limitItem, setLimitItem] = useState(0)
+  const [search, setSearch] = useState("")
+  const [sort, setSort] = useState({})
+  const [filter, setFilter] = useState("")
+
+  const handleSearchChange = (value) => {
+    setSearch(value)
+    setReload(!reload)
+  }
+
+  const handleSortChange = (value) => {
+    setSort({
+      sortKey: value.sortKey,
+      sortValue: value.sortValue,
+    })
+    setReload(!reload)
+  }
+
+  const handleFilterChange = (value) => {
+    setFilter(value)
+    setReload(!reload)
+  }
 
   useEffect(() => {
     const fetchApi = async () => {
-      const result = await getTaskList(token, currentPage);
-      setData(result);
-      setTotalItems(result.totalItem);
-      setLimitItem(result.limitItem);
-    };
-    fetchApi();
-  }, [reload, state, currentPage]);
+      let query = `page=${currentPage}`
+
+      if (search) {
+        query += `&keyword=${search}`
+      }
+
+      if (sort.sortKey && sort.sortValue) {
+        query += `&sortKey=${sort.sortKey}&sortValue=${sort.sortValue}`
+      }
+
+      if (filter) {
+        query += `&status=${filter}`
+      }
+      const result = await getTaskList(token, query)
+      setData(result)
+      setTotalItems(result.totalItem)
+      setLimitItem(result.limitItem)
+    }
+    fetchApi()
+  }, [reload, state, currentPage])
 
   const handleChangeStatus = async (record) => {
     // Logic để thay đổi status, ví dụ chuyển đổi qua các trạng thái
-    let newStatus = "";
+    let newStatus = ""
     switch (record.status) {
       case "initial":
-        newStatus = "doing";
-        break;
+        newStatus = "doing"
+        break
       case "doing":
-        newStatus = "finish";
-        break;
+        newStatus = "finish"
+        break
       case "finish":
-        newStatus = "notFinish";
-        break;
+        newStatus = "notFinish"
+        break
       case "notFinish":
-        newStatus = "pending";
-        break;
+        newStatus = "pending"
+        break
       case "pending":
-        newStatus = "initial";
-        break;
+        newStatus = "initial"
+        break
       default:
-        newStatus = record.status;
+        newStatus = record.status
     }
 
-    record.status = newStatus;
-    setReload(!reload);
+    record.status = newStatus
+    setReload(!reload)
     notification.success({
       message: "Change status successfully!",
       placement: "topRight",
       duration: 2,
-    });
+    })
     const result = await changeStatus(token, `change-status/${record._id}`, {
       status: newStatus,
-    });
-  };
+    })
+  }
 
   const handleChangePage = (page) => {
-    setCurrentPage(page);
-  };
+    setCurrentPage(page)
+  }
 
   const handleClickAction = (e, taskId) => {
     switch (e.key) {
       case "delete":
         dispatch(deleteTask(token, taskId))
-        break;
+        break
       default:
-        break;
+        break
     }
   }
   return (
     <>
-      <div style={{padding:"24px"}}>
-        <ActionBar />
+      <div style={{ padding: "24px" }}>
+        <ActionBar
+          onSearchChange={handleSearchChange}
+          onSortChange={handleSortChange}
+          onFilterChange={handleFilterChange}
+        />
         <div style={{ paddingTop: "20px", padding: "10px" }}>
-          <TaskList data={data} token={token} changeStatus={handleChangeStatus} clickAction={handleClickAction}/>
+          <TaskList
+            data={data}
+            token={token}
+            changeStatus={handleChangeStatus}
+            clickAction={handleClickAction}
+          />
         </div>
 
         <Pagination
@@ -95,7 +138,7 @@ const Task = () => {
         />
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Task;
+export default Task

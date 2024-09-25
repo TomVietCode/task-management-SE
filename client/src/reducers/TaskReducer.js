@@ -6,7 +6,6 @@ const TaskReducer = (state = true, action) => {
       return !state
     case "DELETE_TASK":
       const result = removeTask(action.token, `${action.taskId}`)
-      console.log(result)
       return !state
     default:
       return state
