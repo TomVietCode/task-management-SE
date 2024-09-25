@@ -1,4 +1,4 @@
-import { get, patch, post } from '../utils/request'
+import { get, patch, post, del } from '../utils/request'
 
 export const getTaskList = async (token, page) => {
   const result = await get(token, `task?page=${page}`)
@@ -12,5 +12,10 @@ export const addTask = async (token, path, data) => {
 
 export const changeStatus = async (token, path, data) => {
   const result = await patch(token, "task/" + path, data)
+  return result
+}
+
+export const removeTask = async(token, path) => {
+  const result = await del(token, `task/` + path)
   return result
 }

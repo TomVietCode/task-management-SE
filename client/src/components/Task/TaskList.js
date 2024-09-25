@@ -6,7 +6,7 @@ import { CiEdit } from "react-icons/ci"
 import { MdDeleteOutline, MdOutlineRemoveRedEye } from "react-icons/md"
 
 function TaskList(props) {
-  const { data, token, changeStatus } = props
+  const { data, token, changeStatus, clickAction } = props
 
   // Hàm trả về màu của trạng thái
   const getStatusColor = (status) => {
@@ -26,7 +26,7 @@ function TaskList(props) {
   // Các item cho dropdown
   const MenuItems = [
     {
-      key: "1",
+      key: "view",
       label: (
         <span>
           <MdOutlineRemoveRedEye style={{ marginRight: 8 }} />
@@ -35,7 +35,7 @@ function TaskList(props) {
       ),
     },
     {
-      key: "2",
+      key: "edit",
       label: (
         <span>
           <CiEdit style={{ marginRight: 8 }} />
@@ -44,7 +44,7 @@ function TaskList(props) {
       ),
     },
     {
-      key: "3",
+      key: "delete",
       label: (
         <span>
           <MdDeleteOutline style={{ marginRight: 8 }} />
@@ -59,7 +59,7 @@ function TaskList(props) {
       className="Row"
       key={record._id}
       gutter={[16, 16]}
-      style={{ padding: "10px 0", borderBottom: "1px solid #f0f0f0" }}
+      style={{ border: "none", padding: "10px 0" }}
     >
       <Col xs={3} sm={2} md={1} lg={1} xl={1} xxl={1}>
         <Checkbox></Checkbox>
@@ -134,11 +134,11 @@ function TaskList(props) {
         <MenuDropdown
           items={MenuItems}
           triggerElement={
-            <span style={{ border: "none" }}>
+            <span style={{ border: "none", cursor: "pointer" }}>
               <MoreOutlined />
             </span>
           }
-          // getSelection={handleClickAction}
+          getSelection={clickAction}
         />
       </Col>
     </Row>
@@ -147,8 +147,9 @@ function TaskList(props) {
   return (
     <>
       <Row
+        className="Title-row"
         gutter={[16, 16]}
-        style={{ fontWeight: "bold", paddingBottom: "10px" }}
+        style={{ fontWeight: "bold" }}
       >
         <Col xs={3} sm={2} md={1} lg={1} xl={1} xxl={1}>
           <Checkbox></Checkbox>
