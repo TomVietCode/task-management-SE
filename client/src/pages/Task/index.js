@@ -13,6 +13,7 @@ const Task = () => {
   const token = getCookie("tokenUser")
   const [data, setData] = useState([])
   const [reload, setReload] = useState(true)
+  const [status, setStatus] = useState("")
   const state = useSelector((state) => state.TaskReducer)
   const dispatch = useDispatch()
   // Query
@@ -91,7 +92,7 @@ const Task = () => {
     }
 
     record.status = newStatus
-    setReload(!reload)
+    setStatus(record.status)
     notification.success({
       message: "Change status successfully!",
       placement: "topRight",
