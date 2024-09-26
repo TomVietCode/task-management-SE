@@ -1,7 +1,7 @@
-import { post, postPublic } from "../utils/request"
+import { postPublic } from "../utils/request"
 
 export const register = (data) => {
-  const result = post("user/register", data)
+  const result = postPublic("user/register", data)
   return result
 }
 

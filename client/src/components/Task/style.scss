@@ -1,4 +1,6 @@
-
+*{
+  box-sizing: border-box;
+}
 .Modal {
   .ant-modal-content {
     border-radius: 8px;
@@ -88,4 +90,11 @@
     padding: 8px;
   }
 }
-
+.Row{
+  height: 3rem !important;
+  line-height: 3rem !important;
+  
+  &:hover{
+    background-color: #f7f9fc;
+  }
+}

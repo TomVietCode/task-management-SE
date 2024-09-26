@@ -16,10 +16,9 @@ import { ExclamationCircleOutlined } from "@ant-design/icons";
 //   </>
 // );
 
-export const notifi = (message, description, type = "info") => {
+export const notifi = (type, message) => {
   notification[type]({
     message,
-    description,
     placement: "topRight", // Vị trí hiển thị
     duration: 2, // Thời gian tồn tại (giây)
   });

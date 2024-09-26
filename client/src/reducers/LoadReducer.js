@@ -1,7 +1,6 @@
-const LoadReducer = (state = true, action) => {
+const LoadReducer = (state = false, action) => {
   switch (action.type) {
     case "LOADING":
-      console.log(state)
       return !state
     default:
       return state

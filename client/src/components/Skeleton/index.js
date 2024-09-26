@@ -2,22 +2,22 @@ import React from "react";
 import { Skeleton } from "antd";
 import "./style.scss";
 
-//  const loadingSkeleton = () => {
-//   return (
-//     <Skeleton
-//       loading={true}
-//       title={false}
-//       active={true}
-//       paragraph={{
-//         rows: 5,
-//         width: ["100%", "100%", "100%", "100%", "100%"],
-//       }}
-//     />
-//   );
-// };
-// export default loadingSkeleton;
+export const LoadingSkeleton = () => {
+  return (
+    <Skeleton
+      style={{ marginTop: "20px" }} 
+      loading={true}
+      title={false}
+      active={true}
+      paragraph={{
+        rows: 8,
+        width: ["100%", "100%", "100%", "100%", "100%", "100%", "100%", "100%"]
+      }}
+    />
+  );
+};
 
-const loadingTasksDetail = () => (
+export const loadingTasksDetail = () => (
   <Skeleton
     loading={true}
     title={false}
@@ -28,4 +28,3 @@ const loadingTasksDetail = () => (
     }}
   />
 );
-export default loadingTasksDetail;

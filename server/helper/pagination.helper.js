@@ -2,7 +2,7 @@ const Task = require('../models/task.model')
 module.exports = async (query, token) => {
     const paginationObject = {
         currentPage: 1,
-        limitItems: 10,
+        limitItems: 8,
       };
     
       if (query.page) {

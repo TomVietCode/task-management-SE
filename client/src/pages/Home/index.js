@@ -2,7 +2,6 @@ import { Row, Col, Statistic } from "antd";
 import CountUp from "react-countup";
 import "./style.scss";
 import IsEmpty from "../../components/Empty"
-import loadingTasksDetail from "../../components/Skeleton";
 
 const formatter = (value) => <CountUp end={value} separator="," />;
 function Home() {
@@ -54,7 +53,6 @@ function Home() {
         </Row>
       </div>
       <IsEmpty/>
-      <loadingTasksDetail/>
     </>
   );
 }

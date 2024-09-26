@@ -1,17 +1,15 @@
-import { Row, Col, Tag, Checkbox } from "antd"
+import { Row, Col, Tag, Checkbox, Empty } from "antd"
 import moment from "moment"
 import MenuDropdown from "../../components/MenuDropDown"
 import { MoreOutlined } from "@ant-design/icons"
 import { CiEdit } from "react-icons/ci"
 import { MdDeleteOutline, MdOutlineRemoveRedEye } from "react-icons/md"
 import { useDispatch, useSelector } from "react-redux"
-// import { loadingSkeleton } from "../Skeleton/index"
-import loadingSkeleton from "../../components/Skeleton"
+import { LoadingSkeleton } from "../Skeleton"
 
 function TaskList(props) {
   const { data, token, changeStatus, clickAction } = props
-  const state = useSelector(state => state.LoadReducer)
-  console.log(state)
+  const state = useSelector((state) => state.LoadReducer)
   // Hàm trả về màu của trạng thái
   const getStatusColor = (status) => {
     return status === "finish"
@@ -63,7 +61,7 @@ function TaskList(props) {
       className="Row"
       key={record._id}
       gutter={[16, 16]}
-      style={{ border: "none", padding: "10px 0" }}
+      style={{ border: "none", height: "2.5rem" }}
     >
       <Col xs={3} sm={2} md={1} lg={1} xl={1} xxl={1}>
         <Checkbox></Checkbox>
@@ -147,7 +145,7 @@ function TaskList(props) {
       </Col>
     </Row>
   )
-  
+
   return (
     <>
       <Row
@@ -217,9 +215,16 @@ function TaskList(props) {
           Status
         </Col>
       </Row>
-      {data.taskList && data.taskList.map((record) => renderRow(record))}
-      {/* {loadingSkeleton} */}
-      <loadingSkeleton/>
+      {state ? (
+        <LoadingSkeleton />
+      ) : (
+        data.taskList &&
+        (data.taskList.length > 0 ? (
+          data.taskList.map((record) => renderRow(record))
+        ) : (
+          <Empty style={{ marginTop: 100 }}/>
+        ))
+      )}
     </>
   )
 }

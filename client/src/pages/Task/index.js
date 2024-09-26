@@ -9,7 +9,7 @@ import TaskList from "../../components/Task/TaskList";
 import { deleteTask, loading } from "../../actions/TaskAction";
 
 const Task = () => {
-  // Dữ liệu mẫu cho bảng
+
   const token = getCookie("tokenUser")
   const [data, setData] = useState([])
   const [reload, setReload] = useState(true)
@@ -56,6 +56,8 @@ const Task = () => {
       if (filter) {
         query += `&status=${filter}`
       }
+      setData([])
+      dispatch(loading())
       const result = await getTaskList(token, query)
       setData(result)
       setTotalItems(result.totalItem)

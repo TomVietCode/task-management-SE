@@ -6,6 +6,7 @@ import "./style.scss"
 import { checkValidate } from "../../validate/UserValidate"
 import { login } from "../../services/UserService"
 import { setCookie } from "../../helpers/cookie"
+import { notifi } from "../../components/Alert"
 function Login() {
   const navigate = useNavigate()
   const [dataLogin, setDataLogin] = useState({
@@ -24,10 +25,7 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log("oke")
-    console.log(dataLogin)
     const err = checkValidate(dataLogin)
-
     if (err.email || err.password) {
       setErrForm({
         email: err.email,
@@ -35,6 +33,7 @@ function Login() {
       })
     } else {
       const result = await login(dataLogin)
+      console.log(result)
       if (result.code === 200) {
         console.log(result)
         setCookie("tokenUser", result.token)
@@ -44,6 +43,8 @@ function Login() {
           placement: "topRight",
           duration: 2,
         })
+      }else {
+        notifi("Error","Sai tài khoản hoặc mật khẩu")
       }
     }
   }
