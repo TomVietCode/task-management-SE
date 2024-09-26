@@ -1,0 +1,42 @@
+.Modal {
+    .ant-modal-content {
+      border-radius: 8px; 
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+  
+    .infoUser {
+      height: 4rem;
+      display: flex; 
+      align-items: center; 
+      margin-bottom: 16px; 
+      padding: 12px;
+      background-color: #f9f9f9;
+      border: 1px solid #e0e0e0; 
+      border-radius: 8px; 
+      transition: background-color 0.3s; 
+      .avata {
+        margin-right: 16px; 
+      }
+  
+      .Infor {
+        flex-grow: 1; 
+        p {
+          margin: 0;
+          &:first-child {
+            font-weight: bold;
+            color: #333;
+          }
+          &:last-child {
+            font-weight: 500;
+            color: #333;
+          }
+        }
+      }
+      .role {
+        .ant-tag {
+          border-radius: 4px;
+        }
+      }
+    }
+  }
+  

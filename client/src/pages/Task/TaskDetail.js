@@ -2,6 +2,10 @@ import { Tabs } from "antd";
 import "./TaskDetail.scss";
 import ProjectContent from "./indexDetail";
 import TimeLine from "../../components/TimeLine";
+import {loadingTasksDetail} from "../../components/Skeleton"
+import CreateTask from "../../components/Task/CreateTask";
+import MemberManagement from "../../components/MemberManagement"
+
 function TaskDetail() {
   const items = [
     {
@@ -36,22 +40,6 @@ function TaskDetail() {
         </div>
       ),
     },
-    {
-      key: "3",
-      label: "Part 3",
-      children: (
-        <div
-          style={{
-            width: "100%",
-            height: "100vh",
-            textAlign: "center",
-            background: "#FFFBE9",
-          }}
-        >
-          Content of Part 3
-        </div>
-      ),
-    },
   ];
 
   return (
@@ -72,7 +60,16 @@ function TaskDetail() {
             <p>Role:</p>
             <p>Deadline:</p>
           </div>
+          <div className="box4">
+            <div className="CreatTask">
+              <CreateTask name="New Task" />
+            </div>
+            <div className="MemberManagement">
+              <MemberManagement/>
+            </div>
+          </div>
 
+          {loadingTasksDetail()}
           <div style={{ padding: "20px" }}>
             <Tabs items={items} />
           </div>

@@ -34,7 +34,7 @@ function ActionBar () {
           <Col span={4}>
             <div className="box-NewProject">
               <Space size="middle">
-                <CreateTask />
+                <CreateTask name="Creat Project"  />
               </Space>
             </div>
           </Col>

@@ -1,4 +1,4 @@
-import { Modal, notification } from "antd"
+import { Modal, notification, Input } from "antd"
 import { Link, useNavigate } from "react-router-dom"
 import React, { useState } from "react"
 import "bootstrap/dist/css/bootstrap.min.css"
@@ -7,6 +7,8 @@ import { checkValidate } from "../../validate/UserValidate"
 import { login } from "../../services/UserService"
 import { setCookie } from "../../helpers/cookie"
 import { notifi } from "../../components/Alert"
+
+
 function Login() {
   const navigate = useNavigate()
   const [dataLogin, setDataLogin] = useState({
@@ -54,6 +56,7 @@ function Login() {
   const openModal = () => setIsModalOpen(true)
   const cancelCloseModal = () => setIsModalOpen(false)
   const OkCloseModal = () => {
+    
     notification.success({
       message: "Reset password completed!",
       description: "Please check your inbox to get new password.",

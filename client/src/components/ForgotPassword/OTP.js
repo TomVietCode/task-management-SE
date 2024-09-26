@@ -2,7 +2,7 @@ import React from 'react';
 import { Flex, Input, Typography } from 'antd';
 const { Title } = Typography;
 
-const App = () => {
+const OTPform = () => {
   const onChange = (text) => {
     console.log('onChange:', text);
   };
@@ -11,17 +11,9 @@ const App = () => {
   };
   return (
     <Flex gap="middle" align="flex-start" vertical>
-      <Title level={5}>With formatter (Upcase)</Title>
-      <Input.OTP formatter={(str) => str.toUpperCase()} {...sharedProps} />
-      <Title level={5}>With Disabled</Title>
-      <Input.OTP disabled {...sharedProps} />
-      <Title level={5}>With Length (8)</Title>
-      <Input.OTP length={8} {...sharedProps} />
-      <Title level={5}>With variant</Title>
-      <Input.OTP variant="filled" {...sharedProps} />
-      <Title level={5}>With custom display character</Title>
-      <Input.OTP mask="🔒" {...sharedProps} />
+      <Title level={5}>Enter your OTP</Title>
+      <Input.OTP length={6} {...sharedProps} />
     </Flex>
   );
 };
-export default App;
+export default OTPform;

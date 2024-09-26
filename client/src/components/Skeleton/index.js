@@ -18,13 +18,21 @@ export const LoadingSkeleton = () => {
 };
 
 export const loadingTasksDetail = () => (
-  <Skeleton
-    loading={true}
-    title={false}
-    active={true}
-    paragraph={{
-      rows: 5,
-      width: ["100%", "100%", "100%", "100%", "100%"],
-    }}
-  />
+  <div className="Container__firstBox">
+    <div className="box1">
+      <Skeleton.Input style={{ width: 100 }} active={true} size="small" />
+      <Skeleton.Input style={{ width: 100 }} active={true} size="small" />
+    </div>
+
+    <div className="box2">
+      <Skeleton.Input style={{ width: 50 }} active={true} size="small" />
+      <Skeleton paragraph={{ rows: 3, width: "100%" }} active={true} />
+    </div>
+
+    <div className="box3">
+      <Skeleton.Input style={{ width: 100 }} active={true} size="small" />
+      <Skeleton.Input style={{ width: 100 }} active={true} size="small" />
+    </div>
+  </div>
 );
+

@@ -7,28 +7,27 @@ import {
   DatePicker,
   Row,
   Col,
-  Form
+  Form,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
-import { getCookie } from "../../helpers/cookie"
+import { getCookie } from "../../helpers/cookie";
 import "./style.scss";
 import { addTask } from "../../services/TaskService";
 import { useDispatch } from "react-redux";
 import { initTask } from "../../actions/TaskAction";
 
-
-function CreateTask() {
+function CreateTask({ name }) {
   //thêm project
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const token = getCookie("tokenUser")
+  const token = getCookie("tokenUser");
   const [form] = Form.useForm();
 
   const openModal = () => setIsModalOpen(true);
   const cancelCloseModal = () => {
     form.resetFields();
-    setIsModalOpen(false)
+    setIsModalOpen(false);
   };
 
   // Hàm xử lý khi form được submit thành công
@@ -36,13 +35,13 @@ function CreateTask() {
     const dataSubmit = {
       ...values,
       status: "initial",
-      createdBy: token
-    }
-    
-    const result = await addTask(token, "create", dataSubmit)
-    
-    if(result.code === 200){
-      dispatch(initTask())
+      createdBy: token,
+    };
+
+    const result = await addTask(token, "create", dataSubmit);
+
+    if (result.code === 200) {
+      dispatch(initTask());
       notification.success({
         message: "Project created successfully!",
         placement: "topRight",
@@ -57,7 +56,7 @@ function CreateTask() {
     <>
       <Button size="large" type="primary" onClick={openModal}>
         <PlusOutlined />
-        Create Project
+          {name}
       </Button>
       <Modal
         className="Modal"
@@ -77,7 +76,9 @@ function CreateTask() {
               <p>Project Name</p>
               <Form.Item
                 name="title"
-                rules={[{ required: true, message: "Please enter project name!" }]}
+                rules={[
+                  { required: true, message: "Please enter project name!" },
+                ]}
               >
                 <Input
                   type="text"
@@ -91,7 +92,12 @@ function CreateTask() {
               <p>Description</p>
               <Form.Item
                 name="content"
-                rules={[{ required: true, message: "Please enter project description!" }]}
+                rules={[
+                  {
+                    required: true,
+                    message: "Please enter project description!",
+                  },
+                ]}
               >
                 <Input.TextArea
                   placeholder="Enter project description"
@@ -106,18 +112,30 @@ function CreateTask() {
                 <p>Date Create</p>
                 <Form.Item
                   name="timeStart"
-                  rules={[{ required: true, message: "Please select create date!" }]}
+                  rules={[
+                    { required: true, message: "Please select create date!" },
+                  ]}
                 >
-                  <DatePicker placeholder="Select create date" />
+                  <DatePicker
+                    placeholder="Select create date"
+                    showTime={{ format: "HH:mm" }}
+                    format="YYYY-MM-DD HH:mm"
+                  />
                 </Form.Item>
               </Col>
               <Col span={8}>
                 <p>Deadline</p>
                 <Form.Item
                   name="timeFinish"
-                  rules={[{ required: true, message: "Please select due date!" }]}
+                  rules={[
+                    { required: true, message: "Please select due date!" },
+                  ]}
                 >
-                  <DatePicker placeholder="Select due date" />
+                  <DatePicker
+                    placeholder="Select create date"
+                    showTime={{ format: "HH:mm" }}
+                    format="YYYY-MM-DD HH:mm"
+                  />
                 </Form.Item>
               </Col>
             </Row>
@@ -127,7 +145,12 @@ function CreateTask() {
             <Button key="cancel" onClick={cancelCloseModal}>
               Cancel
             </Button>
-            <Button key="create" type="primary" htmlType="submit" style={{ marginLeft: 8 }}>
+            <Button
+              key="create"
+              type="primary"
+              htmlType="submit"
+              style={{ marginLeft: 8 }}
+            >
               Create
             </Button>
           </div>

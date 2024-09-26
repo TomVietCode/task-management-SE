@@ -4,36 +4,39 @@ import {
   HomeOutlined,
   ProfileOutlined,
   MenuUnfoldOutlined,
+  UserOutlined,
   MenuFoldOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, Button } from "antd";
 
-
 import { Outlet, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
-import './style.scss'
-
+import "./style.scss";
+import Profile from "../components/UserPage";
 
 const { Sider } = Layout;
 
-
-
 function MenuLayout() {
   const [collapsed, setCollapsed] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);// An đã thêm dòng code này
 
   const navigate = useNavigate();
 
-  const hanldeGetMenuPage = (e)=>{
-    if(e.key==='1'){
-      navigate('/')
-    }else if(e.key === '2'){
-      navigate('/task')
-    }else if (e.key === '3'){
-      navigate('/task/detail')
+  const hanldeGetMenuPage = (e) => {
+    if (e.key === "1") {
+      navigate("/");
+      setShowProfile(false);// An đã thêm dòng code này
+    } else if (e.key === "2") {
+      navigate("/task");
+      setShowProfile(false);// An đã thêm dòng code này
+    } else if (e.key === "3") {
+      navigate("/task/detail");
+      setShowProfile(false);// An đã thêm dòng code này
+    } else if (e.key === "0") {
+      setShowProfile(true); //An đã thêm dòng code này
     }
-  }
+  };
 
-  
   return (
     <>
       <Layout className="box_container">
@@ -53,13 +56,19 @@ function MenuLayout() {
             collapsible
             collapsed={collapsed}
           >
-            <div className="home__logo" />
+            <div className="home__logo">
+            </div>
             <Menu
               onClick={hanldeGetMenuPage}
               theme="dark"
               mode="inline"
               defaultSelectedKeys={["1"]}
               items={[
+                {
+                  key: "0",
+                  icon: <UserOutlined />,
+                  label: "userName",
+                },
                 {
                   key: "1",
                   icon: <HomeOutlined />,
@@ -76,11 +85,13 @@ function MenuLayout() {
                   label: "nav 3",
                 },
               ]}
+              
             />
+            <Profile visible={showProfile} setVisible={setShowProfile} />
           </Sider>
-          <Layout >
+          <Layout>
             <div className="ActionBar">
-              <Header /> 
+              <Header />
             </div>
             <div className="Outlet">
               <Outlet />
