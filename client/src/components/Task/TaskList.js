@@ -4,10 +4,14 @@ import MenuDropdown from "../../components/MenuDropDown"
 import { MoreOutlined } from "@ant-design/icons"
 import { CiEdit } from "react-icons/ci"
 import { MdDeleteOutline, MdOutlineRemoveRedEye } from "react-icons/md"
+import { useDispatch, useSelector } from "react-redux"
+// import { loadingSkeleton } from "../Skeleton/index"
+import loadingSkeleton from "../../components/Skeleton"
 
 function TaskList(props) {
   const { data, token, changeStatus, clickAction } = props
-
+  const state = useSelector(state => state.LoadReducer)
+  console.log(state)
   // Hàm trả về màu của trạng thái
   const getStatusColor = (status) => {
     return status === "finish"
@@ -214,6 +218,8 @@ function TaskList(props) {
         </Col>
       </Row>
       {data.taskList && data.taskList.map((record) => renderRow(record))}
+      {/* {loadingSkeleton} */}
+      <loadingSkeleton/>
     </>
   )
 }

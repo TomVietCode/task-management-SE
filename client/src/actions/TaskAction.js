@@ -11,3 +11,9 @@ export const deleteTask = (token, taskId) => {
     taskId: taskId
   }
 }
+
+export const loading = () => {
+  return {
+    type: "LOADING"
+  }
+}

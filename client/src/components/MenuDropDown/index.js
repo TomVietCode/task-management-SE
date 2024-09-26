@@ -14,3 +14,4 @@ const MenuDropdown = ({getSelection, items, triggerElement }) => {
 };
 
 export default MenuDropdown;
+

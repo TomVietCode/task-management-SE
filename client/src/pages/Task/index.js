@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react"
-import { notification, Pagination } from "antd"
-import "./style.scss"
-import { changeStatus, getTaskList } from "../../services/TaskService"
-import { getCookie } from "../../helpers/cookie"
-import { useDispatch, useSelector } from "react-redux"
-import ActionBar from "../../components/ActionBar"
-import TaskList from "../../components/Task/TaskList"
-import { deleteTask } from "../../actions/TaskAction"
+import { useEffect, useState } from "react";
+import { notification, Pagination } from "antd";
+import "./style.scss";
+import { changeStatus, getTaskList } from "../../services/TaskService";
+import { getCookie } from "../../helpers/cookie";
+import { useDispatch, useSelector } from "react-redux";
+import ActionBar from "../../components/ActionBar";
+import TaskList from "../../components/Task/TaskList";
+import { deleteTask, loading } from "../../actions/TaskAction";
 
 const Task = () => {
   // Dữ liệu mẫu cho bảng
@@ -60,6 +60,7 @@ const Task = () => {
       setData(result)
       setTotalItems(result.totalItem)
       setLimitItem(result.limitItem)
+      dispatch(loading())
     }
     fetchApi()
   }, [reload, state, currentPage])
@@ -104,6 +105,8 @@ const Task = () => {
   }
 
   const handleClickAction = (e, taskId) => {
+    // <AlertNoti />
+    
     switch (e.key) {
       case "delete":
         dispatch(deleteTask(token, taskId))

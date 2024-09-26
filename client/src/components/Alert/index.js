@@ -1,29 +1,46 @@
-import { notification } from 'antd';
-//input
-  // function () {
-  // const showWarning = () => {
-  //   notify(
-  //     "Warning",
-  //     "This is a warning notice about copywriting.",
-  //     "warning"
-  //   );
-  // };
+import { notification, Button, Space, Modal } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+//input ( Success, Warning ,Error, Info )
+// function () {
+// const showWarning = () => {
+//   notify(
+//     "Warning",
+//     "This is a warning notice about copywriting.",
+//     "warning"
+//   );
+// };
 
-  // return (
-  //   <>
-  //     <button onClick={showWarning}>Show Warning</button>
-  //   </>
-  // );
- 
+// return (
+//   <>
+//     <button onClick={showWarning}>Show Warning</button>
+//   </>
+// );
 
-
-const notify = (message, description, type = 'info') => {
+export const notifi = (message, description, type = "info") => {
   notification[type]({
     message,
     description,
-    placement: 'topRight', // Vị trí hiển thị
-    duration: 3, // Thời gian tồn tại (giây)
+    placement: "topRight", // Vị trí hiển thị
+    duration: 2, // Thời gian tồn tại (giây)
   });
 };
 
-export default notify;
+export const AlertNoti = () => {
+  const [modal, contextHolder] = Modal.useModal();
+  const confirm = () => {
+    modal.confirm({
+      title: "Are you sure to delete this task ?",
+      icon: <ExclamationCircleOutlined />,
+      okText: "Delete",
+      cancelText: "Cancel",
+    });
+  };
+  return (
+    <>
+      <Space>
+        <Button onClick={confirm}>Confirm</Button>
+      </Space>
+      {contextHolder}
+    </>
+  );
+};
