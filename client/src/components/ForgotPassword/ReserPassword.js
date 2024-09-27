@@ -12,7 +12,7 @@ const ResetPasswordModal = ({ visible, onClose }) => {
       notification.error({
         message: "OTP Verification Failed",
         description: "Please verify your OTP before resetting the password.",
-        placement: "topRight",
+        placement: "top",
       });
       return;
     }
@@ -24,7 +24,7 @@ const ResetPasswordModal = ({ visible, onClose }) => {
     notification.success({
       message: "Password Reset Successfully",
       description: "Your password has been reset successfully.",
-      placement: "topRight",
+      placement: "top",
     });
 
     // Đóng modal
@@ -38,7 +38,7 @@ const ResetPasswordModal = ({ visible, onClose }) => {
     notification.success({
       message: "OTP Verified",
       description: "Your OTP has been verified. You can now reset your password.",
-      placement: "topRight",
+      placement: "top",
     });
   };
 

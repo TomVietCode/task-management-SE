@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Drawer, Row, Col, Avatar, Divider, Modal, Form, Input, notification } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { deleteCookie } from '../../helpers/cookie';
 
 
 const UserProfileDrawer = ({ visible, setVisible }) => {
@@ -36,10 +37,11 @@ const UserProfileDrawer = ({ visible, setVisible }) => {
   };
 
   const handleLogout = () => {
+    deleteCookie("tokenUser")
     navigate('/user/login'); // Điều hướng đến trang đăng nhập
     notification.success({
       message: "Logged out successfully",
-      placement: "topRight",
+      placement: "top",
       duration: 2,
     });
   };

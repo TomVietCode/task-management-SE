@@ -35,18 +35,21 @@ function Login() {
       })
     } else {
       const result = await login(dataLogin)
-      console.log(result)
       if (result.code === 200) {
         console.log(result)
         setCookie("tokenUser", result.token)
         navigate("/")
         notification.success({
           message: "Welcome!",
-          placement: "topRight",
-          duration: 2,
+          placement: "top",
+          duration: 3,
         })
       }else {
-        notifi("Error","Sai tài khoản hoặc mật khẩu")
+        notification.error({
+          message: "Wrong email or password!",
+          placement: "top",
+          duration: 3,
+        })
       }
     }
   }
@@ -60,7 +63,7 @@ function Login() {
     notification.success({
       message: "Reset password completed!",
       description: "Please check your inbox to get new password.",
-      placement: "topLeft",
+      placement: "top",
       duration: 3,
     })
     setIsModalOpen(false)

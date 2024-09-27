@@ -17,7 +17,7 @@ import { addTask } from "../../services/TaskService";
 import { useDispatch } from "react-redux";
 import { initTask } from "../../actions/TaskAction";
 
-function CreateTask({ name }) {
+function CreateTask() {
   //thêm project
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -44,7 +44,7 @@ function CreateTask({ name }) {
       dispatch(initTask());
       notification.success({
         message: "Project created successfully!",
-        placement: "topRight",
+        placement: "top",
         duration: 3,
       });
     }
@@ -56,7 +56,7 @@ function CreateTask({ name }) {
     <>
       <Button size="large" type="primary" onClick={openModal}>
         <PlusOutlined />
-          {name}
+          New Task
       </Button>
       <Modal
         className="Modal"

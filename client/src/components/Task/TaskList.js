@@ -1,4 +1,4 @@
-import { Row, Col, Tag, Checkbox, Empty } from "antd"
+import { Row, Col, Tag, Checkbox, Empty, notification } from "antd"
 import moment from "moment"
 import MenuDropdown from "../../components/MenuDropDown"
 import { MoreOutlined } from "@ant-design/icons"
@@ -6,10 +6,20 @@ import { CiEdit } from "react-icons/ci"
 import { MdDeleteOutline, MdOutlineRemoveRedEye } from "react-icons/md"
 import { useDispatch, useSelector } from "react-redux"
 import { LoadingSkeleton } from "../Skeleton"
+import EditTaskModal from "./EditTask"
+import { useNavigate } from "react-router-dom"
+import { deleteTask } from "../../actions/TaskAction"
+import { useState } from "react"
+import { changeStatus } from "../../services/TaskService"
 
 function TaskList(props) {
-  const { data, token, changeStatus, clickAction } = props
+  const { data, token } = props
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const state = useSelector((state) => state.LoadReducer)
+
+  const [status, setStatus] = useState("")
+  const [isModalOpen, setIsModalOpen] = useState(false)
   // Hàm trả về màu của trạng thái
   const getStatusColor = (status) => {
     return status === "finish"
@@ -23,6 +33,41 @@ function TaskList(props) {
       : status === "notFinish"
       ? "red"
       : "gray"
+  }
+
+  const handleChangeStatus = async (record) => {
+    // Logic để thay đổi status, ví dụ chuyển đổi qua các trạng thái
+    let newStatus = ""
+    switch (record.status) {
+      case "initial":
+        newStatus = "doing"
+        break
+      case "doing":
+        newStatus = "finish"
+        break
+      case "finish":
+        newStatus = "notFinish"
+        break
+      case "notFinish":
+        newStatus = "pending"
+        break
+      case "pending":
+        newStatus = "initial"
+        break
+      default:
+        newStatus = record.status
+    }
+
+    record.status = newStatus
+    setStatus(record.status)
+    notification.success({
+      message: "Change status successfully!",
+      placement: "top",
+      duration: 2,
+    })
+    const result = await changeStatus(token, `change-status/${record._id}`, {
+      status: newStatus,
+    })
   }
 
   // Các item cho dropdown
@@ -66,7 +111,7 @@ function TaskList(props) {
       <Col xs={3} sm={2} md={1} lg={1} xl={1} xxl={1}>
         <Checkbox></Checkbox>
       </Col>
-      <Col xs={12} sm={10} md={7} lg={7} xl={7} xxl={7}>
+      <Col xs={12} sm={10} md={7} lg={7} xl={7} xxl={7}> 
         {record.title}
       </Col>
       <Col
@@ -113,7 +158,7 @@ function TaskList(props) {
         xxl={3}
         style={{ textAlign: "center" }}
       >
-        {moment(record.timeFinish).format("DD-MM-YYYY")}
+        {moment(record.timeStart).format("DD-MM-YYYY HH:mm")}
       </Col>
       <Col
         xs={6}
@@ -127,7 +172,7 @@ function TaskList(props) {
         <Tag
           style={{ cursor: "pointer", userSelect: "none" }}
           color={getStatusColor(record.status)}
-          onClick={() => changeStatus(record)}
+          onClick={() => handleChangeStatus(record)}
         >
           {record.status}
         </Tag>
@@ -140,14 +185,30 @@ function TaskList(props) {
               <MoreOutlined />
             </span>
           }
-          getSelection={(e) => clickAction(e, record._id)}
+          getSelection={(e) => handleClickAction(e, record._id)}
         />
       </Col>
+      <EditTaskModal visible={isModalOpen} onClose={() => {setIsModalOpen(false)}} item={record} token={token}/>  
     </Row>
   )
 
+  const handleClickAction = (e, taskId) => {
+    switch (e.key) {
+      case "edit":
+        setIsModalOpen(true)
+        break
+      case "delete":
+        dispatch(deleteTask(token, taskId))
+        break
+      case "detail":
+        navigate(`/task/detail/${taskId}`)
+      default:
+        break
+    }
+  }
+
   return (
-    <>
+    <> 
       <Row
         className="Title-row"
         gutter={[16, 16]}

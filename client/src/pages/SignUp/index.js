@@ -49,7 +49,7 @@ function Register() {
         navigate("/")
         notification.success({
           message: "SignUp Success!",
-          placement: "topRight",
+          placement: "top",
           duration: 2,
         })
       }
