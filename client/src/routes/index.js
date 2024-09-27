@@ -31,7 +31,7 @@ export const routes = [
             element: <Task/>,
           },
           {
-            path: "task/detail",
+            path: "task/detail/:id",
             element: <TaskDetail/>
           }
         ]

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from "react"
 import {
   UploadOutlined,
   HomeOutlined,
@@ -6,36 +6,33 @@ import {
   MenuUnfoldOutlined,
   UserOutlined,
   MenuFoldOutlined,
-} from "@ant-design/icons";
-import { Layout, Menu, Button } from "antd";
+} from "@ant-design/icons"
+import { Layout, Menu, Button } from "antd"
 
-import { Outlet, useNavigate } from "react-router-dom";
-import Header from "../components/Header";
-import "./style.scss";
-import Profile from "../components/UserPage";
+import { Outlet, useNavigate } from "react-router-dom"
+import Header from "../components/Header"
+import "./style.scss"
+import Profile from "../components/UserPage"
 
-const { Sider } = Layout;
+const { Sider } = Layout
 
 function MenuLayout() {
-  const [collapsed, setCollapsed] = useState(false);
-  const [showProfile, setShowProfile] = useState(false);// An đã thêm dòng code này
+  const [collapsed, setCollapsed] = useState(false)
+  const [showProfile, setShowProfile] = useState(false) // An đã thêm dòng code này
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const hanldeGetMenuPage = (e) => {
     if (e.key === "1") {
-      navigate("/");
-      setShowProfile(false);// An đã thêm dòng code này
+      navigate("/")
+      setShowProfile(false) // An đã thêm dòng code này
     } else if (e.key === "2") {
-      navigate("/task");
-      setShowProfile(false);// An đã thêm dòng code này
-    } else if (e.key === "3") {
-      navigate("/task/detail");
-      setShowProfile(false);// An đã thêm dòng code này
+      navigate("/task")
+      setShowProfile(false) // An đã thêm dòng code này
     } else if (e.key === "0") {
-      setShowProfile(true); //An đã thêm dòng code này
+      setShowProfile(true) //An đã thêm dòng code này
     }
-  };
+  }
 
   return (
     <>
@@ -56,8 +53,7 @@ function MenuLayout() {
             collapsible
             collapsed={collapsed}
           >
-            <div className="home__logo">
-            </div>
+            <div className="home__logo"></div>
             <Menu
               onClick={hanldeGetMenuPage}
               theme="dark"
@@ -79,13 +75,7 @@ function MenuLayout() {
                   icon: <ProfileOutlined />,
                   label: "Project",
                 },
-                {
-                  key: "3",
-                  icon: <UploadOutlined />,
-                  label: "nav 3",
-                },
               ]}
-              
             />
             <Profile visible={showProfile} setVisible={setShowProfile} />
           </Sider>
@@ -100,7 +90,7 @@ function MenuLayout() {
         </Layout>
       </Layout>
     </>
-  );
+  )
 }
 
-export default MenuLayout;
+export default MenuLayout

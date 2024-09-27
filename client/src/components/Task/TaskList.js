@@ -28,7 +28,7 @@ function TaskList(props) {
   // Các item cho dropdown
   const MenuItems = [
     {
-      key: "view",
+      key: "detail",
       label: (
         <span>
           <MdOutlineRemoveRedEye style={{ marginRight: 8 }} />

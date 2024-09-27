@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ActionBar from "../../components/ActionBar";
 import TaskList from "../../components/Task/TaskList";
 import { deleteTask, loading } from "../../actions/TaskAction";
+import { useNavigate } from "react-router-dom";
 
 const Task = () => {
 
@@ -16,6 +17,7 @@ const Task = () => {
   const [status, setStatus] = useState("")
   const state = useSelector((state) => state.TaskReducer)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   // Query
   const [currentPage, setCurrentPage] = useState(1) // Trang hiện tại
   const [totalItems, setTotalItems] = useState(0) // Tổng số item từ backend
@@ -114,6 +116,8 @@ const Task = () => {
       case "delete":
         dispatch(deleteTask(token, taskId))
         break
+      case "detail":
+        navigate(`/task/detail/${taskId}`)
       default:
         break
     }
