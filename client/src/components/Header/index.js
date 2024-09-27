@@ -2,7 +2,8 @@ import { Row, Col, theme, Space, Input } from "antd"
 import CreateTask from "../Task/CreateTask"
 import "./style.scss"
 
-const { Search } = Input
+
+
 function ActionBar() {
   const {
     token: { colorBgContainer },

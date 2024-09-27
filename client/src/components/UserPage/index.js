@@ -27,12 +27,12 @@ const UserProfileDrawer = ({ visible, setVisible }) => {
   };
 
   const userData = {
-    fullName: 'Lily',
-    email: 'lily@example.com',
-    birthday: 'February 2, 1900',
+    fullName: 'An Design',
+    email: 'A@Admin.com',
+    birthday: 'February 3, 2004',
     skills: 'JavaScript, React, Node.js',
-    phone: '+86 181 0000 0000',
-    github: 'https://github.com/lily',
+    phone: '+818111111',
+    github: 'https://github.com/TranAn32',
     avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png', // URL avatar
   };
 
@@ -49,7 +49,7 @@ const UserProfileDrawer = ({ visible, setVisible }) => {
   return (
     <>
       <Drawer
-        title="User Profile"
+        title="My Profile"
         placement="right"
         onClose={onClose}
         visible={visible}

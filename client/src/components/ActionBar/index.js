@@ -1,7 +1,10 @@
 import { Input } from "antd"
 import "./style.scss"
-import { TreeSelect } from "antd"
+import { TreeSelect, Button } from "antd"
 import { FaDotCircle } from "react-icons/fa"
+import { GrPowerReset } from "react-icons/gr";
+import { AiOutlineSortAscending,AiOutlineSortDescending  } from "react-icons/ai";
+
 const { Search } = Input
 
 const filter = [
@@ -91,11 +94,21 @@ const sort = [
   },
   { 
     value: "title_asc",
-    title: "Name A-Z",
+    title: (
+      <span>
+        Name 
+        <AiOutlineSortAscending style={{ marginLeft: "10px" , fontSize: "1rem"}} />
+      </span>
+    ),
   },
   { 
     value: "title_desc",
-    title: "Name Z-A",
+    title: (
+      <span>
+        Name 
+        <AiOutlineSortDescending style={{ marginLeft: "10px" , fontSize: "1rem"}} />
+      </span>
+    ),
   },
 ];
 
@@ -121,6 +134,9 @@ function ActionBar(props) {
   return (
     <>
       <div className="container">
+        <div className="resetButton">
+          <Button><GrPowerReset/> Reset</Button>
+        </div>
         <div className="filter">
           <p>Filter</p>
           <div className="Box-Filter">
