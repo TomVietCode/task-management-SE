@@ -7,7 +7,7 @@ const App = ({data}) => {
     console.log(newValue);
     setValue(newValue);
   };
-
+  
   return (
     <TreeSelect
       style={{

@@ -63,7 +63,7 @@ function MenuLayout() {
                 {
                   key: "0",
                   icon: <UserOutlined />,
-                  label: "userName",
+                  label: "My Profile",
                 },
                 {
                   key: "1",
