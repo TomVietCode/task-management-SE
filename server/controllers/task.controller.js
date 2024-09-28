@@ -62,7 +62,6 @@ module.exports.create = async (req, res) => {
   });
 }
 
-
 //[patch]/task/edit
 module.exports.edit = async (req, res) => {
   await Task.updateOne(
@@ -148,4 +147,21 @@ module.exports.detail = async (req, res) => {
 
 }
 
+// [GET] /task/sub-task/:id
+module.exports.subTask = async (req, res) => {
+  const taskId = req.params.taskId
+  let countSubTask = 0
+  const listSubTask = await Task.find({
+    taskParentId: taskId
+  })
+
+  if(listSubTask){
+    countSubTask = listSubTask.length
+  }
+
+  res.json({
+    listSubTask: listSubTask,
+    totalSubTask: countSubTask
+  })
+}
 

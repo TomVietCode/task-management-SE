@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom"
 import { deleteTask } from "../../actions/TaskAction"
 import { useState } from "react"
 import { changeStatus } from "../../services/TaskService"
+import { get } from "../../utils/request"
 
 function TaskList(props) {
   const { data, token } = props
@@ -20,6 +21,7 @@ function TaskList(props) {
 
   const [status, setStatus] = useState("")
   const [isModalOpen, setIsModalOpen] = useState(false)
+
   // Hàm trả về màu của trạng thái
   const getStatusColor = (status) => {
     return status === "finish"
@@ -35,6 +37,12 @@ function TaskList(props) {
       : "gray"
   }
 
+  const getSubtask = async (id) => {
+    const result = await get(token, `task/sub-tasks/${id}`)
+    const totalSubTask = result.totalSubTask
+    console.log(totalSubTask)
+    return totalSubTask.toString()
+  }
   const handleChangeStatus = async (record) => {
     // Logic để thay đổi status, ví dụ chuyển đổi qua các trạng thái
     let newStatus = ""
@@ -123,7 +131,7 @@ function TaskList(props) {
         xxl={2}
         style={{ textAlign: "center" }}
       >
-        {5}
+        {getSubtask(record._id)}
       </Col>
       <Col
         xs={6}
