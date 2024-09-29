@@ -2,9 +2,7 @@ import { Row, Col, theme, Space, Input } from "antd"
 import CreateTask from "../Task/CreateTask"
 import "./style.scss"
 
-
-
-function ActionBar() {
+function Header() {
   const {
     token: { colorBgContainer },
   } = theme.useToken()
@@ -23,7 +21,7 @@ function ActionBar() {
           <Col span={4}>
             <div className="box-NewProject">
               <Space size="middle">
-                <CreateTask name="Creat Project" />
+                <CreateTask name="New Task" isCreateSubTask={false}/>
               </Space>
             </div>
           </Col>
@@ -33,4 +31,4 @@ function ActionBar() {
   )
 }
 
-export default ActionBar
+export default Header

@@ -9,10 +9,12 @@ import { getTaskList } from "../../services/TaskService"
 import { getCookie } from "../../helpers/cookie"
 import moment from "moment"
 import TaskList from "../../components/Task/TaskList"
+import { useSelector } from "react-redux"
 
 const TaskDetail = () => {
   const token = getCookie("tokenUser")
   const location = useLocation()
+  const state = useSelector(state => state.TaskReducer)
   const { task } = location.state || {}
   const [subTasks, setsubTasks] = useState({})
   const getStatusColor = (status) => {
@@ -35,7 +37,7 @@ const TaskDetail = () => {
       setsubTasks({taskList: [...result]})
     }
     fetchApi()
-  }, [])
+  }, [state])
 
   const items = [
     {
@@ -114,7 +116,7 @@ const TaskDetail = () => {
           </div>
           <div className="box4">
             <div className="CreatTask">
-              <CreateTask name="New Task" />
+              <CreateTask name="New Sub Task" isCreateSubTask={true} parentTaskId={task._id}/>
             </div>
             <div className="MemberManagement">
               <MemberManagement />

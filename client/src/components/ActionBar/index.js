@@ -67,7 +67,7 @@ const filter = [
         title: (
           <span>
             <FaDotCircle style={{ marginRight: 8, color: "red" }} />
-            Not finished
+            Not Finished
           </span>
         ),
       },

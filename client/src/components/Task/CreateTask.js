@@ -17,7 +17,7 @@ import { addTask } from "../../services/TaskService";
 import { useDispatch } from "react-redux";
 import { initTask } from "../../actions/TaskAction";
 
-function CreateTask() {
+function CreateTask({ name, isCreateSubTask, parentTaskId }) {
   //thêm project
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,6 +36,7 @@ function CreateTask() {
       ...values,
       status: "initial",
       createdBy: token,
+      taskParentId: parentTaskId ? parentTaskId : null
     };
 
     const result = await addTask(token, "create", dataSubmit);
@@ -43,7 +44,7 @@ function CreateTask() {
     if (result.code === 200) {
       dispatch(initTask());
       notification.success({
-        message: "Project created successfully!",
+        message: !isCreateSubTask ? "Task created successfully!" : "Sub Task created successfully!",
         placement: "top",
         duration: 3,
       });
@@ -56,11 +57,11 @@ function CreateTask() {
     <>
       <Button size="large" type="primary" onClick={openModal}>
         <PlusOutlined />
-          New Task
+          {name}
       </Button>
       <Modal
         className="Modal"
-        title="Create New Project"
+        title={!isCreateSubTask ? "Create New Task" : "Create New SubTask"}
         open={isModalOpen}
         onCancel={cancelCloseModal}
         width={1000}
@@ -73,7 +74,7 @@ function CreateTask() {
         >
           <Space direction="vertical" size="large" style={{ width: "100%" }}>
             <div>
-              <p>Project Name</p>
+              <p>Task Name</p>
               <Form.Item
                 name="title"
                 rules={[
