@@ -92,6 +92,7 @@ module.exports.delete = async (req, res) => {
 //[get]/task
 module.exports.task = async (req, res) => {
   const find = {
+    taskParentId: null,
     //danh sach task theo user
     $or:[
       {createdBy: req.user.token},
@@ -119,12 +120,16 @@ module.exports.task = async (req, res) => {
 
   const paginationObject = await paginationHelper(req.query, req.user.token);
 
-  const task = await Task.find(find)
+  let task = await Task.find(find)
     .sort(sort)
     .skip(paginationObject.skip)
     .limit(paginationObject.limitItems);
 
-  console.log(task)
+  for (let item of task) {
+    const totalSubTask = await Task.countDocuments({ taskParentId: item._id });
+    item.totalSubTask = totalSubTask
+  }
+  
   res.json({
     taskList: task,
     totalPage: paginationObject.totalPage,
@@ -139,6 +144,7 @@ module.exports.detail = async (req, res) => {
   const task = await Task.findOne({
     _id:id
   })
+  console.log(task)
   res.json({
     code:200,
     message:"Chi tiết công việc",
@@ -150,18 +156,10 @@ module.exports.detail = async (req, res) => {
 // [GET] /task/sub-task/:id
 module.exports.subTask = async (req, res) => {
   const taskId = req.params.taskId
-  let countSubTask = 0
   const listSubTask = await Task.find({
     taskParentId: taskId
   })
-
-  if(listSubTask){
-    countSubTask = listSubTask.length
-  }
-
-  res.json({
-    listSubTask: listSubTask,
-    totalSubTask: countSubTask
-  })
+  
+  res.json(listSubTask)
 }
 

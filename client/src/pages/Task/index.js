@@ -42,7 +42,7 @@ const Task = () => {
 
   useEffect(() => {
     const fetchApi = async () => {
-      let query = `page=${currentPage}`
+      let query = `?page=${currentPage}`
 
       if (search) {
         query += `&keyword=${search}`
@@ -82,6 +82,7 @@ const Task = () => {
           <TaskList
             data={data}
             token={token}
+            isSubTaskList={false}
           />
         </div>
 

@@ -1,20 +1,20 @@
 import { Tabs, Tag } from "antd"
 import "./TaskDetail.scss"
-import ProjectContent from "./indexDetail"
 import TimeLine from "../../components/TimeLine"
-import { loadingTasksDetail } from "../../components/Skeleton"
 import CreateTask from "../../components/Task/CreateTask"
 import MemberManagement from "../../components/MemberManagement"
-import { useParams } from "react-router-dom"
+import { useLocation } from "react-router-dom"
 import { useEffect, useState } from "react"
-import { getTaskDetail } from "../../services/TaskService"
+import { getTaskList } from "../../services/TaskService"
 import { getCookie } from "../../helpers/cookie"
 import moment from "moment"
+import TaskList from "../../components/Task/TaskList"
+
 const TaskDetail = () => {
   const token = getCookie("tokenUser")
-  const [data, setData] = useState({})
-  const { id } = useParams()
-
+  const location = useLocation()
+  const { task } = location.state || {}
+  const [subTasks, setsubTasks] = useState({})
   const getStatusColor = (status) => {
     return status === "finish"
       ? "green"
@@ -28,22 +28,19 @@ const TaskDetail = () => {
       ? "red"
       : "gray"
   }
+
   useEffect(() => {
     const fetchApi = async () => {
-      const result = await getTaskDetail(token, id)
-      if (result.code === 200) {
-        setData(result.detail)
-      }
+      const result = await getTaskList(token, `/sub-task/${task._id}`)
+      setsubTasks({taskList: [...result]})
     }
     fetchApi()
   }, [])
 
-  console.log(data)
-
   const items = [
     {
       key: "1",
-      label: "Tasks on project",
+      label: "List Sub Tasks",
       children: (
         <div
           style={{
@@ -53,7 +50,7 @@ const TaskDetail = () => {
             background: "rgba(0,255,0,0.02)",
           }}
         >
-          <ProjectContent />
+          <TaskList isSubTaskList={true} data={subTasks}/>
         </div>
       ),
     },
@@ -80,30 +77,39 @@ const TaskDetail = () => {
       <div className="Container">
         <div className="Container__firstBox">
           <div className="box1">
-            <p>Task Name: {data.title}</p>
+            <p>Task Name: {task.title}</p>
             <p>
-              Status:  
+              Status:
               <Tag
-                style={{ cursor: "pointer", userSelect: "none", marginLeft: "10px"}}
-                color={getStatusColor(data.status)}
+                style={{
+                  cursor: "pointer",
+                  userSelect: "none",
+                  marginLeft: "10px",
+                }}
+                color={getStatusColor(task.status)}
               >
-                {data.status}
+                {task.status}
               </Tag>
             </p>
           </div>
           <div className="box2">
             <p>Description:</p>
-            <span>{data.content}</span>
+            <span>{task.content}</span>
           </div>
           <div className="box3">
-            <p>Role: {data.createdBy === token ? "Leader" : "Member"}</p>
+            <p>
+              Role:   
+              <Tag color={task.createdBy === token ? "red" : "green"} style={{ marginLeft: "10px"}}>
+                {task.createdBy === token ? "Leader" : "Member"}
+              </Tag>
+            </p>
             <p>
               Time Start:{" "}
-              {data && moment(data.timeStart).format("DD-MM-YYYY HH:mm")}
+              {task && moment(task.timeStart).format("DD-MM-YYYY HH:mm")}
             </p>
             <p>
               Deadline:{" "}
-              {data && moment(data.timeFinish).format("DD-MM-YYYY HH:mm")}
+              {task && moment(task.timeFinish).format("DD-MM-YYYY HH:mm")}
             </p>
           </div>
           <div className="box4">

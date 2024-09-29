@@ -9,6 +9,8 @@ const taskSchema = mongoose.Schema({
     listUser: Array,
     createdBy:String,
     taskParentId: String,
+    totalSubTask: Number,
+    // listSubTask: Array,
     deleted:{
         type: Boolean,
         default: false

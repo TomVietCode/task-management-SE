@@ -1,9 +1,10 @@
 import { get, patch, post, del } from '../utils/request'
 
-export const getTaskList = async (token, query) => {
-  const result = await get(token, `task?${query}`)
+export const getTaskList = async (token, path) => {
+  const result = await get(token, `task${path}`)
   return result
 }
+
 
 export const getTaskDetail = async (token, id) => {
   const result = await get(token, `task/detail/${id}`)  

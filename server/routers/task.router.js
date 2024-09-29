@@ -6,7 +6,7 @@ router.get('/', controller.task)
 
 router.get('/detail/:id',controller.detail)
 
-router.get("/sub-tasks/:taskId", controller.subTask)
+router.get("/sub-task/:taskId", controller.subTask)
 
 router.patch('/change-status/:id', controller.changeStatus)
 
