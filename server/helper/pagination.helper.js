@@ -13,6 +13,7 @@ module.exports = async (query, token) => {
         (paginationObject.currentPage - 1) * paginationObject.limitItems;
     
       const count = await Task.countDocuments({
+        taskParentId: null,
         $or:[
           {createdBy: token},
           {listUser: token}
