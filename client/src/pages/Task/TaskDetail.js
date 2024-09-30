@@ -13,11 +13,12 @@ import { useSelector } from "react-redux"
 
 const TaskDetail = () => {
   const token = getCookie("tokenUser")
-  const id = getCookie("id")
   const location = useLocation()
-  const state = useSelector(state => state.TaskReducer)
-  const { task } = location.state || {}
+  const state = useSelector((state) => state.TaskReducer)
+  const { task, id } = location.state || {}
   const [subTasks, setsubTasks] = useState({})
+  const isLeader = id === task.createdBy
+
   const getStatusColor = (status) => {
     return status === "finish"
       ? "green"
@@ -35,7 +36,7 @@ const TaskDetail = () => {
   useEffect(() => {
     const fetchApi = async () => {
       const result = await getTaskList(token, `/sub-task/${task._id}`)
-      setsubTasks({taskList: [...result]})
+      setsubTasks({ taskList: [...result] })
     }
     fetchApi()
   }, [state])
@@ -53,7 +54,7 @@ const TaskDetail = () => {
             background: "rgba(0,255,0,0.02)",
           }}
         >
-          <TaskList isSubTaskList={true} data={subTasks}/>
+          <TaskList isSubTaskList={true} data={subTasks} />
         </div>
       ),
     },
@@ -101,8 +102,11 @@ const TaskDetail = () => {
           </div>
           <div className="box3">
             <p>
-              Role:   
-              <Tag color={task.createdBy === id ? "red" : "green"} style={{ marginLeft: "10px"}}>
+              Role:
+              <Tag
+                color={task.createdBy === id ? "red" : "green"}
+                style={{ marginLeft: "10px" }}
+              >
                 {task.createdBy === id ? "Leader" : "Member"}
               </Tag>
             </p>
@@ -117,11 +121,22 @@ const TaskDetail = () => {
           </div>
           <div className="box4">
             <div className="CreatTask">
-              <CreateTask name="New Sub Task" isCreateSubTask={true} parentTaskId={task._id}/>
+              <CreateTask
+                name="New Sub Task"
+                isCreateSubTask={true}
+                parentTaskId={task._id}
+              />
             </div>
-            <div className="MemberManagement">
-              <MemberManagement token={token} taskId={task._id} createdBy={task.createdBy}/>
-            </div>
+            {isLeader && (
+              <div className="MemberManagement">
+                <MemberManagement
+                  token={token}
+                  taskId={task._id}
+                  createdBy={task.createdBy}
+                  userId={id}
+                />
+              </div>
+            )}
           </div>
 
           <div style={{ padding: "20px" }}>

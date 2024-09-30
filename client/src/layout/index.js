@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
   UploadOutlined,
   HomeOutlined,
@@ -13,10 +13,14 @@ import { Outlet, useNavigate } from "react-router-dom"
 import Header from "../components/Header"
 import "./style.scss"
 import Profile from "../components/UserPage"
+import { getCookie } from "../helpers/cookie"
+import { get } from "../utils/request"
 
 const { Sider } = Layout
 
 function MenuLayout() {
+  const token = getCookie("tokenUser")
+  const [profileData, setProfileData] = useState({})
   const [collapsed, setCollapsed] = useState(false)
   const [showProfile, setShowProfile] = useState(false) // An đã thêm dòng code này
 
@@ -25,14 +29,20 @@ function MenuLayout() {
   const hanldeGetMenuPage = (e) => {
     if (e.key === "1") {
       navigate("/")
-      setShowProfile(false) // An đã thêm dòng code này
     } else if (e.key === "2") {
       navigate("/task")
-      setShowProfile(false) // An đã thêm dòng code này
     } else if (e.key === "0") {
       setShowProfile(true) //An đã thêm dòng code này
     }
   }
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      const result = await get(token, "user/detail")
+      setProfileData(result.info)
+    }
+    fetchApi()
+  }, [])
 
   return (
     <>
@@ -63,7 +73,7 @@ function MenuLayout() {
                 {
                   key: "0",
                   icon: <UserOutlined />,
-                  label: "My Profile",
+                  label: profileData.fullname,
                 },
                 {
                   key: "1",
@@ -77,7 +87,7 @@ function MenuLayout() {
                 },
               ]}
             />
-            <Profile visible={showProfile} setVisible={setShowProfile} />
+            <Profile visible={showProfile} setVisible={setShowProfile} profileData={profileData}/>
           </Sider>
           <Layout>
             <div className="ActionBar">

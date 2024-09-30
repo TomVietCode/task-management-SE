@@ -36,6 +36,7 @@ function MemberManagement({ token, taskId, createdBy }) {
     setUsers(result.users)
   }
 
+  // Xử lý thêm thành viên
   const handleClickAdd = async (user) => {
     let isExist = true
     members.forEach(member => {
@@ -87,6 +88,7 @@ function MemberManagement({ token, taskId, createdBy }) {
             onChange={handleInputChange}
             value={searchValue} 
           />
+          {/* Hiển thị gợi ý */}
           {users.length > 0 && (
             <div className="suggestions">
               {users.map((user, index) => (

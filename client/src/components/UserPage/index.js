@@ -1,51 +1,54 @@
-import React, { useState } from 'react';
-import { Button, Drawer, Row, Col, Avatar, Divider, Modal, Form, Input, notification } from 'antd';
-import { useNavigate } from 'react-router-dom';
-import { deleteCookie } from '../../helpers/cookie';
+import React, { useEffect, useState } from "react"
+import {
+  Button,
+  Drawer,
+  Row,
+  Col,
+  Avatar,
+  Divider,
+  Modal,
+  Form,
+  Input,
+  notification,
+} from "antd"
+import { useNavigate } from "react-router-dom"
+import { deleteCookie, getCookie } from "../../helpers/cookie"
 
-
-const UserProfileDrawer = ({ visible, setVisible }) => {
-  const navigate = useNavigate();
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [form] = Form.useForm(); // Tạo form
+const UserProfileDrawer = ({ visible, setVisible, profileData }) => {
+  const navigate = useNavigate()
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [form] = Form.useForm() // Tạo form
 
   const onClose = () => {
-    setVisible(false); // Đóng Drawer
-  };
+    setVisible(false) // Đóng Drawer
+  }
 
   const showEditModal = () => {
-    setIsModalVisible(true); // Hiện modal
-  };
+    setIsModalVisible(true) // Hiện modal
+  }
 
   const handleOk = () => {
-    setIsModalVisible(false); // Đóng modal
-    form.resetFields(); // Reset form
-  };
+    setIsModalVisible(false) // Đóng modal
+    form.resetFields() // Reset form
+  }
 
   const handleCancel = () => {
-    setIsModalVisible(false); // Đóng modal
-  };
+    setIsModalVisible(false) // Đóng modal
+  }
 
-  const userData = {
-    fullName: 'An Design',
-    email: 'A@Admin.com',
-    birthday: 'February 3, 2004',
-    skills: 'JavaScript, React, Node.js',
-    phone: '+818111111',
-    github: 'https://github.com/TranAn32',
-    avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png', // URL avatar
-  };
-
+  const handleFinish = (e) => {
+    console.log(e)
+  }
   const handleLogout = () => {
     deleteCookie("tokenUser")
     deleteCookie("id")
-    navigate('/user/login'); // Điều hướng đến trang đăng nhập
+    navigate("/user/login") // Điều hướng đến trang đăng nhập
     notification.success({
       message: "Logged out successfully",
       placement: "top",
       duration: 2,
-    });
-  };
+    })
+  }
 
   return (
     <>
@@ -59,30 +62,62 @@ const UserProfileDrawer = ({ visible, setVisible }) => {
         <div className="user-profile">
           <Avatar
             size={64}
-            src={userData.avatar}
-            style={{ marginBottom: 16, display: 'block', marginLeft: 'auto', marginRight: 'auto' }}
+            src="https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png"
+            style={{
+              marginBottom: 16,
+              display: "block",
+              marginLeft: "auto",
+              marginRight: "auto",
+            }}
           />
           <Row>
             <Col span={24}>
-              <p><strong>Full Name:</strong> {userData.fullName}</p>
-              <p><strong>Email:</strong> {userData.email}</p>
-              <p><strong>Birthday:</strong> {userData.birthday}</p>
-              <p><strong>Skills:</strong> {userData.skills}</p>
-              <p><strong>Phone:</strong> {userData.phone}</p>
               <p>
-                <strong>GitHub:</strong> <a href={userData.github} target="_blank" rel="noopener noreferrer">{userData.github}</a>
+                <strong>Full Name:</strong> {profileData.fullname}
+              </p>
+              <p>
+                <strong>Email:</strong> {profileData.email}
+              </p>
+              <p>
+                <strong>Birthday:</strong>{" "}
+                {profileData.birthday || "No data yet"}
+              </p>
+              <p>
+                <strong>Address:</strong> {profileData.address || "No data yet"}
+              </p>
+              <p>
+                <strong>Phone:</strong> {profileData.phone || "No data yet"}
+              </p>
+              <p>
+                <strong>GitHub:</strong>{" "}
+                {profileData.github ? (
+                  <a
+                    href={profileData.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {profileData.github}
+                  </a>
+                ) : (
+                  "No data yet"
+                )}
               </p>
             </Col>
           </Row>
           <Divider />
-          <Button 
-            type="default" 
-            style={{ width: '100%', marginBottom: '10px' }} 
+          <Button
+            type="default"
+            style={{ width: "100%", marginBottom: "10px" }}
             onClick={showEditModal} // Mở modal chỉnh sửa
           >
             Edit Profile
           </Button>
-          <Button type="primary" danger style={{ width: '100%' }} onClick={handleLogout}>
+          <Button
+            type="primary"
+            danger
+            style={{ width: "100%" }}
+            onClick={handleLogout}
+          >
             Log Out
           </Button>
         </div>
@@ -92,59 +127,64 @@ const UserProfileDrawer = ({ visible, setVisible }) => {
       <Modal
         title="Edit User Profile"
         visible={isModalVisible}
-        onOk={handleOk}
+        onOk={handleFinish}
         onCancel={handleCancel}
       >
         <Form
           form={form}
           layout="vertical"
           initialValues={{
-            fullName: userData.fullName,
-            email: userData.email,
-            birthday: userData.birthday,
-            skills: userData.skills,
-            phone: userData.phone,
+            fullName: profileData.fullname,
+            email: profileData.email,
+            birthday: profileData.birthday,
+            skills: profileData.address,
+            phone: profileData.phone,
           }}
+          onFinish={handleFinish}
         >
           <Form.Item
             name="fullName"
             label="Full Name"
-            rules={[{ required: true, message: 'Please input your full name!' }]}
+            rules={[
+              { required: true, message: "Please input your full name!" },
+            ]}
           >
-            <Input />
+            <Input placeholder="Enter your full name" />
           </Form.Item>
           <Form.Item
             name="email"
             label="Email"
-            rules={[{ required: true, message: 'Please input your email!' }]}
+            rules={[{ required: true, message: "Please input your email!" }]}
           >
-            <Input />
+            <Input placeholder="Enter your email" />
           </Form.Item>
           <Form.Item
             name="birthday"
             label="Birthday"
-            rules={[{ required: true, message: 'Please input your birthday!' }]}
+            rules={[{ required: true, message: "Please input your birthday!" }]}
           >
-            <Input />
+            <Input placeholder="Enter your birthday" />
           </Form.Item>
           <Form.Item
-            name="skills"
-            label="Skills"
-            rules={[{ required: true, message: 'Please input your skills!' }]}
+            name="address"
+            label="Address"
+            rules={[{ required: true, message: "Please input your address!" }]}
           >
-            <Input />
+            <Input placeholder="Enter your address" />
           </Form.Item>
           <Form.Item
             name="phone"
             label="Phone"
-            rules={[{ required: true, message: 'Please input your phone number!' }]}
+            rules={[
+              { required: true, message: "Please input your phone number!" },
+            ]}
           >
-            <Input />
+            <Input placeholder="Enter your phone number" />
           </Form.Item>
         </Form>
       </Modal>
     </>
-  );
-};
+  )
+}
 
-export default UserProfileDrawer;
+export default UserProfileDrawer

@@ -79,7 +79,7 @@ function TaskList(props) {
         dispatch(deleteTask(token, task._id))
         break
       case "detail":
-        navigate(`/task/detail/${task._id}`, { state: { task } })
+        navigate(`/task/detail/${task._id}`, { state: { task, id } })
       default:
         break
     }
