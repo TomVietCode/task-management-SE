@@ -90,6 +90,7 @@ module.exports.logout = async (req, res) => {
 //[post] password/forgot
 module.exports.forgotpass = async (req, res) => {
   const email = req.body.email
+  console.log(email)
   const otp = generateHelper.generateNumber(6)
   const existEmail = await User.findOne({
     email: email,
@@ -111,7 +112,7 @@ module.exports.forgotpass = async (req, res) => {
           <div style="border-bottom:1px solid #eee">
               <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">CELLO</a>
           </div>
-          <p style="font-size:1.1em">Xin chào ${existEmail.email},</p>
+          <p style="font-size:1.1em">Xin chào ${existEmail.fullname},</p>
           <p>Dưới đây là mã OTP xác thực để đổi mật khẩu. Vui lòng không chia sẻ cho bất kỳ ai. Mã OTP có hiệu lực trong 5 phút!</p>
           <h2
               style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">
@@ -123,12 +124,12 @@ module.exports.forgotpass = async (req, res) => {
 
     res.json({
       code: 200,
-      message: "gui ma otp thanh cong",
+      message: "OTP code has been sent to your email!",
     })
   } else {
     res.json({
       code: 400,
-      message: "gui ma otp that bai",
+      message: "Email does not exist in our system!",
     })
   }
 }
@@ -153,14 +154,17 @@ module.exports.otp = async (req, res) => {
       token: user.token,
     })
   } else {
-    ;(code = 400), (message = "MÃ OTP SAI")
+    res.json({
+      code: 400,
+      message: "OTP code is not correct!",
+    })
   }
 }
 
 //[post] /users/ reserPassword
 module.exports.resetPassword = async (req, res) => {
-  const token = req.body.token
-  const newPassword = req.body.newPassword
+  const token = req.user.token
+  const newPassword = req.body.password
 
   await User.updateOne(
     {
@@ -173,7 +177,7 @@ module.exports.resetPassword = async (req, res) => {
 
   res.json({
     code: 200,
-    message: "Đổi mật khẩu thành công",
+    message: "Reset password successfully!",
   })
 }
 

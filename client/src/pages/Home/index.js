@@ -1,22 +1,13 @@
-import { Row, Col, Statistic, Button } from "antd";
-import CountUp from "react-countup";
-import { useState } from "react"; // Import useState để quản lý trạng thái
-import "./style.scss";
-import EditTaskModal from "../../components/Task/EditTask";
-import ResetPasswordModal from "../../components/ForgotPassword/ReserPassword";
+import { Row, Col, Statistic, Button } from "antd"
+import CountUp from "react-countup"
+import { useState } from "react" // Import useState để quản lý trạng thái
+import "./style.scss"
+import EditTaskModal from "../../components/Task/EditTask"
+import ResetPasswordModal from "../../components/ForgotPassword/ReserPassword"
 
-const formatter = (value) => <CountUp end={value} separator="," />;
+const formatter = (value) => <CountUp end={value} separator="," />
 
 function Home() {
-  const [isModalVisiblePass, setIsModalVisiblePass] = useState(false);
-
-  const showModalPass = () => {
-    setIsModalVisiblePass(true);
-  };
-  const handleClose = () => {
-    setIsModalVisiblePass(false); // Đóng modal
-  };
-
   return (
     <>
       <div className="ContainerHome">
@@ -63,17 +54,8 @@ function Home() {
           </Col>
         </Row>
       </div>
-      <div>
-        <Button type="primary" onClick={showModalPass}>
-          Reset Password
-        </Button>
-        <ResetPasswordModal
-          visible={isModalVisiblePass}
-          onClose={handleClose}
-        />
-      </div>
     </>
-  );
+  )
 }
 
-export default Home;
+export default Home

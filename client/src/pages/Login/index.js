@@ -6,6 +6,7 @@ import "./style.scss"
 import { checkValidate } from "../../validate/UserValidate"
 import { login } from "../../services/UserService"
 import { setCookie } from "../../helpers/cookie"
+import TypeEmail from "../../components/ForgotPassword/Email"
 
 
 function Login() {
@@ -54,20 +55,7 @@ function Login() {
     }
   }
   //forgot password
-  const [isModalOpen, setIsModalOpen] = useState(false)
-
-  const openModal = () => setIsModalOpen(true)
-  const cancelCloseModal = () => setIsModalOpen(false)
-  const OkCloseModal = () => {
-    
-    notification.success({
-      message: "Reset password completed!",
-      description: "Please check your inbox to get new password.",
-      placement: "top",
-      duration: 3,
-    })
-    setIsModalOpen(false)
-  }
+  
 
   return (
     <div className="login">
@@ -109,15 +97,7 @@ function Login() {
                 <small className="text-danger">{errForm.password}</small>
               )}
             </div>
-            <a
-              href="#"
-              className="login__forgot-password"
-              onClick={() => {
-                openModal()
-              }}
-            >
-              Forgot Password?
-            </a>
+            <TypeEmail/>
           </div>
           <button
             type="submit"
@@ -134,20 +114,6 @@ function Login() {
         </form>
       </div>
 
-      <Modal
-        title="Forgot Password"
-        open={isModalOpen}
-        onOk={OkCloseModal}
-        onCancel={cancelCloseModal}
-      >
-        <p>To get new password, please enter your email address.</p>
-        <input
-          type="email"
-          className="login__form-group-input form-control"
-          id="floatingInput"
-          placeholder="name@example.com"
-        />
-      </Modal>
     </div>
   )
 }

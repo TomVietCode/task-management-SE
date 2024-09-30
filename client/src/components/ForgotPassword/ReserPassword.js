@@ -1,46 +1,23 @@
-import React, { useState } from "react";
-import { Modal, Form, Input, Button, notification } from "antd";
-import OTPform from "./OTP"; // Nhập OTPform từ file tương ứng
+import React, { useState } from "react"
+import { Modal, Form, Input, Button, notification } from "antd"
+import { patch } from "../../utils/request"
 
-const ResetPasswordModal = ({ visible, onClose }) => {
-  const [form] = Form.useForm();
-  const [otpVerified, setOtpVerified] = useState(false); // Trạng thái xác thực OTP
+const ResetPasswordModal = ({ visible, onClose, token }) => {
+  const [form] = Form.useForm()
 
-  const handleSubmit = async (values) => {
-    // Kiểm tra xác thực OTP trước khi tiếp tục
-    if (!otpVerified) {
-      notification.error({
-        message: "OTP Verification Failed",
-        description: "Please verify your OTP before resetting the password.",
+  const handleSubmit = async (value) => {
+    const result = await patch(token, "user/password/reset-password", {
+      password: value.password,
+    })
+    if(result.code === 200){
+      notification.success({
+        message: result.message,
         placement: "top",
-      });
-      return;
+        duration: 3,
+      })
+      onClose()
     }
-
-    // Giả sử bạn sẽ gọi một API để reset mật khẩu ở đây
-    console.log("New Password:", values.newPassword);
-
-    // Thông báo thành công
-    notification.success({
-      message: "Password Reset Successfully",
-      description: "Your password has been reset successfully.",
-      placement: "top",
-    });
-
-    // Đóng modal
-    onClose();
-  };
-
-  const handleOtpVerification = () => {
-    // Xác thực OTP ở đây, có thể là một API call
-    // Giả lập xác thực thành công
-    setOtpVerified(true);
-    notification.success({
-      message: "OTP Verified",
-      description: "Your OTP has been verified. You can now reset your password.",
-      placement: "top",
-    });
-  };
+  }
 
   return (
     <Modal
@@ -49,14 +26,7 @@ const ResetPasswordModal = ({ visible, onClose }) => {
       onCancel={onClose}
       footer={null}
     >
-      {/* Thêm OTPform ở đây */}
-      <OTPform onVerify={handleOtpVerification} />
-
-      <Form
-        form={form}
-        layout="vertical"
-        onFinish={handleSubmit}
-      >
+      <Form form={form} layout="vertical" onFinish={handleSubmit}>
         <Form.Item
           label="New Password"
           name="newPassword"
@@ -70,13 +40,13 @@ const ResetPasswordModal = ({ visible, onClose }) => {
 
         <Form.Item
           label="Confirm Password"
-          name="confirmPassword"
+          name="password"
           rules={[
             { required: true, message: "Please confirm your password!" },
             {
               validator: (_, value) =>
-                value && value !== form.getFieldValue('newPassword')
-                  ? Promise.reject(new Error('Passwords do not match!'))
+                value && value !== form.getFieldValue("newPassword")
+                  ? Promise.reject(new Error("Passwords do not match!"))
                   : Promise.resolve(),
             },
           ]}
@@ -91,7 +61,7 @@ const ResetPasswordModal = ({ visible, onClose }) => {
         </Form.Item>
       </Form>
     </Modal>
-  );
-};
+  )
+}
 
-export default ResetPasswordModal;
+export default ResetPasswordModal
