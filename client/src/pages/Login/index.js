@@ -6,7 +6,6 @@ import "./style.scss"
 import { checkValidate } from "../../validate/UserValidate"
 import { login } from "../../services/UserService"
 import { setCookie } from "../../helpers/cookie"
-import { notifi } from "../../components/Alert"
 
 
 function Login() {
@@ -38,6 +37,7 @@ function Login() {
       if (result.code === 200) {
         console.log(result)
         setCookie("tokenUser", result.token)
+        setCookie("id", result.id)
         navigate("/")
         notification.success({
           message: "Welcome!",

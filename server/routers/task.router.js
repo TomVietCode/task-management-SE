@@ -16,6 +16,8 @@ router.post('/create', controller.create)
 
 router.patch('/edit/:id', controller.edit)
 
+router.patch("/add-user", controller.addUser)
+
 router.delete('/delete/:id',controller.delete)
 
 module.exports = router

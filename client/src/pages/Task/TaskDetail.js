@@ -13,6 +13,7 @@ import { useSelector } from "react-redux"
 
 const TaskDetail = () => {
   const token = getCookie("tokenUser")
+  const id = getCookie("id")
   const location = useLocation()
   const state = useSelector(state => state.TaskReducer)
   const { task } = location.state || {}
@@ -101,8 +102,8 @@ const TaskDetail = () => {
           <div className="box3">
             <p>
               Role:   
-              <Tag color={task.createdBy === token ? "red" : "green"} style={{ marginLeft: "10px"}}>
-                {task.createdBy === token ? "Leader" : "Member"}
+              <Tag color={task.createdBy === id ? "red" : "green"} style={{ marginLeft: "10px"}}>
+                {task.createdBy === id ? "Leader" : "Member"}
               </Tag>
             </p>
             <p>
@@ -119,7 +120,7 @@ const TaskDetail = () => {
               <CreateTask name="New Sub Task" isCreateSubTask={true} parentTaskId={task._id}/>
             </div>
             <div className="MemberManagement">
-              <MemberManagement token={token}/>
+              <MemberManagement token={token} taskId={task._id} createdBy={task.createdBy}/>
             </div>
           </div>
 

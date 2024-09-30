@@ -1,5 +1,5 @@
 const Task = require('../models/task.model')
-module.exports = async (query, token) => {
+module.exports = async (query, id) => {
     const paginationObject = {
         currentPage: 1,
         limitItems: 8,
@@ -15,8 +15,8 @@ module.exports = async (query, token) => {
       const count = await Task.countDocuments({
         taskParentId: null,
         $or:[
-          {createdBy: token},
-          {listUser: token}
+          {createdBy: id},
+          {listUser: id}
         ],
         deleted: false,
       });

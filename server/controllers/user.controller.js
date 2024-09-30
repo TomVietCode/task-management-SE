@@ -36,6 +36,7 @@ module.exports.register = async (req, res) => {
     code: 200,
     message: "Đăng kí tài khoản thành công",
     token: newUser.token,
+    id: newUser._id
   })
 }
 
@@ -65,6 +66,7 @@ module.exports.login = async (req, res) => {
     code: 200,
     message: "Đăng nhập thành công",
     token: existUser.token,
+    id: existUser._id
   })
 }
 
@@ -190,7 +192,7 @@ module.exports.list = async (req, res) => {
 
   if (req.query.keyword) {
     const keyword = new RegExp(req.query.keyword, "i")
-    users = await User.find({ fullname: keyword }).select("fullname email").limit(7)
+    users = await User.find({ fullname: keyword }).select("id fullname email").limit(7)
   }
 
   res.json({

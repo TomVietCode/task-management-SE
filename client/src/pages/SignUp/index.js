@@ -46,6 +46,7 @@ function Register() {
       const result = await register(data)
       if (result.code === 200) {
         setCookie("tokenUser", result.token)
+        setCookie("id", result.id)
         navigate("/")
         notification.success({
           message: "SignUp Success!",

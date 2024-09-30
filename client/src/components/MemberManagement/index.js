@@ -1,46 +1,69 @@
-import { Modal, Button, Space, Input, Form, Avatar, Tag } from "antd"
+import { Modal, Button, Space, Input, Form, Avatar, Tag, notification } from "antd"
 import { PlusOutlined, UserOutlined } from "@ant-design/icons"
 import { IoPersonAddSharp } from "react-icons/io5";
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import "./style.scss"
-import { get } from "../../utils/request"
-// Dữ liệu mẫu cho người dùng
-const userData = [
-  {
-    id: 1,
-    name: "Nguyễn Văn A",
-    email: "a@gmail.com",
-    role: "Leader",
-  },
-  {
-    id: 2,
-    name: "Nguyễn Văn A",
-    email: "a@gmail.com",
-    role: "Leader",
-  },
-]
+import { get, patch } from "../../utils/request"
+import { getTaskDetail } from "../../services/TaskService";
 
-function MemberManagement({ token }) {
+function MemberManagement({ token, taskId, createdBy }) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [users, setUsers] = useState([])
-  const [form] = Form.useForm()
+  const [searchValue, setSearchValue] = useState('');
+  const [members, setMembers] = useState([])
+  const [reload, setReload] = useState(false)
+
   const openModal = () => setIsModalOpen(true)
   const cancelCloseModal = () => {
-    form.resetFields()
+    setSearchValue("")
     setIsModalOpen(false)
   }
 
+  useEffect(() => {
+    const fetchApi = async () => {
+      const result = await getTaskDetail(token, `${taskId}?members=true`)
+      setMembers(result.members)
+    }
+    fetchApi()
+  }, [reload])
+
   const handleInputChange = async (e) => {
-    const value = e.target.value
-    if(e.target.value === "") {
+    setSearchValue(e.target.value)
+    if(searchValue === "") {
       setUsers([])
     }
-    const result = await get(token, `user/list?keyword=${value}`)
+    const result = await get(token, `user/list?keyword=${e.target.value}`)
     setUsers(result.users)
   }
 
-  const handleClickAdd = (e) => {
+  const handleClickAdd = async (user) => {
+    let isExist = true
+    members.forEach(member => {
+      if(user._id === member.id){
+        notification.error({
+          message: "This member is already in the group!",
+          placement: "top",
+          duration: 2,
+        })
+        isExist = false
+        return
+      }
+    })
+
+    if(!isExist) return
     
+    const dataSubmit = { ...user, taskId: taskId}
+    const result = await patch(token, "task/add-user", dataSubmit)
+    if(result.code === 200){
+      setReload(!reload)
+      notification.success({
+        message: "Added member successfully!",
+        placement: "top",
+        duration: 2,
+      })
+      setSearchValue("")
+      setUsers([])
+    }
   }
 
   return (
@@ -62,6 +85,7 @@ function MemberManagement({ token }) {
             placeholder="Enter your member name"
             className="login__form-group-input form-control"
             onChange={handleInputChange}
+            value={searchValue} 
           />
           {users.length > 0 && (
             <div className="suggestions">
@@ -74,7 +98,7 @@ function MemberManagement({ token }) {
                     <p className="suggestions__fullname">{user.fullname}</p>
                     <p className="suggestions__email">{user.email}</p>
                   </div>
-                <div className="suggestions__add" onClick={handleClickAdd}>
+                <div className="suggestions__add" onClick={() => {handleClickAdd(user)}}>
                   <IoPersonAddSharp />
                 </div>
                   
@@ -84,30 +108,21 @@ function MemberManagement({ token }) {
           )}
         </div>
 
-        {/* <div className="infoUser suggestUser">
-          <div className="avata">
-            <Avatar size={48} icon={<UserOutlined />} />
-          </div>
-          <div className="Infor">
-            <p>User</p>
-            <p>XXX@gmail.com</p>
-          </div>
-        </div> */}
         <div>
-          <p>Your team size: {userData.length} members</p>
+          <p>Your team size: {members.length} members</p>
         </div>
-        {userData.map((user) => (
-          <div className="infoUser" key={user.id}>
+        {members.map((user) => (
+          <div className="infoUser" key={user._id}>
             <div className="avata">
               <Avatar size={48} icon={<UserOutlined />} />
             </div>
             <div className="Infor">
-              <p>{user.name}</p>
+              <p>{user.fullname}</p>
               <p>{user.email}</p>
             </div>
             <div className="role">
-              <Tag color={user.role === "Leader" ? "red" : "green"}>
-                {user.role}
+              <Tag color={createdBy === user.id ? "red" : "green"}>
+                {createdBy === user.id ? "Leader" : "Member"}
               </Tag>
             </div>
           </div>

@@ -38,6 +38,7 @@ const UserProfileDrawer = ({ visible, setVisible }) => {
 
   const handleLogout = () => {
     deleteCookie("tokenUser")
+    deleteCookie("id")
     navigate('/user/login'); // Điều hướng đến trang đăng nhập
     notification.success({
       message: "Logged out successfully",

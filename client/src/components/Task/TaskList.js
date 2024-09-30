@@ -1,4 +1,4 @@
-import { Row, Col, Tag, Checkbox, Empty, notification } from "antd"
+import { Row, Col, Tag, Empty, notification } from "antd"
 import moment from "moment"
 import MenuDropdown from "../../components/MenuDropDown"
 import { MoreOutlined } from "@ant-design/icons"
@@ -9,11 +9,11 @@ import { LoadingSkeleton } from "../Skeleton"
 import EditTaskModal from "./EditTask"
 import { useNavigate } from "react-router-dom"
 import { deleteTask } from "../../actions/TaskAction"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { changeStatus } from "../../services/TaskService"
 
 function TaskList(props) {
-  const { data, token, isSubTaskList } = props
+  const { data, token, id, isSubTaskList } = props
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const state = useSelector((state) => state.LoadReducer)
@@ -150,8 +150,8 @@ function TaskList(props) {
           xxl={3}
           style={{ textAlign: "center" }}
         >
-          <Tag color={record.createdBy === token ? "red" : "green"}>
-            {record.createdBy === token ? "Leader" : "Member"}
+          <Tag color={record.createdBy === id ? "red" : "green"}>
+            {record.createdBy === id ? "Leader" : "Member"}
           </Tag>
         </Col>
       )}

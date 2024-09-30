@@ -10,6 +10,7 @@ import { loading } from "../../actions/TaskAction"
 
 const Task = () => {
   const token = getCookie("tokenUser")
+  const id = getCookie("id")
   const [data, setData] = useState([])
   const [reload, setReload] = useState(true)
   const state = useSelector((state) => state.TaskReducer)
@@ -82,6 +83,7 @@ const Task = () => {
           <TaskList
             data={data}
             token={token}
+            id={id}
             isSubTaskList={false}
           />
         </div>

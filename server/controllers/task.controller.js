@@ -54,8 +54,10 @@ module.exports.changeMulti = async (req, res) => {
 //[POST]/Task/create
 module.exports.create = async (req, res) => {
   //nguoi tao
-  req.body.createdBy = req.user.token
-
+  req.body.createdBy = req.user.id
+  req.body.listUser = [
+    { id: req.user.id, fullname: req.user.fullname, email: req.user.email },
+  ]
   const task = new Task(req.body)
   await task.save()
   res.json({
@@ -79,6 +81,35 @@ module.exports.edit = async (req, res) => {
   })
 }
 
+// [PATCH] /task/add-user
+module.exports.addUser = async (req, res) => {
+  const userEmail = req.body.email
+  const taskId = req.body.taskId
+  const fullname = req.body.fullname
+  try {
+    await Task.updateOne(
+      {
+        _id: taskId,
+      },
+      {
+        $push: {
+          listUser: { id: req.body._id, fullname: fullname, email: userEmail },
+        },
+      }
+    )
+
+    res.json({
+      code: 200,
+      message: "Member added successfully!",
+    })
+  } catch (error) {
+    res.json({
+      code: 400,
+      message: "Member added failed!",
+    })
+  }
+}
+
 //[delete]/task/delete
 module.exports.delete = async (req, res) => {
   await Task.updateOne(
@@ -100,7 +131,10 @@ module.exports.task = async (req, res) => {
   const find = {
     taskParentId: null,
     //danh sach task theo user
-    $or: [{ createdBy: req.user.token }, { listUser: req.user.token }],
+    $or: [
+      { createdBy: req.user.id },
+      { listUser: { $elemMatch: { id: req.user.id } } },
+    ],
     deleted: false,
   }
 
@@ -120,8 +154,8 @@ module.exports.task = async (req, res) => {
     const keyword = new RegExp(req.query.keyword, "i")
     find.title = keyword
   }
-
-  const paginationObject = await paginationHelper(req.query, req.user.token)
+  console.log(req.user.id)
+  const paginationObject = await paginationHelper(req.query, req.user.id)
 
   let task = await Task.find(find)
     .sort(sort)
@@ -147,7 +181,14 @@ module.exports.detail = async (req, res) => {
   const task = await Task.findOne({
     _id: id,
   })
-  console.log(task)
+
+  if (req.query.members) {
+    res.json({
+      code: 200,
+      members: task.listUser,
+    })
+    return
+  }
   res.json({
     code: 200,
     message: "Chi tiết công việc",

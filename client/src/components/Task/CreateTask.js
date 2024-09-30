@@ -22,6 +22,7 @@ function CreateTask({ name, isCreateSubTask, parentTaskId }) {
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const token = getCookie("tokenUser");
+  const id = getCookie("id");
   const [form] = Form.useForm();
 
   const openModal = () => setIsModalOpen(true);
@@ -35,7 +36,7 @@ function CreateTask({ name, isCreateSubTask, parentTaskId }) {
     const dataSubmit = {
       ...values,
       status: "initial",
-      createdBy: token,
+      createdBy: id,
       taskParentId: parentTaskId ? parentTaskId : null
     };
 
