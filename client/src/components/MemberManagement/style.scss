@@ -38,5 +38,75 @@
         }
       }
     }
+    .suggestUser {
+      height: 2rem !important;
+    }
+  }
+  
+  .user-suggestion-container {
+    position: relative;
+    width: 300px;
+  }
+  
+  .find {
+    position: relative;
+  }
+  .suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #ccc;
+    z-index: 1;
+
+    &__user {
+      display: flex;
+      height: 50px;
+      border: 1px solid gray;
+      padding: 5px;
+    }
+
+    &__info {
+      margin-left: 10px;
+    }
+
+    &__fullname {
+      font-weight: 700;
+      margin-bottom: 0px ;
+    }
+
+    &__add {
+      align-self: center;
+      margin-left: auto;
+      margin-right: 10px;
+      width: 30px;
+      height: 30px;
+      padding: 5px;
+      border-radius: 5px ;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &:hover {
+        background-color: #EAEAEA;
+        transition: all 0.5s ease;
+      }
+    }
+  }
+  
+  .suggestUser {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .suggestUser:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .Infor {
+    margin-left: 10px;
   }
   

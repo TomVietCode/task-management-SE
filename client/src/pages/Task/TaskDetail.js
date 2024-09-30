@@ -119,7 +119,7 @@ const TaskDetail = () => {
               <CreateTask name="New Sub Task" isCreateSubTask={true} parentTaskId={task._id}/>
             </div>
             <div className="MemberManagement">
-              <MemberManagement />
+              <MemberManagement token={token}/>
             </div>
           </div>
 

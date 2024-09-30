@@ -1,7 +1,9 @@
-import { Modal, Button, Space, Input, Form, Avatar, Tag } from "antd";
-import { PlusOutlined, UserOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { Modal, Button, Space, Input, Form, Avatar, Tag } from "antd"
+import { PlusOutlined, UserOutlined } from "@ant-design/icons"
+import { IoPersonAddSharp } from "react-icons/io5";
+import { useState } from "react"
 import "./style.scss"
+import { get } from "../../utils/request"
 // Dữ liệu mẫu cho người dùng
 const userData = [
   {
@@ -11,22 +13,35 @@ const userData = [
     role: "Leader",
   },
   {
-    id: 1,
+    id: 2,
     name: "Nguyễn Văn A",
     email: "a@gmail.com",
     role: "Leader",
   },
-];
+]
 
-function MemberManagement() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [form] = Form.useForm();
-
-  const openModal = () => setIsModalOpen(true);
+function MemberManagement({ token }) {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [users, setUsers] = useState([])
+  const [form] = Form.useForm()
+  const openModal = () => setIsModalOpen(true)
   const cancelCloseModal = () => {
-    form.resetFields();
-    setIsModalOpen(false);
-  };
+    form.resetFields()
+    setIsModalOpen(false)
+  }
+
+  const handleInputChange = async (e) => {
+    const value = e.target.value
+    if(e.target.value === "") {
+      setUsers([])
+    }
+    const result = await get(token, `user/list?keyword=${value}`)
+    setUsers(result.users)
+  }
+
+  const handleClickAdd = (e) => {
+    
+  }
 
   return (
     <>
@@ -41,49 +56,65 @@ function MemberManagement() {
         onCancel={cancelCloseModal}
         footer={null}
       >
-        <Form form={form} style={{ marginTop: "100" }}>
-          <Space direction="vertical" size="large" style={{ width: "100%" }}>
-            <div>
-              <Form.Item
-                name="title"
-                rules={[
-                  { required: true, message: "Please enter member name!" },
-                ]}
-              >
-                <Input
-                  type="text"
-                  placeholder="Enter your member name"
-                  className="login__form-group-input form-control"
-                />
-              </Form.Item>
+        <div className="find">
+          <Input
+            type="text"
+            placeholder="Enter your member name"
+            className="login__form-group-input form-control"
+            onChange={handleInputChange}
+          />
+          {users.length > 0 && (
+            <div className="suggestions">
+              {users.map((user, index) => (
+                <div key={index} className="suggestions__user">
+                  <div className="avata">
+                    <Avatar size={36} icon={<UserOutlined />} />
+                  </div>
+                  <div className="suggestions__info">
+                    <p className="suggestions__fullname">{user.fullname}</p>
+                    <p className="suggestions__email">{user.email}</p>
+                  </div>
+                <div className="suggestions__add" onClick={handleClickAdd}>
+                  <IoPersonAddSharp />
+                </div>
+                  
+                </div>
+              ))}
             </div>
+          )}
+        </div>
 
-            <div>
-              <p>Your team size: {userData.length} members</p>
+        {/* <div className="infoUser suggestUser">
+          <div className="avata">
+            <Avatar size={48} icon={<UserOutlined />} />
+          </div>
+          <div className="Infor">
+            <p>User</p>
+            <p>XXX@gmail.com</p>
+          </div>
+        </div> */}
+        <div>
+          <p>Your team size: {userData.length} members</p>
+        </div>
+        {userData.map((user) => (
+          <div className="infoUser" key={user.id}>
+            <div className="avata">
+              <Avatar size={48} icon={<UserOutlined />} />
             </div>
-          </Space>
-
-          {/* Hiển thị thông tin người dùng từ dữ liệu */}
-          {userData.map((user) => (
-            <div className="infoUser" key={user.id}>
-              <div className="avata">
-                <Avatar size={48} icon={<UserOutlined />} />
-              </div>
-              <div className="Infor">
-                <p>{user.name}</p>
-                <p>{user.email}</p>
-              </div>
-              <div className="role">
-                <Tag color={user.role === "Leader" ? "red" : "green"}>
-                  {user.role}
-                </Tag>
-              </div>
+            <div className="Infor">
+              <p>{user.name}</p>
+              <p>{user.email}</p>
             </div>
-          ))}
-        </Form>
+            <div className="role">
+              <Tag color={user.role === "Leader" ? "red" : "green"}>
+                {user.role}
+              </Tag>
+            </div>
+          </div>
+        ))}
       </Modal>
     </>
-  );
+  )
 }
 
-export default MemberManagement;
+export default MemberManagement

@@ -1,108 +1,108 @@
-const User = require("../models/user.models");
-const Otp = require("../models/otp.model");
-const md5 = require("md5");
-const generateHelper = require("../helper/genarate.helper");
-const sendmail = require("../helper/sendmail.helper");
+const User = require("../models/user.models")
+const Otp = require("../models/otp.model")
+const md5 = require("md5")
+const generateHelper = require("../helper/genarate.helper")
+const sendmail = require("../helper/sendmail.helper")
 
 //[post]/User/register
 module.exports.register = async (req, res) => {
-  const email = req.body.email;
-  const password = req.body.password;
-  const fullname = req.body.fullname;
+  const email = req.body.email
+  const password = req.body.password
+  const fullname = req.body.fullname
 
   const exitsEmail = await User.findOne({
     email: email,
-  });
+  })
 
   if (exitsEmail) {
     res.json({
       code: 400,
       message: "Email đã tồn tại",
-    });
-    return;
+    })
+    return
   }
 
   const newUser = new User({
     fullname: fullname,
     email: email,
     password: md5(password),
-  });
+  })
 
-  newUser.token = generateHelper.generateRandomString(20);
+  newUser.token = generateHelper.generateRandomString(20)
 
-  await newUser.save();
+  await newUser.save()
 
   res.json({
     code: 200,
     message: "Đăng kí tài khoản thành công",
-    token: newUser.token
-  });
-};
+    token: newUser.token,
+  })
+}
 
 //[post]/User/login
 module.exports.login = async (req, res) => {
   const existUser = await User.findOne({
     email: req.body.email,
-  });
+  })
 
   if (!existUser) {
     res.json({
       code: 400,
       message: "Email không tồn tại",
-    });
-    return;
+    })
+    return
   }
 
   if (md5(req.body.password) !== existUser.password) {
     res.json({
       code: 400,
       message: "Không đúng mật khẩu",
-    });
-    return;
+    })
+    return
   }
 
   res.json({
     code: 200,
     message: "Đăng nhập thành công",
-    token: existUser.token
-  });
-};
+    token: existUser.token,
+  })
+}
 
 //[post]/User/logout
 module.exports.logout = async (req, res) => {
   if (req.cookies.tokenUser) {
-    res.clearCookie("tokenUser");
+    res.clearCookie("tokenUser")
 
     res.json({
       code: 200,
       message: "Đăng xuất thành công",
-    });
+    })
   } else {
     res.json({
       code: 400,
       message: "Đăng xuất thất bại",
-    });
+    })
   }
-};
+}
 
 //[post] password/forgot
 module.exports.forgotpass = async (req, res) => {
-  const email = req.body.email;
-  const otp = generateHelper.generateNumber(6);
+  const email = req.body.email
+  const otp = generateHelper.generateNumber(6)
   const existEmail = await User.findOne({
     email: email,
-  });
+  })
 
   if (existEmail) {
     const objectOtp = new Otp({
       email: email,
       otp: otp,
       expireAt: Date.now() + 5 * 60 * 1000,
-    });
+    })
 
-    await objectOtp.save();
+    await objectOtp.save()
 
-    const subject = " Mã xác nhận OTP";
+    const subject = " Mã xác nhận OTP"
     const html = `
     <div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
       <div style="margin:50px auto;width:70%;padding:20px 0">
@@ -115,50 +115,50 @@ module.exports.forgotpass = async (req, res) => {
               style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">
               ${objectOtp.otp}</h2>
           <p style="font-size:0.9em;">Trân trọng,<br />CELLO</p>
-          <hr style="border:none;border-top:1px solid #eee" />`;
+          <hr style="border:none;border-top:1px solid #eee" />`
 
-    sendmail.sendmail(email, subject, html);
+    sendmail.sendmail(email, subject, html)
 
     res.json({
       code: 200,
       message: "gui ma otp thanh cong",
-    });
+    })
   } else {
     res.json({
       code: 400,
       message: "gui ma otp that bai",
-    });
+    })
   }
-};
+}
 
 //[post] /users/otp
 module.exports.otp = async (req, res) => {
-  const email = req.body.email;
-  const otp = req.body.otp;
+  const email = req.body.email
+  const otp = req.body.otp
 
   const objectOtp = await Otp.findOne({
     email: email,
     otp: otp,
-  });
+  })
 
   if (objectOtp) {
     const user = await User.findOne({
       email: email,
-    });
+    })
 
     res.json({
       code: 200,
       token: user.token,
-    });
+    })
   } else {
-    (code = 400), (message = "MÃ OTP SAI");
+    ;(code = 400), (message = "MÃ OTP SAI")
   }
-};
+}
 
 //[post] /users/ reserPassword
 module.exports.resetPassword = async (req, res) => {
-  const token = req.body.token;
-  const newPassword = req.body.newPassword;
+  const token = req.body.token
+  const newPassword = req.body.newPassword
 
   await User.updateOne(
     {
@@ -167,31 +167,34 @@ module.exports.resetPassword = async (req, res) => {
     {
       password: md5(newPassword),
     }
-    
-  );
+  )
 
   res.json({
     code: 200,
-    message:"Đổi mật khẩu thành công"
+    message: "Đổi mật khẩu thành công",
   })
-};
+}
 
 //[GET]/user/detail
 module.exports.detail = async (req, res) => {
   res.json({
     code: 200,
-    message:"Hoàn thành",
-    info : req.user
+    message: "Hoàn thành",
+    info: req.user,
   })
 }
 
 //[GET]/user/list
 module.exports.list = async (req, res) => {
-  const user = await User.find({}).select("fullname email")
-  
+  let users = []
+
+  if (req.query.keyword) {
+    const keyword = new RegExp(req.query.keyword, "i")
+    users = await User.find({ fullname: keyword }).select("fullname email").limit(7)
+  }
+
   res.json({
     code: 200,
-    message:"Hoàn thành",
-    users : user
+    users: users,
   })
 }

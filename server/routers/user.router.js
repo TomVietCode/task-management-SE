@@ -18,4 +18,5 @@ routeUser.patch('/password/resetPassword', controller.resetPassword)
 routeUser.get('/detail',AuthMiddleware.requireAuth, controller.detail)
 
 routeUser.get('/list',AuthMiddleware.requireAuth, controller.list)
+
 module.exports = routeUser
