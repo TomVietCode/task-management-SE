@@ -201,6 +201,7 @@ module.exports.subTask = async (req, res) => {
   const taskId = req.params.taskId
   const listSubTask = await Task.find({
     taskParentId: taskId,
+    deleted: false
   }).sort({ createdAt: "desc" })
 
   res.json(listSubTask)
