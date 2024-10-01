@@ -9,6 +9,7 @@ import { initTask } from "../../actions/TaskAction"
 const EditTaskModal = (props) => {
   const { visible, onClose, item, token } = props
   const dispatch = useDispatch()
+  const [form] = Form.useForm();
   const handleSubmit = async (formData) => {
     onClose()
     const result = await patch(token, `task/edit/${item._id}`, formData)
@@ -27,6 +28,16 @@ const EditTaskModal = (props) => {
       })
     }
   }
+
+  if(visible === true){
+    form.setFieldsValue({
+      title: item.title,
+      content: item.content,
+      timeStart: moment(item.timeStart),
+      timeFinish: moment(item.timeFinish)
+    })
+  }
+
   return (
     <Modal
       title="Edit Task"
@@ -36,14 +47,9 @@ const EditTaskModal = (props) => {
       className="edit-task-modal"
     >
       <Form
+        form={form}
         layout="vertical"
         onFinish={handleSubmit}
-        initialValues={{
-          title: item.title,
-          content: item.content,
-          timeStart: moment(item.timeStart),
-          timeFinish: moment(item.timeFinish),
-        }}
       >
         <Form.Item
           label="Task Name"

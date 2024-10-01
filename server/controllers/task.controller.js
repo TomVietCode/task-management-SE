@@ -212,6 +212,7 @@ module.exports.statusStatistic = async (req, res) => {
   const summary = await Task.aggregate([
     {
       $match: {
+        deleted: false,
         $or: [
           { createdBy: req.user.id },
           { listUser: { $elemMatch: { id: req.user.id } } },

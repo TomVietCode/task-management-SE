@@ -21,6 +21,7 @@ function TaskList(props) {
   const state = useSelector((state) => state.LoadReducer)
 
   const [status, setStatus] = useState("")
+  const [currentTask, setCurrentTask] = useState({})
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   // Hàm trả về màu của trạng thái
@@ -76,15 +77,16 @@ function TaskList(props) {
   const handleClickAction = (e, task) => {
     switch (e.key) {
       case "edit":
+        setCurrentTask(task)
         setIsModalOpen(true)
-        break
+        return
       case "delete":
         dispatch(deleteTask(token, task._id))
-        break
+        return
       case "detail":
         navigate(`/task/detail/${task._id}`, { state: { task, id } })
       default:
-        break
+        return
     }
   }
 
@@ -224,7 +226,7 @@ function TaskList(props) {
         onClose={() => {
           setIsModalOpen(false)
         }}
-        item={record}
+        item={currentTask}
         token={token}
       />
     </Row>
