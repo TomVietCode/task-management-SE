@@ -9,20 +9,19 @@ import { initTask } from "../../actions/TaskAction"
 const EditTaskModal = (props) => {
   const { visible, onClose, item, token } = props
   const dispatch = useDispatch()
-
   const handleSubmit = async (formData) => {
     onClose()
     const result = await patch(token, `task/edit/${item._id}`, formData)
     if(result.code === 200){
       notification.success({
-        message: "Task update successful!",
+        message: "Task update successfully!",
         placement: "top",
         duration: 3,
       })
       dispatch(initTask())
     }else {
       notification.error({
-        message: "Job update failed!",
+        message: "Task update failed!",
         placement: "top",
         duration: 3,
       })

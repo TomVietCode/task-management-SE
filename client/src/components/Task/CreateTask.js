@@ -62,7 +62,7 @@ function CreateTask({ name, isCreateSubTask, parentTaskId }) {
       </Button>
       <Modal
         className="Modal"
-        title={!isCreateSubTask ? "Create New Task" : "Create New SubTask"}
+        title={!isCreateSubTask ? "Create New Task" : "Create New Sub Task"}
         open={isModalOpen}
         onCancel={cancelCloseModal}
         width={1000}

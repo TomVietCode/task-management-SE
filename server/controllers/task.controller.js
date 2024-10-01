@@ -154,7 +154,7 @@ module.exports.task = async (req, res) => {
     const keyword = new RegExp(req.query.keyword, "i")
     find.title = keyword
   }
-  console.log(req.user.id)
+
   const paginationObject = await paginationHelper(req.query, req.user.id)
 
   let task = await Task.find(find)
@@ -204,4 +204,33 @@ module.exports.subTask = async (req, res) => {
   }).sort({ createdAt: "desc" })
 
   res.json(listSubTask)
+}
+
+// [GET] /task/statistics/status
+module.exports.statusStatistic = async (req, res) => {
+  const summary = await Task.aggregate([
+    {
+      $match: {
+        $or: [
+          { createdBy: req.user.id },
+          { listUser: { $elemMatch: { id: req.user.id } } },
+        ],
+      },
+    },
+    {
+      $group: {
+        _id: "$status",
+        value: { $sum: 1 },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        status: "$_id",
+        value: 1,
+      },
+    },
+  ])
+
+  res.json(summary)
 }

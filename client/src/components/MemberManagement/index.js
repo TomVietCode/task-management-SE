@@ -114,7 +114,7 @@ function MemberManagement({ token, taskId, createdBy }) {
           <p>Your team size: {members.length} members</p>
         </div>
         {members.map((user) => (
-          <div className="infoUser" key={user._id}>
+          <div className="infoUser" key={user.id}>
             <div className="avata">
               <Avatar size={48} icon={<UserOutlined />} />
             </div>

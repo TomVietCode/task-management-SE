@@ -11,15 +11,18 @@ import { useNavigate } from "react-router-dom"
 import { deleteTask } from "../../actions/TaskAction"
 import { useState } from "react"
 import { changeStatus } from "../../services/TaskService"
+import { getCookie } from "../../helpers/cookie"
 
 function TaskList(props) {
-  const { data, token, id, isSubTaskList } = props
+  const { data, id, isSubTaskList } = props
+  const token = getCookie("tokenUser")
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const state = useSelector((state) => state.LoadReducer)
 
   const [status, setStatus] = useState("")
   const [isModalOpen, setIsModalOpen] = useState(false)
+
   // Hàm trả về màu của trạng thái
   const getStatusColor = (status) => {
     return status === "finish"
@@ -86,7 +89,7 @@ function TaskList(props) {
   }
 
   // Các item cho dropdown
-  const MenuItems = [
+  const leaderOptions = [
     {
       key: "detail",
       label: (
@@ -115,10 +118,21 @@ function TaskList(props) {
       ),
     },
   ]
+  const memberOption = [
+    {
+      key: "detail",
+      label: (
+        <span>
+          <MdOutlineRemoveRedEye style={{ marginRight: 8 }} />
+          View
+        </span>
+      ),
+    },
+  ]
 
   const renderRow = (record) => (
     <Row
-      className="Row title-rơ"
+      className="Row title-row"
       key={record._id}
       gutter={[16, 16]}
       style={{ border: "none", height: "2.5rem" }}
@@ -196,7 +210,7 @@ function TaskList(props) {
       </Col>
       <Col xs={2} sm={2} md={1} lg={1} xl={1} xxl={1}>
         <MenuDropdown
-          items={MenuItems}
+          items={record.taskParentId ? leaderOptions : (record.createdBy === id ? leaderOptions : memberOption)}
           triggerElement={
             <span style={{ border: "none", cursor: "pointer" }}>
               <MoreOutlined />

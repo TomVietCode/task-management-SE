@@ -101,15 +101,17 @@ const TaskDetail = () => {
             <span>{task.content}</span>
           </div>
           <div className="box3">
-            <p>
-              Role:
-              <Tag
-                color={task.createdBy === id ? "red" : "green"}
-                style={{ marginLeft: "10px" }}
-              >
-                {task.createdBy === id ? "Leader" : "Member"}
-              </Tag>
-            </p>
+            {!task.taskParentId && (
+              <p>
+                Role:
+                <Tag
+                  color={task.createdBy === id ? "red" : "green"}
+                  style={{ marginLeft: "10px" }}
+                >
+                  {task.createdBy === id ? "Leader" : "Member"}
+                </Tag>
+              </p>
+            )}
             <p>
               Time Start:{" "}
               {task && moment(task.timeStart).format("DD-MM-YYYY HH:mm")}

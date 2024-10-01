@@ -36,7 +36,6 @@ function Login() {
     } else {
       const result = await login(dataLogin)
       if (result.code === 200) {
-        console.log(result)
         setCookie("tokenUser", result.token)
         setCookie("id", result.id)
         navigate("/")

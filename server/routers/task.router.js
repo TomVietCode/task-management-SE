@@ -20,4 +20,5 @@ router.patch("/add-user", controller.addUser)
 
 router.delete('/delete/:id',controller.delete)
 
+router.get("/statistic/status", controller.statusStatistic)
 module.exports = router

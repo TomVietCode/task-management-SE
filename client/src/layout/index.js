@@ -9,7 +9,7 @@ import {
 } from "@ant-design/icons"
 import { Layout, Menu, Button } from "antd"
 
-import { Outlet, useNavigate } from "react-router-dom"
+import { Outlet, useLocation, useNavigate } from "react-router-dom"
 import Header from "../components/Header"
 import "./style.scss"
 import Profile from "../components/UserPage"
@@ -23,7 +23,7 @@ function MenuLayout() {
   const [profileData, setProfileData] = useState({})
   const [collapsed, setCollapsed] = useState(false)
   const [showProfile, setShowProfile] = useState(false) // An đã thêm dòng code này
-
+  const location = useLocation()
   const navigate = useNavigate()
 
   const hanldeGetMenuPage = (e) => {
@@ -36,6 +36,15 @@ function MenuLayout() {
     }
   }
 
+  const getSelectedKey = () => {
+    if (location.pathname.startsWith("/task")) {
+      return "2";
+    } else if (location.pathname === "/") {
+      return "1";
+    } else {
+      return "1"; // 
+    }
+  };
   useEffect(() => {
     const fetchApi = async () => {
       const result = await get(token, "user/detail")
@@ -68,7 +77,7 @@ function MenuLayout() {
               onClick={hanldeGetMenuPage}
               theme="dark"
               mode="inline"
-              defaultSelectedKeys={["1"]}
+              defaultSelectedKeys={getSelectedKey()}
               items={[
                 {
                   key: "0",

@@ -1,59 +1,55 @@
-import { Row, Col, Statistic, Button } from "antd"
-import CountUp from "react-countup"
-import { useState } from "react" // Import useState để quản lý trạng thái
+import { useEffect, useState } from "react"
+import { Pie } from "@ant-design/plots"
+import { get } from "../../utils/request"
+import { getCookie } from "../../helpers/cookie"
 import "./style.scss"
-import EditTaskModal from "../../components/Task/EditTask"
-import ResetPasswordModal from "../../components/ForgotPassword/ReserPassword"
-
-const formatter = (value) => <CountUp end={value} separator="," />
 
 function Home() {
+  const token = getCookie("tokenUser")
+  const [data, setData] = useState([])
+  const config = {
+    data: data,
+    angleField: "value",
+    colorField: "type",
+    innerRadius: 0.6,
+    label: {
+      text: "value",
+      style: {
+        fontWeight: "bold",
+      },
+    },
+    legend: {
+      color: {
+        title: false,
+        position: "right",
+      },
+    },
+    annotations: [
+      {
+        type: "text",
+        style: {
+          text: "Tasks\nAnalysis",
+          x: "50%",
+          y: "50%",
+          textAlign: "center",
+          fontSize: 40,
+          fontStyle: "bold",
+        },
+      },
+    ],
+  }
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      const result = await get(token, "task/statistic/status")
+      setData(result.map((item) => ({ type: item.status, value: item.value })))
+    }
+    fetchApi()
+  }, [])
+
   return (
     <>
-      <div className="ContainerHome">
-        <Row className="ContainerHome__Table" gutter={[30, 20]}>
-          <Col xs={24} sm={12} md={6} lg={6} xl={6} xxl={6}>
-            <div className="ContainerHome__Table__Col">
-              <Statistic
-                title="Published Project"
-                value={112893}
-                precision={2}
-                formatter={formatter}
-              />
-            </div>
-          </Col>
-          <Col xs={24} sm={12} md={6} lg={6} xl={6} xxl={6}>
-            <div className="ContainerHome__Table__Col">
-              <Statistic
-                title="Completed Task"
-                value={112893}
-                precision={2}
-                formatter={formatter}
-              />
-            </div>
-          </Col>
-          <Col xs={24} sm={12} md={6} lg={6} xl={6} xxl={6}>
-            <div className="ContainerHome__Table__Col">
-              <Statistic
-                title="Successful Task"
-                value={112893}
-                precision={2}
-                formatter={formatter}
-              />
-            </div>
-          </Col>
-          <Col xs={24} sm={12} md={6} lg={6} xl={6} xxl={6}>
-            <div className="ContainerHome__Table__Col">
-              <Statistic
-                title="Ongoing Project"
-                value={112893}
-                precision={2}
-                formatter={formatter}
-              />
-            </div>
-          </Col>
-        </Row>
-      </div>
+      {data.length > 0 ? <Pie {...config} className="chart" /> : <div>Loading....</div> }
     </>
   )
 }
