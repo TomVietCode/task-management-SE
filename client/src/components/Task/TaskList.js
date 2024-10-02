@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { LoadingSkeleton } from "../Skeleton";
 import EditTaskModal from "./EditTask";
 import { useNavigate } from "react-router-dom";
-import { deleteTask } from "../../actions/TaskAction";
+import { deleteTask, initTask } from "../../actions/TaskAction";
 import { useState } from "react";
 import { changeStatus } from "../../services/TaskService";
 import { getCookie } from "../../helpers/cookie";
@@ -79,12 +79,14 @@ function TaskList(props) {
       case "edit":
         setCurrentTask(task);
         setIsModalOpen(true);
+        console.log(isModalOpen)
         return;
       case "delete":
         dispatch(deleteTask(token, task._id));
         return;
       case "detail":
         navigate(`/task/detail/${task._id}`, { state: { task, id } });
+        dispatch(initTask())
       default:
         return;
     }
@@ -304,6 +306,14 @@ function TaskList(props) {
           getSelection={(e) => handleClickAction(e, record)}
         />
       </Col>
+      <EditTaskModal
+        visible={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+        }}
+        item={currentTask}
+        token={token}
+      />
     </Row>
   );
 

@@ -112,14 +112,9 @@ module.exports.addUser = async (req, res) => {
 
 //[delete]/task/delete
 module.exports.delete = async (req, res) => {
-  await Task.updateOne(
-    {
-      _id: req.params.id,
-    },
-    {
-      deleted: true,
-    }
-  )
+  await Task.deleteOne({
+    _id: req.params.id,
+  })
   res.json({
     code: 200,
     message: "Xóa thành công",
@@ -139,14 +134,13 @@ module.exports.task = async (req, res) => {
   }
 
   if (req.query.status) {
-    if(req.query.status === "leader"){
+    if (req.query.status === "leader") {
       find.createdBy = req.user.id
-    }else if(req.query.status === "member"){
-      find.createdBy = { $ne: req.user.id } 
-    }else{
+    } else if (req.query.status === "member") {
+      find.createdBy = { $ne: req.user.id }
+    } else {
       find.status = req.query.status
     }
-    console.log(find)
   }
 
   const sort = {}
@@ -171,7 +165,10 @@ module.exports.task = async (req, res) => {
     .limit(paginationObject.limitItems)
 
   for (let item of task) {
-    const totalSubTask = await Task.countDocuments({ deleted: false, taskParentId: item._id })
+    const totalSubTask = await Task.countDocuments({
+      deleted: false,
+      taskParentId: item._id,
+    })
     item.totalSubTask = totalSubTask
   }
 
@@ -209,7 +206,7 @@ module.exports.subTask = async (req, res) => {
   const taskId = req.params.taskId
   const listSubTask = await Task.find({
     taskParentId: taskId,
-    deleted: false
+    deleted: false,
   }).sort({ createdAt: "desc" })
 
   res.json(listSubTask)
