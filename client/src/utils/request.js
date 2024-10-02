@@ -1,4 +1,4 @@
-const API_DOMAIN= "http://localhost:5000/"
+const API_DOMAIN= "https://cello-be.vercel.app/"
 
 export const get = async (token, path) => {
   const response = await fetch(API_DOMAIN + path, {
