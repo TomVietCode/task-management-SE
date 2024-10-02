@@ -56,6 +56,7 @@ const Task = () => {
       if (filter) {
         query += `&status=${filter}`
       }
+      
       setData([])
       dispatch(loading())
       const result = await getTaskList(token, query)
