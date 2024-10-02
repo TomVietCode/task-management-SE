@@ -46,6 +46,7 @@ function TypeEmail() {
         title="Forgot Password"
         open={isEmailOpen}
         onCancel={cancelCloseModal}
+        footer ={null}
       >
         <p>To get new password, please enter your email address.</p>
         <Form onFinish={handleSendEmail}>

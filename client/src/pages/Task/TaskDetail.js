@@ -70,7 +70,7 @@ const TaskDetail = () => {
             background: "rgba(0,0,255,0.02)",
           }}
         >
-          Content of Part 2
+          
         </div>
       ),
     },
@@ -81,7 +81,7 @@ const TaskDetail = () => {
       <div className="Container">
         <div className="Container__firstBox">
           <div className="box1">
-            <p>Task Name: {task.title}</p>
+            <span >Task Name: {task.title}</span>
             <p>
               Status:
               <Tag

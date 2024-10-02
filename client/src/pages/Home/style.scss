@@ -14,3 +14,40 @@
 .chart {
     width: 50%;
 }
+.container__home{
+    display: flex;
+    justify-self: center;
+    &__box1{
+        width: 60%;
+        height: max-content;
+        margin-right: 5px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+    &__box2{
+        width: 40%;
+       
+        border-radius: 8px;
+        height: max-content;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        &__title{
+            font-weight: bold;
+            font-size: 1.5rem; 
+            margin: 20px;
+            padding: 5px;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            height: 50px ;
+            line-height: 50px;
+        }
+        &__under{
+            margin: 20px;
+            padding: 5px;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            line-height: 50px;
+            height: 50px ;
+        }
+    }
+}
+
+

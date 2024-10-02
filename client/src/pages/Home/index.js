@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react"
-import { Pie } from "@ant-design/plots"
-import { get } from "../../utils/request"
-import { getCookie } from "../../helpers/cookie"
-import "./style.scss"
+import { useEffect, useState } from "react";
+import { Pie } from "@ant-design/plots";
+import { get } from "../../utils/request";
+import { getCookie } from "../../helpers/cookie";
+import { IoIosNotificationsOutline } from "react-icons/io";
+import "./style.scss";
 
 function Home() {
-  const token = getCookie("tokenUser")
-  const [data, setData] = useState([])
+  const token = getCookie("tokenUser");
+  const [data, setData] = useState([]);
   const config = {
     data: data,
     angleField: "value",
@@ -37,21 +38,38 @@ function Home() {
         },
       },
     ],
-  }
+  };
 
   useEffect(() => {
     const fetchApi = async () => {
-      const result = await get(token, "task/statistic/status")
-      setData(result.map((item) => ({ type: item.status, value: item.value })))
-    }
-    fetchApi()
-  }, [])
+      const result = await get(token, "task/statistic/status");
+      setData(result.map((item) => ({ type: item.status, value: item.value })));
+    };
+    fetchApi();
+  }, []);
 
   return (
     <>
-      {data.length > 0 ? <Pie {...config} className="chart" /> : <div>Loading....</div> }
+      <div className="container__home">
+        <div className="container__home__box1">
+          {data.length > 0 ? (
+            <Pie {...config} className="chart" />
+          ) : (
+            <div>Loading....</div>
+          )}
+        </div>
+        <div className="container__home__box2">
+          <div className="container__home__box2__title">
+            <IoIosNotificationsOutline style={{ fontSize: "2rem" }} />{" "}
+            Notification
+            
+          </div>
+          <div className="container__home__box2__under" >haha</div>
+          
+        </div>
+      </div>
     </>
-  )
+  );
 }
 
-export default Home
+export default Home;

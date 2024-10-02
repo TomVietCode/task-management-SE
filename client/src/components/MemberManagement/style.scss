@@ -56,14 +56,19 @@
     top: 100%;
     left: 0;
     width: 100%;
-    background-color: white;
-    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    height: 200px;
     z-index: 1;
+    border-radius: 8px;
+    margin-top: 5px;  
 
     &__user {
       display: flex;
       height: 50px;
-      border: 1px solid gray;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      margin-top: 5px;
+      border-radius: 8px;
       padding: 5px;
     }
 

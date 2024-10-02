@@ -46,7 +46,7 @@ const OTPform = ({ visible, onClose, email }) => {
 
   return (
     <>
-      <Modal visible={visible} onCancel={onClose}>
+      <Modal visible={visible} onCancel={onClose} footer ={null}>
         <Form onFinish={handleSendOtp}>
           <Form.Item
             name="otp"

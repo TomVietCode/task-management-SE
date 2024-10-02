@@ -127,8 +127,7 @@ const UserProfileDrawer = ({ visible, setVisible, profileData }) => {
       <Modal
         title="Edit User Profile"
         visible={isModalVisible}
-        onOk={handleFinish}
-        onCancel={handleCancel}
+        footer = {null}
       >
         <Form
           form={form}
@@ -182,6 +181,10 @@ const UserProfileDrawer = ({ visible, setVisible, profileData }) => {
             <Input placeholder="Enter your phone number" />
           </Form.Item>
         </Form>
+        <div style={{marginLeft : "260px"}}>
+        <Button >Cancel</Button>
+        <Button style={{ marginLeft : "10px"} } type="primary" >Summit</Button>
+        </div>
       </Modal>
     </>
   )
