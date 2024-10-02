@@ -139,7 +139,14 @@ module.exports.task = async (req, res) => {
   }
 
   if (req.query.status) {
-    find.status = req.query.status
+    if(req.query.status === "leader"){
+      find.createdBy = req.user.id
+    }else if(req.query.status === "member"){
+      find.createdBy = { $ne: req.user.id } 
+    }else{
+      find.status = req.query.status
+    }
+    console.log(find)
   }
 
   const sort = {}
@@ -158,12 +165,13 @@ module.exports.task = async (req, res) => {
   const paginationObject = await paginationHelper(req.query, req.user.id)
 
   let task = await Task.find(find)
+    .collation({ locale: "en" })
     .sort(sort)
     .skip(paginationObject.skip)
     .limit(paginationObject.limitItems)
 
   for (let item of task) {
-    const totalSubTask = await Task.countDocuments({ taskParentId: item._id })
+    const totalSubTask = await Task.countDocuments({ deleted: false, taskParentId: item._id })
     item.totalSubTask = totalSubTask
   }
 

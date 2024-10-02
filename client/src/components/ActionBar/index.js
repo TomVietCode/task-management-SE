@@ -9,7 +9,7 @@ const { Search } = Input
 
 const filter = [
   {
-    value: "role",
+    value: "status",
     title: "Role",
     children: [
       {
