@@ -33,7 +33,7 @@ function Home() {
           x: "50%",
           y: "50%",
           textAlign: "center",
-          fontSize: 40,
+          fontSize: "100%",
           fontStyle: "bold",
         },
       },

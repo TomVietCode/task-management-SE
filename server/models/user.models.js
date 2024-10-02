@@ -7,6 +7,8 @@ const Userschema = new mongoose.Schema({
   password: String,
   address: String,
   token: String,
+  birthday: String,
+  github: String,
   phone: String
 },
   {

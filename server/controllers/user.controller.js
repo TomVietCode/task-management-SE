@@ -36,7 +36,7 @@ module.exports.register = async (req, res) => {
     code: 200,
     message: "Đăng kí tài khoản thành công",
     token: newUser.token,
-    id: newUser._id
+    id: newUser._id,
   })
 }
 
@@ -66,7 +66,7 @@ module.exports.login = async (req, res) => {
     code: 200,
     message: "Đăng nhập thành công",
     token: existUser.token,
-    id: existUser._id
+    id: existUser._id,
   })
 }
 
@@ -190,13 +190,39 @@ module.exports.detail = async (req, res) => {
   })
 }
 
+// [PATCH] /user/edit
+module.exports.editProfile = async (req, res) => {
+  try {
+    await User.updateOne(
+      {
+        _id: req.user.id,
+      },
+      req.body
+    )
+
+    const user = await User.findOne({ _id: req.user.id })
+    res.json({
+      code: 200,
+      message: "Updated profile successfully!",
+      user: user
+    })
+  } catch (error) {
+    res.json({
+      code: 400,
+      message: "Updated profile failed!",
+    })
+  }
+}
+
 //[GET]/user/list
 module.exports.list = async (req, res) => {
   let users = []
 
   if (req.query.keyword) {
     const keyword = new RegExp(req.query.keyword, "i")
-    users = await User.find({ fullname: keyword }).select("id fullname email").limit(7)
+    users = await User.find({ fullname: keyword })
+      .select("id fullname email")
+      .limit(7)
   }
 
   res.json({

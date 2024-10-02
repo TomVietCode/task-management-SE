@@ -96,7 +96,7 @@ function MenuLayout() {
                 },
               ]}
             />
-            <Profile visible={showProfile} setVisible={setShowProfile} profileData={profileData}/>
+            <Profile visible={showProfile} setVisible={setShowProfile} profileData={profileData} setProfileData={setProfileData} token={token}/>
           </Sider>
           <Layout>
             <div className="ActionBar">

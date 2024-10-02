@@ -13,8 +13,9 @@ import {
 } from "antd"
 import { useNavigate } from "react-router-dom"
 import { deleteCookie, getCookie } from "../../helpers/cookie"
+import { patch } from "../../utils/request"
 
-const UserProfileDrawer = ({ visible, setVisible, profileData }) => {
+const UserProfileDrawer = ({ visible, setVisible, profileData, setProfileData, token }) => {
   const navigate = useNavigate()
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [form] = Form.useForm() // Tạo form
@@ -36,8 +37,24 @@ const UserProfileDrawer = ({ visible, setVisible, profileData }) => {
     setIsModalVisible(false) // Đóng modal
   }
 
-  const handleFinish = (e) => {
-    console.log(e)
+  const handleFinish = async (data) => {
+    const result = await patch(token, "user/edit", data)
+    setIsModalVisible(false)
+    if(result.code === 200){
+      console.log(result)
+      notification.success({
+        message: result.message,
+        placement: "top",
+        duration: 2,
+      })
+      setProfileData(result.user)
+    }else{
+      notification.error({
+        message: result.message,
+        placement: "top",
+        duration: 2,
+      })
+    }
   }
   const handleLogout = () => {
     deleteCookie("tokenUser")
@@ -79,7 +96,7 @@ const UserProfileDrawer = ({ visible, setVisible, profileData }) => {
                 <strong>Email:</strong> {profileData.email}
               </p>
               <p>
-                <strong>Birthday:</strong>{" "}
+                <strong>Birthday:</strong>
                 {profileData.birthday || "No data yet"}
               </p>
               <p>
@@ -124,11 +141,7 @@ const UserProfileDrawer = ({ visible, setVisible, profileData }) => {
       </Drawer>
 
       {/* Modal Form cho Edit Profile */}
-      <Modal
-        title="Edit User Profile"
-        visible={isModalVisible}
-        footer = {null}
-      >
+      <Modal title="Edit User Profile" visible={isModalVisible} onCancel={() => setIsModalVisible(false )}footer={null}>
         <Form
           form={form}
           layout="vertical"
@@ -136,13 +149,14 @@ const UserProfileDrawer = ({ visible, setVisible, profileData }) => {
             fullName: profileData.fullname,
             email: profileData.email,
             birthday: profileData.birthday,
-            skills: profileData.address,
+            address: profileData.address,
             phone: profileData.phone,
+            github: profileData.github
           }}
           onFinish={handleFinish}
         >
           <Form.Item
-            name="fullName"
+            name="fullname"
             label="Full Name"
             rules={[
               { required: true, message: "Please input your full name!" },
@@ -160,31 +174,33 @@ const UserProfileDrawer = ({ visible, setVisible, profileData }) => {
           <Form.Item
             name="birthday"
             label="Birthday"
-            rules={[{ required: true, message: "Please input your birthday!" }]}
           >
             <Input placeholder="Enter your birthday" />
           </Form.Item>
           <Form.Item
             name="address"
             label="Address"
-            rules={[{ required: true, message: "Please input your address!" }]}
           >
             <Input placeholder="Enter your address" />
           </Form.Item>
           <Form.Item
             name="phone"
             label="Phone"
-            rules={[
-              { required: true, message: "Please input your phone number!" },
-            ]}
           >
             <Input placeholder="Enter your phone number" />
           </Form.Item>
+          <Form.Item
+            name="github"
+            label="Github"
+          >
+            <Input placeholder="Enter your Github link" />
+          </Form.Item>
+          <Form.Item style={{ marginLeft: "390px" }}>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
         </Form>
-        <div style={{marginLeft : "260px"}}>
-        <Button >Cancel</Button>
-        <Button style={{ marginLeft : "10px"} } type="primary" >Summit</Button>
-        </div>
       </Modal>
     </>
   )
