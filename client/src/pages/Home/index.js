@@ -62,9 +62,14 @@ function Home() {
           <div className="container__home__box2__title">
             <IoIosNotificationsOutline style={{ fontSize: "2rem" }} />{" "}
             Notification
-            
           </div>
           <div className="container__home__box2__under" >haha</div>
+          <div className="container__home__box2__under" >haha</div>
+          <div className="container__home__box2__under" >haha</div>
+          <div className="container__home__box2__under" >haha</div>
+          <div className="container__home__box2__under" >haha</div>
+          <div className="container__home__box2__under" >haha</div>
+
           
         </div>
       </div>

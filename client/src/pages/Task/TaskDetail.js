@@ -1,23 +1,23 @@
-import { Tabs, Tag } from "antd"
-import "./TaskDetail.scss"
-import TimeLine from "../../components/TimeLine"
-import CreateTask from "../../components/Task/CreateTask"
-import MemberManagement from "../../components/MemberManagement"
-import { useLocation } from "react-router-dom"
-import { useEffect, useState } from "react"
-import { getTaskList } from "../../services/TaskService"
-import { getCookie } from "../../helpers/cookie"
-import moment from "moment"
-import TaskList from "../../components/Task/TaskList"
-import { useSelector } from "react-redux"
+import { Tabs, Tag } from "antd";
+import "./TaskDetail.scss";
+import TimeLine from "../../components/TimeLine";
+import CreateTask from "../../components/Task/CreateTask";
+import MemberManagement from "../../components/MemberManagement";
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getTaskList } from "../../services/TaskService";
+import { getCookie } from "../../helpers/cookie";
+import moment from "moment";
+import TaskList from "../../components/Task/TaskList";
+import { useSelector } from "react-redux";
 
 const TaskDetail = () => {
-  const token = getCookie("tokenUser")
-  const location = useLocation()
-  const state = useSelector((state) => state.TaskReducer)
-  const { task, id } = location.state || {}
-  const [subTasks, setsubTasks] = useState({})
-  const isLeader = id === task.createdBy
+  const token = getCookie("tokenUser");
+  const location = useLocation();
+  const state = useSelector((state) => state.TaskReducer);
+  const { task, id } = location.state || {};
+  const [subTasks, setsubTasks] = useState({});
+  const isLeader = id === task.createdBy;
 
   const getStatusColor = (status) => {
     return status === "finish"
@@ -30,16 +30,16 @@ const TaskDetail = () => {
       ? "orange"
       : status === "notFinish"
       ? "red"
-      : "gray"
-  }
+      : "gray";
+  };
 
   useEffect(() => {
     const fetchApi = async () => {
-      const result = await getTaskList(token, `/sub-task/${task._id}`)
-      setsubTasks({ taskList: [...result] })
-    }
-    fetchApi()
-  }, [state])
+      const result = await getTaskList(token, `/sub-task/${task._id}`);
+      setsubTasks({ taskList: [...result] });
+    };
+    fetchApi();
+  }, [state]);
 
   const items = [
     {
@@ -69,57 +69,69 @@ const TaskDetail = () => {
             textAlign: "center",
             background: "rgba(0,0,255,0.02)",
           }}
-        >
-          
-        </div>
+        ></div>
       ),
     },
-  ]
+  ];
 
   return (
     <>
       <div className="Container">
         <div className="Container__firstBox">
           <div className="box1">
-            <span >Task Name: {task.title}</span>
-            <p>
-              Status:
-              <Tag
-                style={{
-                  cursor: "pointer",
-                  userSelect: "none",
-                  marginLeft: "10px",
-                }}
-                color={getStatusColor(task.status)}
-              >
-                {task.status}
-              </Tag>
-            </p>
-          </div>
-          <div className="box2">
-            <p>Description:</p>
-            <span>{task.content}</span>
-          </div>
-          <div className="box3">
-            {!task.taskParentId && (
-              <p>
-                Role:
+            <div className="TaskNameDetail">
+              <span className="taskName">
+                Task Name: <span className="name">{task.title}</span>
+              </span>
+            </div>
+            <div className="StatusTaskName">
+              <p style={{ fontWeight: "bold", fontSize : "1.3rem"}}>
                 <Tag
-                  color={task.createdBy === id ? "red" : "green"}
-                  style={{ marginLeft: "10px" }}
+                  style={{
+                    cursor: "pointer",
+                    userSelect: "none",
+                    marginLeft: "10px",
+                    
+                  }}
+                  color={getStatusColor(task.status)}
                 >
-                  {task.createdBy === id ? "Leader" : "Member"}
+                  {task.status}
                 </Tag>
               </p>
-            )}
-            <p>
-              Time Start:{" "}
-              {task && moment(task.timeStart).format("DD-MM-YYYY HH:mm")}
+            </div>
+          </div>
+          {!task.taskParentId && (
+            <p style={{ fontWeight: "bold"}}>
+              Role:
+              <Tag
+                color={task.createdBy === id ? "red" : "green"}
+                style={{ marginLeft: "10px" }}
+              >
+                {task.createdBy === id ? "Leader" : "Member"}
+              </Tag>
             </p>
-            <p>
-              Deadline:{" "}
-              {task && moment(task.timeFinish).format("DD-MM-YYYY HH:mm")}
-            </p>
+          )}
+          <div className="box2">
+            <p style={{ fontWeight: "bold"}}>Description:</p>
+            <span className="Description">{task.content}</span>
+          </div>
+          <div className="box3">
+            <div className="TimeStart">
+              <span style={{ fontWeight: "bold", marginBottom: "5px" }}>
+                Time Start:{" "}
+              </span>
+              <span>
+                {task && moment(task.timeStart).format("DD-MM-YYYY HH:mm")}
+              </span>
+            </div>
+            <div className="Deadline">
+              <span style={{ fontWeight: "bold", marginBottom: "5px" }}>
+                Deadline:{" "}
+              </span>{" "}
+              <span>
+                {task && moment(task.timeFinish).format("DD-MM-YYYY HH:mm")}
+              </span>
+            </div>
           </div>
           <div className="box4">
             <div className="CreatTask">
@@ -150,7 +162,7 @@ const TaskDetail = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default TaskDetail
+export default TaskDetail;

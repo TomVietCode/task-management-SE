@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react";
 import {
   UploadOutlined,
   HomeOutlined,
@@ -6,35 +6,35 @@ import {
   MenuUnfoldOutlined,
   UserOutlined,
   MenuFoldOutlined,
-} from "@ant-design/icons"
-import { Layout, Menu, Button } from "antd"
+} from "@ant-design/icons";
+import { Layout, Menu, Button } from "antd";
 
-import { Outlet, useLocation, useNavigate } from "react-router-dom"
-import Header from "../components/Header"
-import "./style.scss"
-import Profile from "../components/UserPage"
-import { getCookie } from "../helpers/cookie"
-import { get } from "../utils/request"
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import Header from "../components/Header";
+import "./style.scss";
+import Profile from "../components/UserPage";
+import { getCookie } from "../helpers/cookie";
+import { get } from "../utils/request";
 
-const { Sider } = Layout
+const { Sider } = Layout;
 
 function MenuLayout() {
-  const token = getCookie("tokenUser")
-  const [profileData, setProfileData] = useState({})
-  const [collapsed, setCollapsed] = useState(false)
-  const [showProfile, setShowProfile] = useState(false) // An đã thêm dòng code này
-  const location = useLocation()
-  const navigate = useNavigate()
+  const token = getCookie("tokenUser");
+  const [profileData, setProfileData] = useState({});
+  const [collapsed, setCollapsed] = useState(false);
+  const [showProfile, setShowProfile] = useState(false); // An đã thêm dòng code này
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const hanldeGetMenuPage = (e) => {
     if (e.key === "1") {
-      navigate("/")
+      navigate("/");
     } else if (e.key === "2") {
-      navigate("/task")
+      navigate("/task");
     } else if (e.key === "0") {
-      setShowProfile(true) //An đã thêm dòng code này
+      setShowProfile(true); //An đã thêm dòng code này
     }
-  }
+  };
 
   const getSelectedKey = () => {
     if (location.pathname.startsWith("/task")) {
@@ -42,16 +42,16 @@ function MenuLayout() {
     } else if (location.pathname === "/") {
       return "1";
     } else {
-      return "1"; // 
+      return "1"; //
     }
   };
   useEffect(() => {
     const fetchApi = async () => {
-      const result = await get(token, "user/detail")
-      setProfileData(result.info)
-    }
-    fetchApi()
-  }, [])
+      const result = await get(token, "user/detail");
+      setProfileData(result.info);
+    };
+    fetchApi();
+  }, []);
 
   return (
     <>
@@ -96,7 +96,13 @@ function MenuLayout() {
                 },
               ]}
             />
-            <Profile visible={showProfile} setVisible={setShowProfile} profileData={profileData} setProfileData={setProfileData} token={token}/>
+            <Profile
+              visible={showProfile}
+              setVisible={setShowProfile}
+              profileData={profileData}
+              setProfileData={setProfileData}
+              token={token}
+            />
           </Sider>
           <Layout>
             <div className="ActionBar">
@@ -109,7 +115,7 @@ function MenuLayout() {
         </Layout>
       </Layout>
     </>
-  )
+  );
 }
 
-export default MenuLayout
+export default MenuLayout;

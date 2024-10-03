@@ -12,7 +12,7 @@
 
 .box_container {
     height: 100vh; 
-    overflow: hidden; /* Ngăn cuộn toàn bộ layout */
+    overflow: hidden; 
   }
   
   .home {
@@ -21,22 +21,20 @@
   }
   
   .home__sider {
-    height: 100%; /* Đảm bảo Sider chiếm toàn bộ chiều cao */
+    height: 100%; 
   }
   
   .ActionBar {
-    height: 60px; /* Chiều cao cố định cho Header */
-    position: fixed; /* Cố định vị trí Header */
-    top: 0;
-    left: 200px; /* Tùy chỉnh theo chiều rộng của Sider */
-    width: calc(100% - 200px); /* Chiều rộng của Header khi không bị cuộn */
+    height: 60px; 
+    // margin-left: 16px; 
+    margin-right: 20px;
+    width: 100%;
     z-index: 1;
-    background-color: #fff; /* Tùy chỉnh màu nền cho Header */
+    background-color: #fff; 
   }
   
   .Outlet {
-    margin-top: 80px; /* Bù trừ cho chiều cao của Header */
-    height: calc(100vh - 60px); /* Chiều cao cuộn trừ đi chiều cao của Header */
-    overflow-y: auto; /* Cho phép cuộn nội dung trong phần Outlet */
+    height: calc(100vh - 60px); 
+    overflow-y: auto; 
   }
   
