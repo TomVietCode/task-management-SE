@@ -63,10 +63,11 @@ function MenuLayout() {
               type="text"
               icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
               onClick={() => setCollapsed(!collapsed)}
-              style={{ left: collapsed ? "80px" : "200px" }}
+              style={{ left: collapsed ? "80px" : "230px" }}
             />
           </div>
           <Sider
+            width={230}
             className="home__sider"
             trigger={null}
             collapsible
@@ -74,6 +75,7 @@ function MenuLayout() {
           >
             <div className="home__logo"></div>
             <Menu
+              
               onClick={hanldeGetMenuPage}
               theme="dark"
               mode="inline"

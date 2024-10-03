@@ -52,7 +52,7 @@ const OTPform = ({ visible, onClose, email }) => {
             name="otp"
             rules={[{ required: true, message: "This field cannot be empty!" }]}
           >
-            <Flex gap="middle" align="flex-start" vertical>
+            <Flex  gap="middle" align="center" vertical>
               <Title level={5}>Enter your OTP</Title>
               <p>Please enter the OTP code that we have sent to your email.</p>
               <Input.OTP length={6} {...sharedProps} />

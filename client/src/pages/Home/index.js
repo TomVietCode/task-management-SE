@@ -63,14 +63,24 @@ function Home() {
             <IoIosNotificationsOutline style={{ fontSize: "2rem" }} />{" "}
             Notification
           </div>
-          <div className="container__home__box2__under" >haha</div>
-          <div className="container__home__box2__under" >haha</div>
-          <div className="container__home__box2__under" >haha</div>
-          <div className="container__home__box2__under" >haha</div>
-          <div className="container__home__box2__under" >haha</div>
-          <div className="container__home__box2__under" >haha</div>
-
-          
+          <div className="container__home__box2__under">
+            This is a notification message!
+          </div>
+          <div className="container__home__box2__under">
+            Please check your email for further instructions.
+          </div>
+          <div className="container__home__box2__under">
+            Your request has been submitted successfully.
+          </div>
+          <div className="container__home__box2__under">
+            An error occurred. Please try again later.
+          </div>
+          <div className="container__home__box2__under">
+            Your session has expired. Please log in again.
+          </div>
+          <div className="container__home__box2__under">
+            A notification has been added to this task.
+          </div>
         </div>
       </div>
     </>

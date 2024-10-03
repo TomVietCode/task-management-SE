@@ -22,7 +22,7 @@
   }
 
   &__box2 {
-    width: 35%;
+    width: 32%;
     background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
@@ -41,8 +41,9 @@
       padding: 15px;
       background-color: #f4f4f4;
       border-radius: 8px;
+      color: #004085;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      text-align: center;
+      text-align: start;
       transition: background-color 0.3s ease;
       margin-bottom: 10px;
       cursor: pointer;

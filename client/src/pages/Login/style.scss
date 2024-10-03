@@ -20,6 +20,12 @@ $box-shadow-color: rgba(30, 144, 255, 0.2);
 
 
 .login {
+  background:  url(https://id-frontend.prod-east.frontend.public.atl-paas.net/assets/trello-right.e6e102c7.svg),
+  url(https://id-frontend.prod-east.frontend.public.atl-paas.net/assets/trello-left.4f52d13c.svg);
+  background-repeat: no-repeat,no-repeat;
+  background-attachment: fixed,fixed;
+  background-size: 369px,369px;
+  background-position: left bottom, right bottom;
   width: 100%;
   min-height: 100vh;
   padding: 0 10px;
