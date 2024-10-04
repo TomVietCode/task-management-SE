@@ -31,6 +31,6 @@ Tại sao sản phẩm này lại hấp dẫn và đáng để xây dựng?
  - Tính năng đăng nhập, đăng ký, quên mật khẩu (gửi OTP về email)
 
 # Công nghệ sử dụng
- - Front-end: ReactJS, bootstrap
+ - Front-end: ReactJS, Ant Design, Bootstrap
  - Back-end: NodeJS, expressJS
  - Database: Mongodb
