@@ -31,6 +31,23 @@ Tại sao sản phẩm này lại hấp dẫn và đáng để xây dựng?
  - Tính năng đăng nhập, đăng ký, quên mật khẩu (gửi OTP về email)
 
 # Công nghệ sử dụng
- - Front-end: ReactJS, Ant Design, Bootstrap
+ - Front-end: ReactJS, bootstrap
  - Back-end: NodeJS, expressJS
  - Database: Mongodb
+
+# Cài đặt
+## Yêu cầu
+ - Đã cài đặt NodeJS
+ - Đã cài đặt và chạy Mongodb
+ - Đã cài đặt Git
+
+## Hướng dẫn cài đặt
+1. Clone repository: https://github.com/TomVietCode/task-management-SE
+2. Cài đặt các gói phụ thuộc: `npm install`
+3. Tạo file .env ở folder server để lưu trữ các biến môi trường:
+```
+MONGO_URL=your_database_link
+PORT=5000
+PASSWORD=your_gmail_app_password
+```
+4. Chạy ứng dụng: `npm start`
